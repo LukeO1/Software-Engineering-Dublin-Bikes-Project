@@ -17,7 +17,7 @@ function myMap() {
     );
 
     var xmlhttp = new XMLHttpRequest();
-    var url = "../../DublinBikes/templates/Dublin.json";
+    var url = '/stuff';
     xmlhttp.open("GET", url, true);
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
