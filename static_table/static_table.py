@@ -30,7 +30,7 @@ def main():
         bike_stands = Column(Integer)
 
     #This code creates/opens the connection to the database
-    engine = create_engine('mysql+pymysql://dublinbikes:dublinbikes@http://dublinbikes.c2xnnykekrgc.us-west-2.rds.amazonaws.com/dublinbikes')
+    engine = create_engine('mysql+pymysql://dublinbikes:dublinbikes@dublinbikes.c2xnnykekrgc.us-west-2.rds.amazonaws.com/dublinbikes')
 
     #This code sends the command to create the table. If table is already created, it does not overwrite.
     Base.metadata.create_all(engine)
