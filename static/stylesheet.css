@@ -1,11 +1,14 @@
 html, body {
-    height: 100%;
-    min-width: 1270px;
-    background-color:white;
-    margin: 25px;
-    margin-top: 25px;
+    min-height: 100%;
+    background-color:black;
+    background-size: cover;
 }
 
+p{
+    color: red;
+    font-size:800px;
+}
+/*
 header {
     border-radius: 50px;
     border-style: solid;
@@ -33,10 +36,12 @@ p {
     background-color: white;
     width:46%;
     min-width:20%;
-    height: auto;
+    height: 200px;
     margin: 10px;
     padding: 1%;
     float:left;
 }
 
+
 #map { height: 100%; }
+*/
