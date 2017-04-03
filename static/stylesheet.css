@@ -1,9 +1,7 @@
 html, body {
-    height: 100%;
-    min-width: 1270px;
+    min-height: 100%;
     background-color:white;
-    margin: 25px;
-    margin-top: 25px;
+    background-size: cover;
 }
 
 header {
@@ -33,10 +31,8 @@ p {
     background-color: white;
     width:46%;
     min-width:20%;
-    height: auto;
+    height: 200px;
     margin: 10px;
     padding: 1%;
     float:left;
 }
-
-#map { height: 100%; }
