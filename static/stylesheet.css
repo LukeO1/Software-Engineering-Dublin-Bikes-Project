@@ -1,9 +1,14 @@
 html, body {
     min-height: 100%;
-    background-color:white;
+    background-color:black;
     background-size: cover;
 }
 
+p{
+    color: red;
+    font-size:800px;
+}
+/*
 header {
     border-radius: 50px;
     border-style: solid;
@@ -36,3 +41,10 @@ p {
     padding: 1%;
     float:left;
 }
+<<<<<<< HEAD
+
+
+#map { height: 100%; }
+*/
+=======
+>>>>>>> f532063b1428813f67d977df5ed7b666b64ea064
