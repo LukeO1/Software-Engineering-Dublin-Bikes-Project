@@ -1,16 +1,39 @@
 /******************NAVIGATION BAR***********************/
-nav{
-    display: inline-block;
-    float: right;
-    color: blue;
+#nav-bar ul{
+
 }
+#nav-bar ul a{
+    text-decoration: none;
+}
+#nav-bar ul a:visited{
+    color: green;
+}
+#nav-bar ul a:hover{
+    background-color: black;
+
+}
+#nav-bar ul a li{
+    list-style-type: none;
+    display: inline;
+}
+
+ul.nav-bar li{
+
+}
+nav div ul.nav-bar li a:visited, nav div ul.nav-bar li a:active, nav ul.nav-bar li a:link{
+    text-decoration: none;
+    display: block;
+
+}
+nav ul.nav-bar li a:hover{
+
+}
+
 html, body {
     height: 100%;
     min-width: 1270px;
-    background-color:white;
-    margin: 25px;
-    margin-top: 25px;
+    background-color: white;
 }
 h1{
-
+    font-size: 1em;
 }
