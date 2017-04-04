@@ -18,7 +18,7 @@ def main():
     #do not change it.
     Base = declarative_base()
     class User(Base):
-        __tablename__ = 'weather_collection'
+        __tablename__ = 'weather'
 
         id = Column(Integer, primary_key=True)
         last_update = Column(String(255))
@@ -33,7 +33,7 @@ def main():
         sunset = Column(String(255))
 
     #This code creates/opens the connection to the database
-    engine = create_engine('mysql+pymysql://weather:weather77@weather.ce0mzpzqjeei.us-west-2.rds.amazonaws.com/weather')
+    engine = create_engine('mysql+pymysql://dublinbikes:dublinbikes@dublinbikes.c2xnnykekrgc.us-west-2.rds.amazonaws.com/dublinbikes')
 
     #This code sends the command to create the table. I left it commented because the table is already created.
     #But guess you can drop the table in the database and try to create again, to make sure it really works.
