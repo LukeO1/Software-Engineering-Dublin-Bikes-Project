@@ -11,7 +11,7 @@ def get_db():
         g.engine = engine
     return engine
 
-@app.route("/station")
+@app.route("/station/static")
 def get_station():
     engine = get_db()
     sql = """
@@ -24,16 +24,27 @@ def get_station():
     print(res)
     return jsonify([dict(row.items()) for row in res])
 
+@app.route("/station/dynamic")
+def get_dynamic():
+    engine = get_db()
+    sql = """
+        select *
+        from dublinbikes.station_info
+        order by last_update DESC
+        limit 150;
+        """
+    res = engine.execute(sql).fetchall()
+    # return "this is station {} {}".format(station_id, engine)
+    print(res)
+    return jsonify([dict(row.items()) for row in res])
+
+
 @app.route('/')  #defining a basic route
 def main():
     return render_template('DBikes.html')
     # return "Hello"
 
 if __name__ == "__main__":
-<<<<<<< HEAD
     app.run(debug=True, port=5002)
-=======
-    app.run(debug=True, port=5001)
->>>>>>> aa21cdb45c50a85090f5e717fbba79ab2aa193ac
 
 
