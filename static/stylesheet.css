@@ -1,15 +1,4 @@
-/******************NAVIGATION BAR***********************/
-.nav{
-    display: inline-block;
-    color: blue;
-}
-html, body {
-    height: 100%;
-    min-width: 1270px;
-    background-color:white;
-    margin: 25px;
-    margin-top: 25px;
-}
+
 /*
 header {
     border-radius: 50px;
@@ -32,7 +21,7 @@ p {
     text-align: center;
     width: 100%;
 }
-*/
+
 .map-item {
     border-radius: 50px;
     background-color: white;
