@@ -6,7 +6,8 @@ app = Flask(__name__)  #creating the App
 
 def get_db():
     engine = getattr(g,'engine', None)
-    if engine is None: #If conenction does not exist, create the connection
+    if engine is None:
+        #If conenction does not exist, create the connection
         engine = create_engine('mysql+pymysql://dublinbikes:dublinbikes@dublinbikes.c2xnnykekrgc.us-west-2.rds.amazonaws.com/dublinbikes')
         g.engine = engine
     return engine
@@ -42,7 +43,6 @@ def get_dynamic():
 @app.route('/')  #defining a basic route
 def main():
     return render_template('DBikes.html')
-    # return "Hello"
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)

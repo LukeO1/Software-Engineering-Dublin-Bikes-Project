@@ -5,12 +5,19 @@
  <script type="text/javascript" src={{ url_for('static',filename='jquery-3.2.0.min.js') }}></script>
  <script type="text/javascript" src={{ url_for('static',filename='jquery-3.2.0.min.js') }}></script>
  <meta charset="UTF-8">
- <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='stylesheet.css') }}">
+ <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style.css') }}">
  <script type= "text/javascript" src="{{ url_for('static',filename='DBmaps_test.js') }}"></script>
 
  </head>
  <body>
+  <nav class="nav">
+   <ul>
+    <a><li>Home</li></a>
+    <a><li>Search</li></a>
+   </ul>
+  </nav>
   <h1>Project Dublin Bikes</h1>
+
  <div class="options-box">
       <button id="show-listings"> Show Listings</button>
       <button id="hide-listings">Hide Listings</button>
@@ -19,7 +26,7 @@
   <div id="content"></div>
  <div id="test"></div>
  <br>
- <div id="Gmap" style="width:100%;height:80%"></div>
+ <div id="Gmap" style="width:100%;height:100%"></div>
 
  <script async defer
      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCK2dld8TVzjVCQeM2TPADkVdUr7fiA6KI&v=3&callback=myMap">
