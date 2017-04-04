@@ -24,12 +24,7 @@ function myMap() {
     //$('#test').text("Hello");
     map = new google.maps.Map(document.getElementById("Gmap"), myOptions);
 
-    var image = "/static/custom-marker-current.png";
-    var beachMarker = new google.maps.Marker({
-        position: {lat: 53.3415, lng: -6.25685},
-        map: map,
-        icon: image
-    });
+
 
     //
     $.getJSON("/station/static", function (data) {
@@ -40,7 +35,16 @@ function myMap() {
     });
     // The following group uses the location array to create an array of markers on initialize.
 
-    //changing icon image for the marker
+
+        //marker icon for the current location
+    var image = "/static/custom-marker-current.png";
+    var currentMarker = new google.maps.Marker({
+        position: {lat: 53.3415, lng: -6.25685},
+        map: map,
+        icon: image
+    });
+
+    //changing icon image for all the marker
     var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
     var icons = {
         bikes: {
