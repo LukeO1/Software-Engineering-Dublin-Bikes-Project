@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang="en">
 <head>
     <script type="text/javascript" src={{ url_for('static',filename='jquery-3.2.0.min.js') }}></script>
@@ -29,4 +30,33 @@
 
 
 </body>
+=======
+ <html lang="en">
+ <head>
+
+    <script type="text/javascript" src={{ url_for('static',filename='jquery-3.2.0.min.js') }}></script>
+     <script type="text/javascript" src={{ url_for('static',filename='jquery-3.2.0.min.js') }}></script>
+     <meta charset="UTF-8">
+     <title>Project Dublin Bikes</title>
+     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='stylesheet.css') }}">
+     <script type= "text/javascript" src="{{ url_for('static',filename='DBmaps_test.js') }}"></script>
+
+ </head>
+ <body>
+  <h1>Project Dublin Bikes</h1>
+ <div class="options-box">
+      <button id="show-listings"> Show Listings</button>
+      <button id="hide-listings">Hide Listings</button>
+  </div>
+
+  <div id="content"></div>
+ <div id="test"></div>
+ <br>
+ <div id="Gmap" style="width:100%;height:80%"></div>
+
+ <script async defer
+     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCK2dld8TVzjVCQeM2TPADkVdUr7fiA6KI&v=3&callback=myMap">
+ </script>
+ </body>
+>>>>>>> ba173980f12cc0f614d116a9907bc862966a5853
 </html>
