@@ -30,6 +30,10 @@ def main():
     # return "Hello"
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     app.run(debug=True, port=5002)
+=======
+    app.run(debug=True, port=5001)
+>>>>>>> aa21cdb45c50a85090f5e717fbba79ab2aa193ac
 
 

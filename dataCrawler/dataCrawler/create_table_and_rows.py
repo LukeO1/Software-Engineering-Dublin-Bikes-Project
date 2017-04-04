@@ -19,9 +19,9 @@ def main():
     #do not change it.
     Base = declarative_base()
     class User(Base):
-        __tablename__ = 'stations_information'
+        __tablename__ = 'station_info'
 
-        id = Column(Integer, primary_key=True)
+        update_id = Column(Integer, primary_key=True)
         name = Column(String(255))
         status = Column(String(255))
         available_bike_stands = Column(Integer)
@@ -43,7 +43,7 @@ def main():
 
     #This code open the connection to the Dublin Bikes API.
     base_url = 'https://api.jcdecaux.com/vls/v1/stations?contract=Dublin&apiKey=8a48bea4967f8f374d1b211fc80da143d607e28a'
-
+    counter = 499749
     #This code sets up our 'infinite' data collection loop.
     while True:
         try:
@@ -57,22 +57,25 @@ def main():
                 #This code here converts the Epoch time format in Dublin bikes to normal date. American style mind, Year/Month/Day!!
                 time_date = datetime.datetime.fromtimestamp(i['last_update']/1000).strftime('%Y-%m-%d %H:%M:%S.%f')
                 #This code creates a row
-                ed_user = User(name=i['name'], status=i['status'], available_bike_stands=i['available_bike_stands'], available_bikes=i['available_bikes'], last_update=time_date)
+                ed_user = User(update_id=counter,name=i['name'], status=i['status'], available_bike_stands=i['available_bike_stands'], available_bikes=i['available_bikes'], last_update=time_date)
                 #Save row in notepad. Attention: the row is only stored in the notepade at this point.
                 #Its not yet in the database.
                 session.add(ed_user)
-            #This code makes the actual changes to the database.
-            session.commit()
-            #This code makes the loop wait for 5 minutes before continuing the 'infinite' loop.
-            #Once the 5 minutes are over, the loop will execute again, and ask Dublin Bikes for
-            #more data (which, in the meantime, has been updated).
-            time.sleep(300)
-        except IntegrityError:
-            session.rollback()
-            continue
+                #This code makes the actual changes to the database.
+                try:
+                    session.commit()
+                    counter += 1
+                except IntegrityError as iE:
+                    print(iE)
+                    print(i['name'])
+                    session.rollback()
+                #This code makes the loop wait for 5 minutes before continuing the 'infinite' loop.
+                #Once the 5 minutes are over, the loop will execute again, and ask Dublin Bikes for
+                #more data (which, in the meantime, has been updated).
         except Exception as e:
             print(e)
             time.sleep(360)
+        time.sleep(300)
 
 if __name__ == '__main__':
     main()

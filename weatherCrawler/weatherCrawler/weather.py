@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import time
 import pyowm
-import traceback
+
 #This code here is used because, apparently, Python3 doesnt' have native MySQLdb?
 #Should check if this really is the case. In the meantime, you will have to import
 #the module pymysql.
@@ -18,7 +18,7 @@ def main():
     #do not change it.
     Base = declarative_base()
     class User(Base):
-        __tablename__ = 'weather_collection'
+        __tablename__ = 'weather'
 
         id = Column(Integer, primary_key=True)
         last_update = Column(String(255))
@@ -33,7 +33,7 @@ def main():
         sunset = Column(String(255))
 
     #This code creates/opens the connection to the database
-    engine = create_engine('mysql+pymysql://weather:weather77@weather.ce0mzpzqjeei.us-west-2.rds.amazonaws.com/weather')
+    engine = create_engine('mysql+pymysql://dublinbikes:dublinbikes@dublinbikes.c2xnnykekrgc.us-west-2.rds.amazonaws.com/dublinbikes')
 
     #This code sends the command to create the table. I left it commented because the table is already created.
     #But guess you can drop the table in the database and try to create again, to make sure it really works.
@@ -74,8 +74,8 @@ def main():
             #Once the 30 minutes are over, the loop will execute again, and ask Open Weather for
             #more data (which, in the meantime, should have been updated).
             time.sleep(1800)
-        except:
-            print(traceback.format.exc())
+        except Exception as e:
+            print(e)
             time.sleep(300)
 
 if __name__ == '__main__':
