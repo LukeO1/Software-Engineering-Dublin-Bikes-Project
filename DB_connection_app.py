@@ -11,7 +11,6 @@ def get_db():
         g.engine = engine
     return engine
 
-
 @app.route("/station")
 def get_station():
     engine = get_db()
@@ -21,14 +20,14 @@ def get_station():
     limit 10;
     """
     res = engine.execute(sql).fetchall()
-    #return "this is station {} {}".format(station_id, engine)
+    # return "this is station {} {}".format(station_id, engine)
     print(res)
     return jsonify([dict(row.items()) for row in res])
-
 
 @app.route('/')  #defining a basic route
 def main():
     return render_template('DBikes.html')
+    # return "Hello"
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

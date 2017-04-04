@@ -8,7 +8,7 @@ setup(name="dataCrawler",
       license="GPL3",
       packages=['dataCrawler'],
       entry_points={
-          'console_scripts':['dataCrawler=dataCrawler.create_table_and_rows:main']
+          'console_scripts':['dataCrawler=dataCrawler.main:main']
           },
       install_requires=[
           'sqlalchemy',
