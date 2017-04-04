@@ -18,7 +18,7 @@ def get_station():
     sql = """
     select *
     from dublinbikes.static_information
-    limit 10;
+    limit 102;
     """
     res = engine.execute(sql).fetchall()
     # return "this is station {} {}".format(station_id, engine)
