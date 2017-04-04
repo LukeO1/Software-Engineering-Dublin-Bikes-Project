@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import time
 import pyowm
-import traceback
+
 #This code here is used because, apparently, Python3 doesnt' have native MySQLdb?
 #Should check if this really is the case. In the meantime, you will have to import
 #the module pymysql.
@@ -74,8 +74,8 @@ def main():
             #Once the 30 minutes are over, the loop will execute again, and ask Open Weather for
             #more data (which, in the meantime, should have been updated).
             time.sleep(1800)
-        except:
-            print(traceback.format.exc())
+        except Exception as e:
+            print(e)
             time.sleep(300)
 
 if __name__ == '__main__':
