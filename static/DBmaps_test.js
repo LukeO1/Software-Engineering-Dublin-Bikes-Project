@@ -24,8 +24,8 @@ function myMap() {
     //$('#test').text("Hello");
     map = new google.maps.Map(document.getElementById("Gmap"), myOptions);
     //
-    $.getJSON("/station", function (data) {
-        console.log('station data', data);
+    $.getJSON("/station/static", function (data) {
+        // console.log('station data', data);
         renderHTML(data);
     }).fail(function (msg) {
         console.log('failed', msg);
@@ -59,11 +59,11 @@ function myMap() {
         var largeInfowindow = new google.maps.InfoWindow();
 
         for (var i = 0; i < bikeObj.length; i++) {
-            // console.log("{lat: " + bikeObj[i].latitude + ", lng: " + bikeObj[i].longitude + "}");
+            console.log("{lat: " + bikeObj[i].position_lat + ", lng: " + bikeObj[i].position_lng + "}");
             // console.log(bikeObj.length);
             // Get the position from the location array.
-            var latPos = bikeObj[i].latitude;
-            var lngPos = bikeObj[i].longitude;
+            var lngPos = bikeObj[i].position_lng;
+            var latPos = bikeObj[i].position_lat;
             // console.log(position);
             var title = bikeObj[i].name;
             // var address = bikeObj[i].address;
@@ -115,7 +115,7 @@ function populateInfoWindow(marker, infowindow) {
 }
 
 function showListings() {
-    // console.log(markers[3].title);
+    console.log(markers[3].title);
     // var bounds = new google.maps.LatLngBounds();
     // // Extend the boundaries of the map for each marker and display the marker
     // for (var i = 0; i < markers.length; i++) {
