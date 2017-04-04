@@ -1,6 +1,5 @@
 html, body {
     min-height: 100%;
-    background-color:white;
     background-size: cover;
 }
 
@@ -36,3 +35,7 @@ p {
     padding: 1%;
     float:left;
 }
+
+
+#map { height: 100%; }
+
