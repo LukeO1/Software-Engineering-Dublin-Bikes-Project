@@ -21,7 +21,7 @@ def main():
     class User(Base):
         __tablename__ = 'station_information'
 
-        id = Column(Integer, primary_key=True)
+        update_id = Column(Integer, primary_key=True)
         name = Column(String(255))
         status = Column(String(255))
         available_bike_stands = Column(Integer)
