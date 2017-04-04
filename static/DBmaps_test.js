@@ -21,7 +21,7 @@ function myMap() {
         scaleControl: true, // enable scale control
         mapTypeControl: false
     };
-    $('#test').text("Hello");
+    //$('#test').text("Hello");
     map = new google.maps.Map(document.getElementById("Gmap"), myOptions);
     //
     $.getJSON("/station", function (data) {
