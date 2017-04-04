@@ -38,11 +38,10 @@ def get_dynamic():
     print(res)
     return jsonify([dict(row.items()) for row in res])
 
-
 @app.route('/')  #defining a basic route
 def main():
     return render_template('DBikes.html')
-    # return "Hello"
+    #return "Hello Cindy"
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
