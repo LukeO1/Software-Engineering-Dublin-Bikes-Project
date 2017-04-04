@@ -19,7 +19,7 @@ def main():
     #do not change it.
     Base = declarative_base()
     class User(Base):
-        __tablename__ = 'stations_information'
+        __tablename__ = 'station_information'
 
         id = Column(Integer, primary_key=True)
         name = Column(String(255))
