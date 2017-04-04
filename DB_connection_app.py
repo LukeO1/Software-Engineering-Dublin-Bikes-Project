@@ -17,7 +17,7 @@ def get_station():
     sql = """
     select *
     from dublinbikes.static_information
-    limit 10;
+    limit 102;
     """
     res = engine.execute(sql).fetchall()
     # return "this is station {} {}".format(station_id, engine)
@@ -45,6 +45,6 @@ def main():
     # return "Hello"
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5001)
 
 

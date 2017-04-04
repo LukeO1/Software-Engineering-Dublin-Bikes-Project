@@ -23,6 +23,14 @@ function myMap() {
     };
     //$('#test').text("Hello");
     map = new google.maps.Map(document.getElementById("Gmap"), myOptions);
+
+    var image = "/static/custom-marker-current.png";
+    var beachMarker = new google.maps.Marker({
+        position: {lat: 53.3415, lng: -6.25685},
+        map: map,
+        icon: image
+    });
+
     //
     $.getJSON("/station/static", function (data) {
         // console.log('station data', data);
@@ -36,7 +44,7 @@ function myMap() {
     var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
     var icons = {
         bikes: {
-            icon: iconBase + 'custom-marker.jpg'
+            icon: iconBase + "/static/custom-marker.png"
         }
         // ,
         // library: {
@@ -55,9 +63,24 @@ function myMap() {
         });
     }
 
+    var features = [
+        {
+            position: new google.maps.LatLng(53.341, -6.26229),
+            type: 'bikes'
+        }
+        // ,{
+        //     position: new google.maps.LatLng(-33.91727341958453, 151.23348314155578),
+        //     type: 'library'
+        //   }
+    ];
+
+    for (var i = 0, feature; feature = features[i]; i++) {
+        addMarker(feature);
+    }
+
     function renderHTML(bikeObj) {
         var largeInfowindow = new google.maps.InfoWindow();
-
+        var image = "/static/custom-marker.png";
         for (var i = 0; i < bikeObj.length; i++) {
             console.log("{lat: " + bikeObj[i].position_lat + ", lng: " + bikeObj[i].position_lng + "}");
             // console.log(bikeObj.length);
@@ -66,7 +89,7 @@ function myMap() {
             var latPos = bikeObj[i].position_lat;
             // console.log(position);
             var title = bikeObj[i].name;
-            // var address = bikeObj[i].address;
+            var address = bikeObj[i].address;
             var station = bikeObj[i].number;
             // console.log(title, address, station);
             // Create a marker per location, and put into markers array.
@@ -75,7 +98,8 @@ function myMap() {
                 position: new google.maps.LatLng(latPos, lngPos),
                 title: title,
                 station: station,
-                // address: address,
+                address: address,
+                icon: image,
                 animation: google.maps.Animation.DROP,
                 id: i
             });
@@ -83,8 +107,10 @@ function myMap() {
             // Push the marker to our array of markers.
             markers.push(marker);
             // Create an onclick event to open an infowindow at each marker.
+            // marker.addListener('click', toggleBounce);
             marker.addListener('click', function () {
                 populateInfoWindow(this, largeInfowindow);
+
             });
             // bounds.extend(markers[i].position);
         }
@@ -115,21 +141,29 @@ function populateInfoWindow(marker, infowindow) {
 }
 
 function showListings() {
-    console.log(markers[3].title);
-    // var bounds = new google.maps.LatLngBounds();
-    // // Extend the boundaries of the map for each marker and display the marker
-    // for (var i = 0; i < markers.length; i++) {
-    //     markers[i].setMap(map);
-    //     bounds.extend(markers[i].position);
-    // }
-    // map.fitBounds(bounds);
-}
+    // console.log(markers[3].title);
+    var bounds = new google.maps.LatLngBounds();
+    // Extend the boundaries of the map for each marker and display the marker
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(map);
+        bounds.extend(markers[i].position);
 
+
+    }
+    map.fitBounds(bounds);
+}
+// function toggleBounce() {
+//   if (marker.getAnimation() !== null) {
+//     marker.setAnimation(null);
+//   } else {
+//     marker.setAnimation(google.maps.Animation.BOUNCE);
+//   }
+// }
 // This function will loop through the listings and hide them all.
 function hideListings() {
-    // for (var i = 0; i < markers.length; i++) {
-    //     markers[i].setMap(null);
-    // }
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+    }
 }
 
 
