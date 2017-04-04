@@ -1,35 +1,60 @@
 //static dublin bikes info
 // var dublinObj;
+/**
+ * Created by Nikki on 03/04/2017.
+ */
+
 var map;
 // Create a new blank array for all the listing markers.
 var markers = [];
 
 function myMap() {
-    var centerMap = new google.maps.LatLng(53.343793, -6.254572);
-
+    //var centerMap = new google.maps.LatLng(53.343793, -6.254572)
     var myOptions = {
         zoom: 14,
-        center: centerMap,
+        center: {lat: 53.343793, lng: -6.254572},//centerMap,
+        panControl: true, //enable pan Control
+        zoomControl: true, //enable zoom control
+        zoomControlOptions: {
+            style: google.maps.ZoomControlStyle.SMALL //zoom control size
+        },
+        scaleControl: true, // enable scale control
         mapTypeControl: false
-    }
-
-    map = new google.maps.Map(document.getElementById("Gmap"), myOptions
-    );
-
-    var xmlhttp = new XMLHttpRequest();
-    var url = '/stuff';
-    xmlhttp.open("GET", url, true);
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            window.DBObj = JSON.parse(xmlhttp.responseText);
-            renderHTML(DBObj);
-        }
     };
-    xmlhttp.send();
-    // renderHTML(DBObj);
-    // Constructor creates a new map - only center and zoom are required.
+    map = new google.maps.Map(document.getElementById("Gmap"), myOptions);
+    //
+    $.getJSON("/station", function (data) {
+        console.log('station data', data);
+        renderHTML(data);
+    }).fail(function (msg) {
+        console.log('failed', msg);
+    });
 
     // The following group uses the location array to create an array of markers on initialize.
+
+    //changing icon image for the marker
+    var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+    var icons = {
+        bikes: {
+            icon: iconBase + 'custom-marker.jpg'
+        }
+        // ,
+        // library: {
+        //     icon: iconBase + 'library_maps.png'
+        // },
+        // info: {
+        //     icon: iconBase + 'info-i_maps.png'
+        // }
+    };
+
+    function addMarker(feature) {
+        var marker = new google.maps.Marker({
+            position: feature.position,
+            icon: icons[feature.type].icon,
+            map: map
+        });
+    }
+
     function renderHTML(bikeObj) {
         var largeInfowindow = new google.maps.InfoWindow();
 
@@ -41,7 +66,7 @@ function myMap() {
             var lngPos = bikeObj[i].longitude;
             // console.log(position);
             var title = bikeObj[i].name;
-            var address = bikeObj[i].address;
+            // var address = bikeObj[i].address;
             var station = bikeObj[i].number;
             // console.log(title, address, station);
             // Create a marker per location, and put into markers array.
@@ -50,7 +75,7 @@ function myMap() {
                 position: new google.maps.LatLng(latPos, lngPos),
                 title: title,
                 station: station,
-                address: address,
+                // address: address,
                 animation: google.maps.Animation.DROP,
                 id: i
             });
@@ -67,9 +92,11 @@ function myMap() {
         // Extend the boundaries of the map for each marker
         // map.fitBounds(bounds);
     }
+
     document.getElementById('show-listings').addEventListener('click', showListings);
     document.getElementById('hide-listings').addEventListener('click', hideListings);
 }
+
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
 // on that markers position.
@@ -88,21 +115,23 @@ function populateInfoWindow(marker, infowindow) {
 }
 
 function showListings() {
-    console.log(markers[3].title);
-        var bounds = new google.maps.LatLngBounds();
-        // Extend the boundaries of the map for each marker and display the marker
-        for (var i = 0; i < markers.length; i++) {
-          markers[i].setMap(map);
-          bounds.extend(markers[i].position);
-        }
-        map.fitBounds(bounds);
-      }
-      // This function will loop through the listings and hide them all.
+    // console.log(markers[3].title);
+    // var bounds = new google.maps.LatLngBounds();
+    // // Extend the boundaries of the map for each marker and display the marker
+    // for (var i = 0; i < markers.length; i++) {
+    //     markers[i].setMap(map);
+    //     bounds.extend(markers[i].position);
+    // }
+    // map.fitBounds(bounds);
+}
+
+// This function will loop through the listings and hide them all.
 function hideListings() {
-for (var i = 0; i < markers.length; i++) {
-  markers[i].setMap(null);
+    // for (var i = 0; i < markers.length; i++) {
+    //     markers[i].setMap(null);
+    // }
 }
-}
+
 
 /**
  * Created by Nikki on 13/03/2017.
