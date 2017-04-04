@@ -6,7 +6,7 @@ app = Flask(__name__)  #creating the App
 
 def get_db():
     engine = getattr(g,'engine', None)
-    if engine is None:
+    if engine is None: #If conenction does not exist, create the connection
         engine = create_engine('mysql+pymysql://dublinbikes:dublinbikes@dublinbikes.c2xnnykekrgc.us-west-2.rds.amazonaws.com/dublinbikes')
         g.engine = engine
     return engine
@@ -16,7 +16,7 @@ def get_station():
     engine = get_db()
     sql = """
     select *
-    from dublinbikes.new_bike_stations_real_time
+    from dublinbikes.static_information
     limit 10;
     """
     res = engine.execute(sql).fetchall()

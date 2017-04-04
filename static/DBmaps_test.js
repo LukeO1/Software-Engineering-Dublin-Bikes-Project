@@ -30,7 +30,6 @@ function myMap() {
     }).fail(function (msg) {
         console.log('failed', msg);
     });
- 
     // The following group uses the location array to create an array of markers on initialize.
 
     //changing icon image for the marker
