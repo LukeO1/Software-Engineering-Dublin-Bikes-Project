@@ -25,25 +25,17 @@ function myMap() {
     map = new google.maps.Map(document.getElementById("map"), myOptions);
 
 
-
     //
     $.getJSON("/station/static", function (data) {
         // console.log('station data', data);
-        bikeObj = data;
+        renderHTML(data);
     }).fail(function (msg) {
         console.log('failed', msg);
     });
 
-    $.getJSON("/station/dynamic", function (data) {
-        // console.log('station data', data);
-        dynObj = data;
-        renderHTML(bikeObj, dynObj);
-    }).fail(function (msg) {
-        console.log('failed', msg);
-    });
     // The following group uses the location array to create an array of markers on initialize.
 
-            //marker icon for the current location
+    //marker icon for the current location
     var image = "/static/custom-marker-current.png";
     var currentMarker = new google.maps.Marker({
         position: {lat: 53.3415, lng: -6.25685},
@@ -88,22 +80,15 @@ function myMap() {
     for (var i = 0, feature; feature = features[i]; i++) {
         addMarker(feature);
     }
-    function findName(diction, bname) {
-        for (key in diction) {
-            if (diction[key].name == bname)
-                return diction[key].available_bike_stands, diction[key].available_bikes, dicion[key].status;
-        }
-        return false;
-    }
 
-    function renderHTML(bikeObj, dynObj) {
+    function renderHTML(bikeObj) {
         var largeInfowindow = new google.maps.InfoWindow();
         var image = "/static/custom-marker.png";
         for (var i = 0; i < bikeObj.length; i++) {
             // console.log("{lat: " + bikeObj[i].position_lat + ", lng: " + bikeObj[i].position_lng + "}");
             // console.log(bikeObj.available_bikes);
             // Get the position from the location array.
-            findName(dynObj, bikeObj.name);
+            // console.log(findName(dynObj, bikeObj.name));
             var lngPos = bikeObj[i].position_lng;
             var latPos = bikeObj[i].position_lat;
             // console.log(position);
@@ -151,7 +136,7 @@ function populateInfoWindow(marker, infowindow) {
     if (infowindow.marker != marker) {
         infowindow.marker = marker;
         //here is where you can enter all the information you want into the window when you click on the marker
-        infowindow.setContent('<div>' + 'Area: ' + marker.title + '<br>Station number: ' + marker.station + '<br>Address: ' + marker.address + '</div>');
+        infowindow.setContent('<div>' + 'Area: ' + marker.title + '<br>Station number: ' + marker.station + '<br>Address: ' + marker.address + '<br><a /href="#" id="moreInfo">more info</a> ' + '</div>');
         infowindow.open(map, marker);
         // Make sure the marker property is cleared if the infowindow is closed.
         infowindow.addListener('closeclick', function () {
@@ -159,6 +144,8 @@ function populateInfoWindow(marker, infowindow) {
         });
     }
 }
+
+
 
 function showListings() {
     // console.log(markers[3].title);
