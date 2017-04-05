@@ -18,7 +18,7 @@ def get_station():
     sql = """
     select *
     from dublinbikes.static_information
-    limit 10;
+    limit 102;
     """
     res = engine.execute(sql).fetchall()
     # return "this is station {} {}".format(station_id, engine)
@@ -32,7 +32,7 @@ def get_dynamic():
         select *
         from dublinbikes.station_info
         order by last_update DESC
-        limit 150;
+        limit 102;
         """
     res = engine.execute(sql).fetchall()
     # return "this is station {} {}".format(station_id, engine)

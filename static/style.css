@@ -1,16 +1,39 @@
-/******************NAVIGATION BAR***********************/
-nav{
-    display: inline-block;
-    float: left;
-    color: red;
+/**********************BODY*****************************/
+html{
+    background-size: cover;
+    background-color: white;
 }
-html, body {
-    height: 100%;
-    min-width: 1270px;
-    background-color:white;
-    margin: 25px;
-    margin-top: 25px;
+body{
+    min-height: 100%;
+    min-width: 100%;
+    margin: 0px, 0px;
 }
 h1{
+    font-size: 1em;
+}
 
+/******************NAVIGATION BAR***********************/
+nav ul{
+    list-style-type: none;
+}
+nav ul li{
+    text-align:center
+    display: inline;
+}
+nav ul li a{
+    text-decoration: none;
+    display: block;
+    background-color: #dddddd;
+}
+
+.nav-left{
+    float: left;
+}
+.nav-right{
+    float: right;
+}
+/*********************************GOOGLE MAP***********************/
+#map{
+    height: 400px;
+    width: 800px;
 }

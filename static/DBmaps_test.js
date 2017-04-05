@@ -22,21 +22,40 @@ function myMap() {
         mapTypeControl: false
     };
     //$('#test').text("Hello");
-    map = new google.maps.Map(document.getElementById("Gmap"), myOptions);
+    map = new google.maps.Map(document.getElementById("map"), myOptions);
+
+
+
     //
     $.getJSON("/station/static", function (data) {
         // console.log('station data', data);
-        renderHTML(data);
+        bikeObj = data;
+    }).fail(function (msg) {
+        console.log('failed', msg);
+    });
+
+    $.getJSON("/station/dynamic", function (data) {
+        // console.log('station data', data);
+        dynObj = data;
+        renderHTML(bikeObj, dynObj);
     }).fail(function (msg) {
         console.log('failed', msg);
     });
     // The following group uses the location array to create an array of markers on initialize.
 
-    //changing icon image for the marker
+            //marker icon for the current location
+    var image = "/static/custom-marker-current.png";
+    var currentMarker = new google.maps.Marker({
+        position: {lat: 53.3415, lng: -6.25685},
+        map: map,
+        icon: image
+    });
+
+    //changing icon image for all the marker
     var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
     var icons = {
         bikes: {
-            icon: iconBase + 'custom-marker.jpg'
+            icon: iconBase + "/static/custom-marker.png"
         }
         // ,
         // library: {
@@ -55,19 +74,43 @@ function myMap() {
         });
     }
 
-    function renderHTML(bikeObj) {
-        var largeInfowindow = new google.maps.InfoWindow();
+    var features = [
+        {
+            position: new google.maps.LatLng(53.341, -6.26229),
+            type: 'bikes'
+        }
+        // ,{
+        //     position: new google.maps.LatLng(-33.91727341958453, 151.23348314155578),
+        //     type: 'library'
+        //   }
+    ];
 
+    for (var i = 0, feature; feature = features[i]; i++) {
+        addMarker(feature);
+    }
+    function findName(diction, bname) {
+        for (key in diction) {
+            if (diction[key].name == bname)
+                return diction[key].available_bike_stands, diction[key].available_bikes, dicion[key].status;
+        }
+        return false;
+    }
+
+    function renderHTML(bikeObj, dynObj) {
+        var largeInfowindow = new google.maps.InfoWindow();
+        var image = "/static/custom-marker.png";
         for (var i = 0; i < bikeObj.length; i++) {
-            console.log("{lat: " + bikeObj[i].position_lat + ", lng: " + bikeObj[i].position_lng + "}");
-            // console.log(bikeObj.length);
+            // console.log("{lat: " + bikeObj[i].position_lat + ", lng: " + bikeObj[i].position_lng + "}");
+            // console.log(bikeObj.available_bikes);
             // Get the position from the location array.
+            findName(dynObj, bikeObj.name);
             var lngPos = bikeObj[i].position_lng;
             var latPos = bikeObj[i].position_lat;
             // console.log(position);
             var title = bikeObj[i].name;
-            // var address = bikeObj[i].address;
+            var address = bikeObj[i].address;
             var station = bikeObj[i].number;
+
             // console.log(title, address, station);
             // Create a marker per location, and put into markers array.
             //you take the info from here and put into the comment box when you click the marker.
@@ -75,7 +118,8 @@ function myMap() {
                 position: new google.maps.LatLng(latPos, lngPos),
                 title: title,
                 station: station,
-                // address: address,
+                address: address,
+                icon: image,
                 animation: google.maps.Animation.DROP,
                 id: i
             });
@@ -83,8 +127,10 @@ function myMap() {
             // Push the marker to our array of markers.
             markers.push(marker);
             // Create an onclick event to open an infowindow at each marker.
+            // marker.addListener('click', toggleBounce);
             marker.addListener('click', function () {
                 populateInfoWindow(this, largeInfowindow);
+
             });
             // bounds.extend(markers[i].position);
         }
@@ -115,21 +161,29 @@ function populateInfoWindow(marker, infowindow) {
 }
 
 function showListings() {
-    console.log(markers[3].title);
-    // var bounds = new google.maps.LatLngBounds();
-    // // Extend the boundaries of the map for each marker and display the marker
-    // for (var i = 0; i < markers.length; i++) {
-    //     markers[i].setMap(map);
-    //     bounds.extend(markers[i].position);
-    // }
-    // map.fitBounds(bounds);
-}
+    // console.log(markers[3].title);
+    var bounds = new google.maps.LatLngBounds();
+    // Extend the boundaries of the map for each marker and display the marker
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(map);
+        bounds.extend(markers[i].position);
 
+
+    }
+    map.fitBounds(bounds);
+}
+// function toggleBounce() {
+//   if (marker.getAnimation() !== null) {
+//     marker.setAnimation(null);
+//   } else {
+//     marker.setAnimation(google.maps.Animation.BOUNCE);
+//   }
+// }
 // This function will loop through the listings and hide them all.
 function hideListings() {
-    // for (var i = 0; i < markers.length; i++) {
-    //     markers[i].setMap(null);
-    // }
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+    }
 }
 
 
