@@ -12,6 +12,26 @@ def get_db():
         g.engine = engine
     return engine
 
+@app.route('/')  #defining a basic route
+def main():
+    engine = get_db()
+    data = []
+    rows = engine.execute("SELECT address from static_information order by address")
+    for row in rows:
+        data.append(dict(row))
+    return render_template('DBikes.html', data=data)
+
+@app.route('/templates/DBikes.html') #If user clicks Home button the page refreshes
+def refresh_page():
+    engine = get_db()
+    data = []
+    rows = engine.execute("SELECT name from static_information order by name")
+    for row in rows:
+        data.append(dict(row))
+    return render_template('Dbikes.html', data=data)
+
+
+
 @app.route("/station/static")
 def get_station():
     engine = get_db()
@@ -39,10 +59,7 @@ def get_dynamic():
     print(res)
     return jsonify([dict(row.items()) for row in res])
 
-@app.route('/')  #defining a basic route
-def main():
-    return render_template('DBikes.html')
-    #return "Hello"
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
