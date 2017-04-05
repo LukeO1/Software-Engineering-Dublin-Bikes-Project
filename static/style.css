@@ -1,8 +1,8 @@
 /******************NAVIGATION BAR***********************/
 nav{
     display: inline-block;
-    float: right;
-    color: blue;
+    float: left;
+    color: red;
 }
 html, body {
     height: 100%;
