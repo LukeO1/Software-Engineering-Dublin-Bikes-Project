@@ -19,8 +19,19 @@
              <li class="nav-left"><a id="show-listings">Show Stations</a></li>
              <li class="nav-left"><a id="hide-listings">Hide Stations</a></li>
              <li class="nav-left"><input id="search-box" type="text" name="search" placeholder="Search.."></li>
+             <li class="nav-right">
+                 <div class="dropdown">
+                 <button class="dropbtn">Choose a station</button>
+                 <div class="dropdown-content">
+                     <ul id="dropdown-list">
+                     {% for row in data %}
+                    <li><a href="#">{{row.name}}</a></li>
+                    {% endfor %}
+                     </ul>
+                 </div>
+             </li>
              <li class="nav-right"><a href="">Find Closest</a></li>
-             <li class="nav-right"><a href="">View Stations</a></li>
+
          </ul>
      </nav>
      <div class="container">

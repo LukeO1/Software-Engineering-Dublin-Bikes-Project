@@ -14,11 +14,22 @@ def get_db():
 
 @app.route('/')  #defining a basic route
 def main():
-    return render_template('DBikes.html')
+    engine = get_db()
+    data = []
+    rows = engine.execute("SELECT name from static_information order by name")
+    for row in rows:
+        data.append(dict(row))
+    return render_template('DBikes.html', data=data)
 
 @app.route('/templates/DBikes.html') #If user clicks Home button the page refreshes
 def refresh_page():
-    return render_template('Dbikes.html')
+    engine = get_db()
+    data = []
+    rows = engine.execute("SELECT name from static_information order by name")
+    for row in rows:
+        data.append(dict(row))
+    return render_template('Dbikes.html', data=data)
+
 
 @app.route("/station/static")
 def get_station():
