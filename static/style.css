@@ -43,6 +43,7 @@ nav ul li a{
 .nav-right{
     float: right;
 }
+/***********************SEARCH BAR***************************/
 #search-box[type=text] {
     width: 130px;
     box-sizing: border-box;
@@ -59,6 +60,55 @@ nav ul li a{
 }
 #search-box[type=text]:focus {
     width: 100%;
+}
+/*************************ON/OFF TOGGLE************************/
+.onoffswitch {
+    top: 10px;
+    left: 5px;
+    position: relative;
+    width: 142px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 50px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 15px; padding: 0; line-height: 15px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "Show Stations";
+    padding-left: 9px;
+    background-color: #36EBAC; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "Hide Stations";
+    padding-right: 9px;
+    background-color: #EEEEEE; color: #999999;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 23px; margin: -4px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 123px;
+    border: 2px solid #999999; border-radius: 50px;
+    transition: all 0.3s ease-in 0s;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px;
 }
 /*****************************GOOGLE MAP***********************/
 #map{

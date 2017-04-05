@@ -16,7 +16,7 @@ def get_db():
 def main():
     engine = get_db()
     data = []
-    rows = engine.execute("SELECT name from static_information order by name")
+    rows = engine.execute("SELECT address from static_information order by address")
     for row in rows:
         data.append(dict(row))
     return render_template('DBikes.html', data=data)
@@ -29,6 +29,7 @@ def refresh_page():
     for row in rows:
         data.append(dict(row))
     return render_template('Dbikes.html', data=data)
+
 
 
 @app.route("/station/static")
