@@ -22,7 +22,7 @@ function myMap() {
         mapTypeControl: false
     };
     //$('#test').text("Hello");
-    map = new google.maps.Map(document.getElementById("Gmap"), myOptions);
+    map = new google.maps.Map(document.getElementById("map"), myOptions);
 
 
 
