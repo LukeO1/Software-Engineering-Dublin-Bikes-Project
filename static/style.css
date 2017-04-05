@@ -4,7 +4,7 @@ html{
     background-color: grey;
 }
 body{
-    margin:0;
+    margin: 0;
     min-height: 100%;
     max-width: 100%;
     margin: 5px, 5px;
@@ -111,7 +111,7 @@ nav ul li a{
     right: 0px;
 }
 /*****************************GOOGLE MAP***********************/
-#map{
+#map-div{
 
     display: block;
     height: 350px;

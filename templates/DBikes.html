@@ -16,7 +16,7 @@
          <ul id="nav">
              <li class="nav-left"><a><img id="logo" src="/static/custom-marker.png"></a></li>
              <li class="nav-left"><a href="/templates/DBikes.html">Home</a></li>
-             <li class="nav-left"><a id="show-listings">Show</a></li>
+             <li class="nav-left"><a id="show-listings">Show Stations</a></li>
              <li class="nav-left"><a id="hide-listings">Hide Stations</a></li>
              <!--<li><div class="onoffswitch">-->
                     <!--<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="show-listings" checked>-->
@@ -28,26 +28,26 @@
              <!--</li>-->
              <!--<li class="nav-left"><a >Hide Stations</a></li>-->
              <li class="nav-left"><input id="search-box" type="text" name="search" placeholder="Search.."></li>
+
+             <li class="nav-right"><a href="">Find Closest</a></li>
              <li class="nav-right">
                  <div class="dropdown">
                  <button class="dropbtn">Choose a station</button>
                  <div class="dropdown-content">
                      <ul id="dropdown-list">
                      {% for row in data %}
-                         <li><a onclick="return focus({{row.address}});">{{row.address}}</a></li>
+                         <li><a onclick='zoomfocus("{{row.address}}")'>{{row.address}}</a></li>
                      {% endfor %}
                      </ul>
                  </div>
                  </div>
              </li>
-             <li class="nav-right"><a href="">Find Closest</a></li>
 
          </ul>
      </nav>
      <div class="container">
-         <div id="map"></div>
+         <div id="map-div"></div>
      </div>
-
  <script async defer
      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCK2dld8TVzjVCQeM2TPADkVdUr7fiA6KI&v=3&callback=myMap">
  </script>
