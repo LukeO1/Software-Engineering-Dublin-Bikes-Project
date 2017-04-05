@@ -13,9 +13,19 @@ h1{
 }
 
 /******************NAVIGATION BAR***********************/
+nav ul{
+    list-style-type: none;
+}
 nav ul li{
+    text-align:center
     display: inline;
 }
+nav ul li a{
+    text-decoration: none;
+    display: block;
+    background-color: #dddddd;
+}
+
 .nav-left{
     float: left;
 }
