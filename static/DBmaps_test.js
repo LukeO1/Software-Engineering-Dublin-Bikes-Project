@@ -11,7 +11,7 @@ var markers = [];
 function myMap() {
     //var centerMap = new google.maps.LatLng(53.343793, -6.254572)
     var myOptions = {
-        zoom: 14,
+        zoom: 12,
         center: {lat: 53.343793, lng: -6.254572},//centerMap,
         panControl: true, //enable pan Control
         zoomControl: true, //enable zoom control

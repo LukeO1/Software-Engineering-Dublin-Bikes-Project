@@ -1,30 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <title>Project Dublin Bikes</title>
- <script type="text/javascript" src={{ url_for('static',filename='jquery-3.2.0.min.js') }}></script>
- <script type="text/javascript" src={{ url_for('static',filename='jquery-3.2.0.min.js') }}></script>
- <meta charset="UTF-8">
- <link rel= "stylesheet" type= "text/css" href= "/static/style.css">
- <script type= "text/javascript" src="{{ url_for('static',filename='DBmaps_test.js') }}"></script>
+    <title>Project Dublin Bikes</title>
+    <script type="text/javascript" src={{ url_for('static',filename='jquery-3.2.0.min.js') }}></script>
+    <script type="text/javascript" src={{ url_for('static',filename='jquery-3.2.0.min.js') }}></script>
+    <meta charset="UTF-8">
+    <link rel= "stylesheet" type= "text/css" href= "/static/style.css">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <script type= "text/javascript" src="{{ url_for('static',filename='DBmaps_test.js') }}"></script>
 
  </head>
  <body>
+
      <nav>
          <ul id="nav">
-             <li class="nav-left"><a>Logo Pic</a></li>
+             <li class="nav-left"><a><img id="logo" src="/static/custom-marker.png"></a></li>
              <li class="nav-left"><a href="/templates/DBikes.html">Home</a></li>
              <li class="nav-left"><a id="show-listings">Show Stations</a></li>
              <li class="nav-left"><a id="hide-listings">Hide Stations</a></li>
+             <li class="nav-left"><input id="search-box" type="text" name="search" placeholder="Search.."></li>
              <li class="nav-right"><a href="">Find Closest</a></li>
-             <li class="nav-right"><a href="">Search</a></li>
+             <li class="nav-right"><a href="">View Stations</a></li>
          </ul>
      </nav>
-
-  <div id="content"></div>
- <div id="test"></div>
- <br>
- <div id="map"></div>
+     <div class="container">
+         <div id="map"></div>
+     </div>
 
  <script async defer
      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCK2dld8TVzjVCQeM2TPADkVdUr7fiA6KI&v=3&callback=myMap">

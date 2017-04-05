@@ -9,7 +9,9 @@ body{
     max-width: 100%;
     margin: 5px, 5px;
 }
-
+.container{
+    margin: 0px, 10px, 0px, 10px;
+}
 /******************NAVIGATION BAR***********************/
 nav{
     height: 40px;
@@ -18,7 +20,6 @@ nav{
 }
 nav ul{
     background-color: #dddddd;
-    overflow: hidden;
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -42,9 +43,34 @@ nav ul li a{
 .nav-right{
     float: right;
 }
+#search-box[type=text] {
+    width: 130px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-image: url('/static/images/search-icon.png');
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+/* When the input field gets focus, change its width to 100% */
+#search-box[type=text]:focus {
+    width: 100%;
+}
 /*****************************GOOGLE MAP***********************/
 #map{
+
     display: block;
-    height: 400px;
+    height: 350px;
     width: 100%;
+}
+/****************************Images*********************/
+#logo{
+    height: 20;
+    width: 20;
 }
