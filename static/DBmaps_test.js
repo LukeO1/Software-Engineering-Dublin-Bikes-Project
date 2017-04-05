@@ -24,7 +24,17 @@ function myMap() {
     //$('#test').text("Hello");
     map = new google.maps.Map(document.getElementById("map"), myOptions);
 
+    $('#moreInfo').hover(function () {
+        $('#content').html("hello");
+        // console.log("hello");
 
+        // $.getJSON("/station/dynamic", function (data) {
+        //     console.log('station data', data);
+        //     // renderHTML(data);
+        // }).fail(function (msg) {
+        //     console.log('failed', msg);
+        // })
+    });
     //
     $.getJSON("/station/static", function (data) {
         // console.log('station data', data);
@@ -136,7 +146,7 @@ function populateInfoWindow(marker, infowindow) {
     if (infowindow.marker != marker) {
         infowindow.marker = marker;
         //here is where you can enter all the information you want into the window when you click on the marker
-        infowindow.setContent('<div>' + 'Area: ' + marker.title + '<br>Station number: ' + marker.station + '<br>Address: ' + marker.address + '<br><a /href="#" id="moreInfo">more info</a> ' + '</div>');
+        infowindow.setContent('<div /id="showinfo">' + 'Area: ' + marker.title + '<br>Station number: ' + marker.station + '<br>Address: ' + marker.address + '<br><a /href="#" id="moreInfo">more info</a> ' + '</div>');
         infowindow.open(map, marker);
         // Make sure the marker property is cleared if the infowindow is closed.
         infowindow.addListener('closeclick', function () {
@@ -144,7 +154,6 @@ function populateInfoWindow(marker, infowindow) {
         });
     }
 }
-
 
 
 function showListings() {
