@@ -30,7 +30,7 @@ function myMap() {
 
         // $.getJSON("/station/dynamic", function (data) {
         //     console.log('station data', data);
-        //     // renderHTML(data);
+        //     // dynamic(data);
         // }).fail(function (msg) {
         //     console.log('failed', msg);
         // })
