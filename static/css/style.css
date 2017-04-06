@@ -170,12 +170,19 @@ nav ul li a{
 }
 /**************************GOOGLE CHARTS*************************************/
 #chart-wrapper{
-    width: 80%;
-    margin: 0px, auto;
+    width: 100%;
+    margin: 0px;;
 }
-#chart-div1, #chart-div2, #chart-div3{
-    width: 33%;
+#chart-div1{
     float: left;
-    display: inline
-    text-align: center;
+    width: 33.3%;
+}
+#chart-div2{
+    display: inline-block;
+    width: 33.3%;
+
+}
+#chart-div3{
+    float: right;
+    width: 33.4%;
 }

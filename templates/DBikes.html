@@ -3,22 +3,22 @@
 <head>
     <title>Project Dublin Bikes</title>
     <!--<script type="text/javascript" src={{ url_for('static',filename='jquery-3.2.0.min.js') }}></script>-->
-    <script type="text/javascript" src={{ url_for('static',filename='jquery-3.2.0.min.js') }}></script>
+    <script type= "text/javascript" src="{{ url_for('static',filename='javascript/jquery-3.2.0.min.js') }}"></script>
     <meta charset="UTF-8">
-    <link rel= "stylesheet" type= "text/css" href= "/static/style.css">
-    <script type= "text/javascript" src="{{ url_for('static',filename='DBmaps_test.js') }}"></script>
-    <!--<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">-->
-    <!--{#    <script type="text/javascript">google.charts.load('current', {packages: ['corechart']});#}-->
-    <!--{#    google.charts.setOnLoadCallback(drawChart);</script>#}-->
+    <link rel= "stylesheet" type= "text/css" href= "/static/css/style.css">
+    <script type= "text/javascript" src="{{ url_for('static',filename='javascript/DBmaps_test.js') }}"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type= "text/javascript" src="{{ url_for('static',filename='javascript/charts.js') }}"></script>
  </head>
  <body>
 
      <nav>
          <ul id="nav">
-             <li class="nav-left"><a><img id="logo" src="/static/custom-marker.png"></a></li>
+             <li class="nav-left"><a><img id="logo" src="/static/images/custom-marker.png"></a></li>
              <li class="nav-left"><a href="/templates/DBikes.html">Home</a></li>
              <li class="nav-left"><a id="show-listings">Show</a></li>
              <li class="nav-left"><a id="hide-listings">Hide Stations</a></li>
+             <!--This is some code for a toggle switch that can be used later on-->
              <!--<li><div class="onoffswitch">-->
                     <!--<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="show-listings" checked>-->
                     <!--<label class="onoffswitch-label" for="show-listings">-->
@@ -48,8 +48,10 @@
      <div class="container">
          <div id="map-div"></div>
      </div>
-     <div class="container">
-         <div id="chart-div"></div>
+     <div id="chart-wrapper">
+         <div id="chart-div1"></div>
+         <div id="chart-div2"></div>
+         <div id="chart-div3"></div>
      </div>
  <script async defer
      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCK2dld8TVzjVCQeM2TPADkVdUr7fiA6KI&v=3&callback=myMap">
