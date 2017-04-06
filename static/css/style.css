@@ -168,3 +168,14 @@ nav ul li a{
 .dropdown:hover .dropbtn {
     background-color: #3e8e41;
 }
+/**************************GOOGLE CHARTS*************************************/
+#chart-wrapper{
+    width: 80%;
+    margin: 0px, auto;
+}
+#chart-div1, #chart-div2, #chart-div3{
+    width: 33%;
+    float: left;
+    display: inline
+    text-align: center;
+}
