@@ -59,6 +59,7 @@ def get_dynamic():
     print(res)
     return jsonify([dict(row.items()) for row in res])
 
+<<<<<<< HEAD
 @app.route("/station/<int:available_bikes>")
 def get_dynamic2(available_bikes):
     engine = get_db()
@@ -72,6 +73,8 @@ def get_dynamic2(available_bikes):
 
 
 
+=======
+>>>>>>> af34a30e16aeeac7b707530c24facfea0708a381
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
 
