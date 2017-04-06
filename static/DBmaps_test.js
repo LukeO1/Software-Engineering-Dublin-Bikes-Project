@@ -25,22 +25,47 @@ function myMap() {
     //$('#test').text("Hello");
     map = new google.maps.Map(document.getElementById("map-div"), myOptions);
 
+    // document.getElementById("moreInfo").addEventListener("mouseover", mouseOver);
+    // document.getElementById("moreInfo").addEventListener("mouseout", mouseOut);
+    //
+    // function mouseover(){
+    //     $.getJSON("/station/dynamic", function (data) {
+    //         console.log("station data", data);
+    //         ('#moreinfo').html(data)
+    //     }).fail(function (msg) {
+    //         console.log('failed', msg);
+    //     });
+    //
+    // }
+
+
+        // $.getJSON("/station/dynamic", function (data) {
+        //     console.log('station data', data);
+        //     // dynamic(data);
+        // }).fail(function (msg) {
+        //     console.log('failed', msg);
+        // })
+    // });
+    //
+    map = new google.maps.Map(document.getElementById("map-div"), myOptions);
+
     $.getJSON("/station/static", function (data) {
-        // console.log('station data', data);
-        bikeObj = data;
+        $.getJSON("/station/dynamic", function (dyndata) {
+         renderHTML(data, dyndata);
+        })
     }).fail(function (msg) {
         console.log('failed', msg);
     });
 
-    $.getJSON("/station/dynamic", function (data) {
-        // console.log('station data', data);
-        dynObj = data;
-        renderHTML(bikeObj, dynObj);
-    }).fail(function (msg) {
-        console.log('failed', msg);
-    });
     // The following group uses the location array to create an array of markers on initialize.
 
+    //marker icon for the current location
+    // var image = "/static/custom-marker-current.png";
+    // var currentMarker = new google.maps.Marker({
+    //     position: {lat: 53.3415, lng: -6.25685},
+    //     map: map,
+    //     icon: image
+    // });
             //marker icon for the current location
 //    var image = "/static/custom-marker-current.png";
 //    var currentMarker = new google.maps.Marker({
@@ -50,11 +75,11 @@ function myMap() {
 //    });
 
     //changing icon image for all the marker
-    var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
-    var icons = {
-        bikes: {
-            icon: iconBase + "/static/custom-marker.png"
-        }
+    // var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+    // var icons = {
+    //     bikes: {
+    //         icon: iconBase + "/static/custom-marker.png"
+    //     }
         // ,
         // library: {
         //     icon: iconBase + 'library_maps.png'
@@ -62,54 +87,44 @@ function myMap() {
         // info: {
         //     icon: iconBase + 'info-i_maps.png'
         // }
-    };
+    // };
+    //
+    // function addMarker(feature) {
+    //     var marker = new google.maps.Marker({
+    //         position: feature.position,
+    //         icon: icons[feature.type].icon,
+    //         map: map
+    //     });
+    // }
 
-    function addMarker(feature) {
-        var marker = new google.maps.Marker({
-            position: feature.position,
-            icon: icons[feature.type].icon,
-            map: map
-        });
-    }
+    // var features = [
+    //     {
+    //         position: new google.maps.LatLng(53.341, -6.26229),
+    //         type: 'bikes'
+    //     }
+    //     // ,{
+    //     //     position: new google.maps.LatLng(-33.91727341958453, 151.23348314155578),
+    //     //     type: 'library'
+    //     //   }
+    // ];
 
-    var features = [
-        {
-            position: new google.maps.LatLng(53.341, -6.26229),
-            type: 'bikes'
-        }
-        // ,{
-        //     position: new google.maps.LatLng(-33.91727341958453, 151.23348314155578),
-        //     type: 'library'
-        //   }
-    ];
-
-    for (var i = 0, feature; feature = features[i]; i++) {
-        addMarker(feature);
-    }
-    function findName(diction, bname) {
-        for (key in diction) {
-            if (diction[key].name == bname)
-                return diction[key].available_bike_stands, diction[key].available_bikes, dicion[key].status;
-        }
-        return false;
-    }
+    // /
 
     function renderHTML(bikeObj, dynObj) {
         var largeInfowindow = new google.maps.InfoWindow();
         var image = "/static/custom-marker.png";
         for (var i = 0; i < bikeObj.length; i++) {
-            // console.log("{lat: " + bikeObj[i].position_lat + ", lng: " + bikeObj[i].position_lng + "}");
-            // console.log(bikeObj.available_bikes);
-            // Get the position from the location array.
-            findName(dynObj, bikeObj.name);
+
+            // console.log(dynObj[i].name);
+            // console.log(bikeObj[i].name);
+            // console.log(getObjectKeyIndex(dynObj, bikeObj[i].name));
+
             var lngPos = bikeObj[i].position_lng;
             var latPos = bikeObj[i].position_lat;
             // console.log(position);
             var title = bikeObj[i].name;
             var address = bikeObj[i].address;
             var station = bikeObj[i].number;
-
-            // console.log(title, address, station);
             // Create a marker per location, and put into markers array.
             //you take the info from here and put into the comment box when you click the marker.
             var marker = new google.maps.Marker({
@@ -126,7 +141,7 @@ function myMap() {
             markers.push(marker);
             // Create an onclick event to open an infowindow at each marker.
             // marker.addListener('click', toggleBounce);
-            marker.addListener('click', function () {
+            marker.addListener("mouseover", function () {
                 populateInfoWindow(this, largeInfowindow);
 
             });
@@ -158,8 +173,27 @@ function myMap() {
     }
     document.getElementById('show-listings').addEventListener('click', showListings);
     document.getElementById('hide-listings').addEventListener('click', hideListings);
-    document.getElementById('Yo').addEventListener('click', focus);
+    // document.getElementById('Yo').addEventListener('click', focus);
 }
+
+
+//trying to match the key value name from dynamic with the value for the current static name and return an index
+//so can match the correct info on the corresponding markers!
+function getObjectKeyIndex(obj, keyToFind) {
+    var i = 0, key;
+    for (x = 0; i < obj.length; i++) $.each(obj, function (key, value) {
+        // console.log("obj" ,obj[x]);
+        // console.log("value",value.name);
+        // console.log("keyToFind",keyToFind);
+        // console.log("key:", key.Value);
+        if (value.name === keyToFind) {
+            return i;
+        }
+        i++
+    });
+}
+
+
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
 // on that markers position.
@@ -169,7 +203,11 @@ function populateInfoWindow(marker, infowindow) {
     if (infowindow.marker != marker) {
         infowindow.marker = marker;
         //here is where you can enter all the information you want into the window when you click on the marker
-        infowindow.setContent('<div>' + 'Area: ' + marker.title + '<br>Station number: ' + marker.station + '<br>Address: ' + marker.address + '</div>');
+        infowindow.setContent('<div /id="showinfo">' +
+            'Area: ' + marker.title +
+            '<br>Station number: ' + marker.station +
+            '<br>Address: ' + marker.address +
+            '<br><a /href="#" id="moreInfo">more info</a> ' + '</div>');
         infowindow.open(map, marker);
         // Make sure the marker property is cleared if the infowindow is closed.
         infowindow.addListener('closeclick', function () {
@@ -177,6 +215,7 @@ function populateInfoWindow(marker, infowindow) {
         });
     }
 }
+
 
 function showListings() {
     // console.log(markers[3].title);
@@ -199,9 +238,11 @@ function showListings() {
 //     marker.setAnimation(google.maps.Animation.BOUNCE);
 //   }
 // }
+
+
 // This function will loop through the listings and hide them all.
 function hideListings() {
-    console.log('Goodbye')
+//    console.log('Goodbye')
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
     }
@@ -227,36 +268,39 @@ function zoomfocus(station){
     }
 }
 
-//Could use for switching between normal map and heat map
-//$('#onoffswitch').click(function()
-//{
-//     $('#target').toggleClass('show-listings hide-listings'); //Adds 'a', removes 'b' and vice versa
-//});
 
 
-/**
- * Created by Nikki on 13/03/2017.
- */
- /******************************Google chart Section*********************/
-//  Load the Visualization API and the corechart package.
-//google.charts.load('current', {'packages':['corechart']});
 //
-//// Set a callback to run when the Google Visualization API is loaded.
-//google.charts.setOnLoadCallback(drawChart);
+// //Could use for switching between normal map and heat map
+// //$('#onoffswitch').click(function()
+// //{
+// //     $('#target').toggleClass('show-listings hide-listings'); //Adds 'a', removes 'b' and vice versa
+// //});
 //
-function drawChart(){
-    var data = new google.visualization.DataTable();
-    data.addColumn('number', 'stands');
-    data.addColumn('number', 'Bikes');
-    data.addRows([
-        [9, 1]
-        [8, 2]
-        [7, 3]
-    ]);
-
-
-//var options = {'title':'Bike Occupancy Chart','Width':200,'height':100};
 //
-var chart = new google.visualization.BarChart(document.getElementById('chart-div'));
-chart.draw(data, null);
-}
+// /**
+//  * Created by Nikki on 13/03/2017.
+//  */
+//  /******************************Google chart Section*********************/
+// //  Load the Visualization API and the corechart package.
+// //google.charts.load('current', {'packages':['corechart']});
+// //
+// //// Set a callback to run when the Google Visualization API is loaded.
+// //google.charts.setOnLoadCallback(drawChart);
+// //
+// function drawChart(){
+//     var data = new google.visualization.DataTable();
+//     data.addColumn('number', 'stands');
+//     data.addColumn('number', 'Bikes');
+//     data.addRows([
+//         [9, 1]
+//         [8, 2]
+//         [7, 3]
+//     ]);
+//
+//
+// //var options = {'title':'Bike Occupancy Chart','Width':200,'height':100};
+// //
+// var chart = new google.visualization.BarChart(document.getElementById('chart-div'));
+// chart.draw(data, null);
+// }
