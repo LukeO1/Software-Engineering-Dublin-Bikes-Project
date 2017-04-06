@@ -14,13 +14,13 @@ function myMap() {
     var myOptions = {
         zoom: 12,
         center: {lat: 53.343793, lng: -6.254572},//centerMap,
-        // panControl: true, //enable pan Control
-        // zoomControl: true, //enable zoom control
-        // zoomControlOptions: {
-        //     style: google.maps.ZoomControlStyle.SMALL //zoom control size
-        // },
-        // scaleControl: true, // enable scale control
-        // mapTypeControl: false
+        panControl: true, //enable pan Control
+        zoomControl: true, //enable zoom control
+        zoomControlOptions: {
+            style: google.maps.ZoomControlStyle.SMALL //zoom control size
+        },
+        scaleControl: true, // enable scale control
+        mapTypeControl: false
     };
     //$('#test').text("Hello");
     map = new google.maps.Map(document.getElementById("map"), myOptions);
@@ -169,7 +169,7 @@ function myMap() {
     }
     document.getElementById('show-listings').addEventListener('click', showListings);
     document.getElementById('hide-listings').addEventListener('click', hideListings);
-    document.getElementById('Yo').addEventListener('click', focus);
+    // document.getElementById('Yo').addEventListener('click', focus);
 }
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
@@ -242,37 +242,37 @@ function zoomfocus(station){
         }
     }
 }
-
-//Could use for switching between normal map and heat map
-//$('#onoffswitch').click(function()
-//{
-//     $('#target').toggleClass('show-listings hide-listings'); //Adds 'a', removes 'b' and vice versa
-//});
-
-
-/**
- * Created by Nikki on 13/03/2017.
- */
- /******************************Google chart Section*********************/
-//  Load the Visualization API and the corechart package.
-//google.charts.load('current', {'packages':['corechart']});
 //
-//// Set a callback to run when the Google Visualization API is loaded.
-//google.charts.setOnLoadCallback(drawChart);
+// //Could use for switching between normal map and heat map
+// //$('#onoffswitch').click(function()
+// //{
+// //     $('#target').toggleClass('show-listings hide-listings'); //Adds 'a', removes 'b' and vice versa
+// //});
 //
-function drawChart(){
-    var data = new google.visualization.DataTable();
-    data.addColumn('number', 'stands');
-    data.addColumn('number', 'Bikes');
-    data.addRows([
-        [9, 1]
-        [8, 2]
-        [7, 3]
-    ]);
-
-
-//var options = {'title':'Bike Occupancy Chart','Width':200,'height':100};
 //
-var chart = new google.visualization.BarChart(document.getElementById('chart-div'));
-chart.draw(data, null);
-}
+// /**
+//  * Created by Nikki on 13/03/2017.
+//  */
+//  /******************************Google chart Section*********************/
+// //  Load the Visualization API and the corechart package.
+// //google.charts.load('current', {'packages':['corechart']});
+// //
+// //// Set a callback to run when the Google Visualization API is loaded.
+// //google.charts.setOnLoadCallback(drawChart);
+// //
+// function drawChart(){
+//     var data = new google.visualization.DataTable();
+//     data.addColumn('number', 'stands');
+//     data.addColumn('number', 'Bikes');
+//     data.addRows([
+//         [9, 1]
+//         [8, 2]
+//         [7, 3]
+//     ]);
+//
+//
+// //var options = {'title':'Bike Occupancy Chart','Width':200,'height':100};
+// //
+// var chart = new google.visualization.BarChart(document.getElementById('chart-div'));
+// chart.draw(data, null);
+// }
