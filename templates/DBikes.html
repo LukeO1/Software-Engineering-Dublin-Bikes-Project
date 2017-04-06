@@ -8,7 +8,8 @@
     <link rel= "stylesheet" type= "text/css" href= "/static/style.css">
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <script type= "text/javascript" src="{{ url_for('static',filename='DBmaps_test.js') }}"></script>
-
+    <script type="text/javascript">google.charts.load('current', {packages: ['corechart']});
+    google.charts.setOnLoadCallback(drawChart);</script>
  </head>
  <body>
 
@@ -16,7 +17,7 @@
          <ul id="nav">
              <li class="nav-left"><a><img id="logo" src="/static/custom-marker.png"></a></li>
              <li class="nav-left"><a href="/templates/DBikes.html">Home</a></li>
-             <li class="nav-left"><a id="show-listings">Show Stations</a></li>
+             <li class="nav-left"><a id="show-listings">Show</a></li>
              <li class="nav-left"><a id="hide-listings">Hide Stations</a></li>
              <!--<li><div class="onoffswitch">-->
                     <!--<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="show-listings" checked>-->
@@ -42,11 +43,13 @@
                  </div>
                  </div>
              </li>
-
          </ul>
      </nav>
      <div class="container">
          <div id="map-div"></div>
+     </div>
+     <div class="container">
+         <div id="chart-div"></div>
      </div>
  <script async defer
      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCK2dld8TVzjVCQeM2TPADkVdUr7fiA6KI&v=3&callback=myMap">
