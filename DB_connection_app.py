@@ -59,8 +59,6 @@ def get_dynamic():
     print(res)
     return jsonify([dict(row.items()) for row in res])
 
-
-
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
 
