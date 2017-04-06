@@ -59,15 +59,15 @@ def get_dynamic():
     print(res)
     return jsonify([dict(row.items()) for row in res])
 
-@app.route("/station/<name>")
-def get_dynamic2(name):
+@app.route("/station/<int:available_bikes>")
+def get_dynamic2(available_bikes):
     engine = get_db()
-    df = pd.read_sql_query("select * from dublinbikes.station_info where name = %(name)s order by last_update desc", engine, params={"name": name})
+    sql = "select * from dublinbikes.station_info where available_bikes = %s order by last_update desc", (available_bikes)
     # return "this is station {} {}".format(station_id, engine)
     # df['last_update_date'] = pd.to_datetime(df.last_update, unit ='ms')
     # df.set_index('last_update_date', inplace=True)
-    res = engine.execute(df).fetchall()
-    print(res)
+    res = engine.execute(sql)
+    print(sql)
     return jsonify([dict(row.items()) for row in res])
 
 

@@ -14,21 +14,30 @@ function myMap() {
     var myOptions = {
         zoom: 12,
         center: {lat: 53.343793, lng: -6.254572},//centerMap,
-        panControl: true, //enable pan Control
-        zoomControl: true, //enable zoom control
-        zoomControlOptions: {
-            style: google.maps.ZoomControlStyle.SMALL //zoom control size
-        },
-        scaleControl: true, // enable scale control
-        mapTypeControl: false
+        // panControl: true, //enable pan Control
+        // zoomControl: true, //enable zoom control
+        // zoomControlOptions: {
+        //     style: google.maps.ZoomControlStyle.SMALL //zoom control size
+        // },
+        // scaleControl: true, // enable scale control
+        // mapTypeControl: false
     };
     //$('#test').text("Hello");
-<<<<<<< HEAD
     map = new google.maps.Map(document.getElementById("map"), myOptions);
 
-    $('#moreInfo').hover(function () {
-        $('#content').html("hello");
-        // console.log("hello");
+    // document.getElementById("moreInfo").addEventListener("mouseover", mouseOver);
+    // document.getElementById("moreInfo").addEventListener("mouseout", mouseOut);
+    //
+    // function mouseover(){
+    //     $.getJSON("/station/dynamic", function (data) {
+    //         console.log("station data", data);
+    //         ('#moreinfo').html(data)
+    //     }).fail(function (msg) {
+    //         console.log('failed', msg);
+    //     });
+    //
+    // }
+
 
         // $.getJSON("/station/dynamic", function (data) {
         //     console.log('station data', data);
@@ -36,12 +45,10 @@ function myMap() {
         // }).fail(function (msg) {
         //     console.log('failed', msg);
         // })
-    });
+    // });
     //
-=======
     map = new google.maps.Map(document.getElementById("map-div"), myOptions);
 
->>>>>>> dfb24bca1335283011ee67de494a55a347387239
     $.getJSON("/station/static", function (data) {
         // console.log('station data', data);
         renderHTML(data);
@@ -51,7 +58,6 @@ function myMap() {
 
     // The following group uses the location array to create an array of markers on initialize.
 
-<<<<<<< HEAD
     //marker icon for the current location
     var image = "/static/custom-marker-current.png";
     var currentMarker = new google.maps.Marker({
@@ -59,7 +65,6 @@ function myMap() {
         map: map,
         icon: image
     });
-=======
             //marker icon for the current location
 //    var image = "/static/custom-marker-current.png";
 //    var currentMarker = new google.maps.Marker({
@@ -67,7 +72,6 @@ function myMap() {
 //        map: map,
 //        icon: image
 //    });
->>>>>>> dfb24bca1335283011ee67de494a55a347387239
 
     //changing icon image for all the marker
     var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
@@ -111,18 +115,12 @@ function myMap() {
         var largeInfowindow = new google.maps.InfoWindow();
         var image = "/static/custom-marker.png";
         for (var i = 0; i < bikeObj.length; i++) {
-            // console.log("{lat: " + bikeObj[i].position_lat + ", lng: " + bikeObj[i].position_lng + "}");
-            // console.log(bikeObj.available_bikes);
-            // Get the position from the location array.
-            // console.log(findName(dynObj, bikeObj.name));
             var lngPos = bikeObj[i].position_lng;
             var latPos = bikeObj[i].position_lat;
             // console.log(position);
             var title = bikeObj[i].name;
             var address = bikeObj[i].address;
             var station = bikeObj[i].number;
-
-            // console.log(title, address, station);
             // Create a marker per location, and put into markers array.
             //you take the info from here and put into the comment box when you click the marker.
             var marker = new google.maps.Marker({
@@ -182,7 +180,11 @@ function populateInfoWindow(marker, infowindow) {
     if (infowindow.marker != marker) {
         infowindow.marker = marker;
         //here is where you can enter all the information you want into the window when you click on the marker
-        infowindow.setContent('<div /id="showinfo">' + 'Area: ' + marker.title + '<br>Station number: ' + marker.station + '<br>Address: ' + marker.address + '<br><a /href="#" id="moreInfo">more info</a> ' + '</div>');
+        infowindow.setContent('<div /id="showinfo">' +
+            'Area: ' + marker.title +
+            '<br>Station number: ' + marker.station +
+            '<br>Address: ' + marker.address +
+            '<br><a /href="#" id="moreInfo">more info</a> ' + '</div>');
         infowindow.open(map, marker);
         // Make sure the marker property is cleared if the infowindow is closed.
         infowindow.addListener('closeclick', function () {
