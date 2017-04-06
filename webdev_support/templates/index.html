@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="static/styles.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Stations 101</title>
+</head>
+<body onload = "dropdown({{ data }})">
+    <h1>Stations 101</h1>
+    <select id="selectStation">
+        <option>Choose a station</option>
+        {% for row in data %}
+        <option>{{row.name}}</option>
+        {% endfor %}
+    </select>
+</body>
+</html>

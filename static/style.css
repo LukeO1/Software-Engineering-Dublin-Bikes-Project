@@ -4,27 +4,37 @@ html{
     background-color: grey;
 }
 body{
+    margin: 0;
     min-height: 100%;
-    min-width: 100%;
+    max-width: 100%;
     margin: 5px, 5px;
 }
-h1{
-    font-size: 1em;
+.container{
+    margin: 0px, 10px, 0px, 10px;
 }
-
 /******************NAVIGATION BAR***********************/
-nav ul{
-    list-style-type: none;
-}
-nav ul li{
-    text-align:center
-    display: inline;
-}
-nav ul li a{
-    padding: 8px;
-    text-decoration: none;
+nav{
+    height: 50px;
     display: block;
     background-color: #dddddd;
+}
+nav ul{
+    background-color: #dddddd;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+nav ul li{
+    font-size: 1em;
+    display: inline;
+    line-height: 20px;
+    height: 30px;
+}
+nav ul li a{
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    padding: 14px 16px;
 }
 
 .nav-left{
@@ -33,8 +43,128 @@ nav ul li a{
 .nav-right{
     float: right;
 }
-/*********************************GOOGLE MAP***********************/
-#map{
-    height: 400px;
-    width: 800px;
+/***********************SEARCH BAR***************************/
+#search-box[type=text] {
+    width: 130px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+    background-color: white;
+    background-image: url('/static/images/search-icon.png');
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding: 9px 20px 9px 40px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+#search-box[type=text]:focus {
+    width: 100%;
+}
+/*************************ON/OFF TOGGLE************************/
+.onoffswitch {
+    top: 10px;
+    left: 5px;
+    position: relative;
+    width: 142px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 50px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 15px; padding: 0; line-height: 15px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "Show Stations";
+    padding-left: 9px;
+    background-color: #36EBAC; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "Hide Stations";
+    padding-right: 9px;
+    background-color: #EEEEEE; color: #999999;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 23px; margin: -4px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 123px;
+    border: 2px solid #999999; border-radius: 50px;
+    transition: all 0.3s ease-in 0s;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px;
+}
+/*****************************GOOGLE MAP***********************/
+#map-div{
+
+    display: block;
+    height: 350px;
+    width: 100%;
+}
+/****************************Images*********************/
+#logo{
+    height: 20;
+    width: 20;
+}
+/*************************Drop-down Menu*********************/
+#dropdown-list{
+    overflow: auto;
+    max-height: 250px;
+    height: 250px;
+}
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    height: 100px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
 }

@@ -8,10 +8,11 @@ var map;
 // Create a new blank array for all the listing markers.
 var markers = [];
 
+
 function myMap() {
     //var centerMap = new google.maps.LatLng(53.343793, -6.254572)
     var myOptions = {
-        zoom: 14,
+        zoom: 12,
         center: {lat: 53.343793, lng: -6.254572},//centerMap,
         panControl: true, //enable pan Control
         zoomControl: true, //enable zoom control
@@ -22,6 +23,7 @@ function myMap() {
         mapTypeControl: false
     };
     //$('#test').text("Hello");
+<<<<<<< HEAD
     map = new google.maps.Map(document.getElementById("map"), myOptions);
 
     $('#moreInfo').hover(function () {
@@ -36,6 +38,10 @@ function myMap() {
         // })
     });
     //
+=======
+    map = new google.maps.Map(document.getElementById("map-div"), myOptions);
+
+>>>>>>> dfb24bca1335283011ee67de494a55a347387239
     $.getJSON("/station/static", function (data) {
         // console.log('station data', data);
         renderHTML(data);
@@ -45,6 +51,7 @@ function myMap() {
 
     // The following group uses the location array to create an array of markers on initialize.
 
+<<<<<<< HEAD
     //marker icon for the current location
     var image = "/static/custom-marker-current.png";
     var currentMarker = new google.maps.Marker({
@@ -52,6 +59,15 @@ function myMap() {
         map: map,
         icon: image
     });
+=======
+            //marker icon for the current location
+//    var image = "/static/custom-marker-current.png";
+//    var currentMarker = new google.maps.Marker({
+//        position: {lat: 53.3415, lng: -6.25685},
+//        map: map,
+//        icon: image
+//    });
+>>>>>>> dfb24bca1335283011ee67de494a55a347387239
 
     //changing icon image for all the marker
     var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
@@ -132,15 +148,35 @@ function myMap() {
 
         // Extend the boundaries of the map for each marker
         // map.fitBounds(bounds);
-    }
 
+        // console.log(markers[3].title);
+        var bounds = new google.maps.LatLngBounds();
+        // Extend the boundaries of the map for each marker and display the marker
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+            bounds.extend(markers[i].position);
+        }
+        map.fitBounds(bounds);
+
+//        function focus(zoomed){
+//            console.log('Hello')
+//            for (var i = 0; i < markers.length; i++){
+//                // console.log(markers[i].address)
+//                if (markers[i].address == zoomed){
+//                //map.setZoom(17);
+//                map.panTo(markers[i].position)
+//                }
+//            }
+//        }
+    }
     document.getElementById('show-listings').addEventListener('click', showListings);
     document.getElementById('hide-listings').addEventListener('click', hideListings);
+    document.getElementById('Yo').addEventListener('click', focus);
 }
-
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
 // on that markers position.
+
 function populateInfoWindow(marker, infowindow) {
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
@@ -168,6 +204,8 @@ function showListings() {
     }
     map.fitBounds(bounds);
 }
+
+
 // function toggleBounce() {
 //   if (marker.getAnimation() !== null) {
 //     marker.setAnimation(null);
@@ -177,10 +215,37 @@ function showListings() {
 // }
 // This function will loop through the listings and hide them all.
 function hideListings() {
+    console.log('Goodbye')
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
     }
 }
+
+//This function receives a station from the dropdown menu and zooms in on it
+function zoomfocus(station){
+    console.log('Hello')
+    //Checks what the current icon is for the station
+    for (var i = 0; i < markers.length; i++){
+        if(markers[i].icon == "/static/custom-marker-current.png"){
+            markers[i].setIcon("/static/custom-marker.png");
+        }
+    }
+    //takes in the station name as a variable, changes the map focus to the position and change the icon to the current icon
+    for (var i = 0; i < markers.length; i++){
+       // console.log(markers[i].address)
+        if (markers[i].address == station){
+            map.setZoom(17);
+            map.panTo(markers[i].position);
+            markers[i].setIcon("/static/custom-marker-current.png");
+        }
+    }
+}
+
+//Could use for switching between normal map and heat map
+//$('#onoffswitch').click(function()
+//{
+//     $('#target').toggleClass('show-listings hide-listings'); //Adds 'a', removes 'b' and vice versa
+//});
 
 
 /**
