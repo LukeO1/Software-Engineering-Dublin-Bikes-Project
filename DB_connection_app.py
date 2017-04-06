@@ -1,6 +1,6 @@
 from flask import Flask, g, render_template, jsonify
 from sqlalchemy import create_engine
-
+import pandas as pd
 
 app = Flask(__name__)  #creating the App
 
@@ -49,13 +49,24 @@ def get_station():
 def get_dynamic():
     engine = get_db()
     sql = """
-        select *
-        from dublinbikes.station_info
-        order by last_update DESC
-        limit 102;
-        """
+    select *
+    from dublinbikes.station_info
+    order by last_update DESC
+    limit 102;
+    """
     res = engine.execute(sql).fetchall()
     # return "this is station {} {}".format(station_id, engine)
+    print(res)
+    return jsonify([dict(row.items()) for row in res])
+
+@app.route("/station/<name>")
+def get_dynamic2(name):
+    engine = get_db()
+    df = pd.read_sql_query("select * from dublinbikes.station_info where name = %(name)s order by last_update desc", engine, params={"name": name})
+    # return "this is station {} {}".format(station_id, engine)
+    # df['last_update_date'] = pd.to_datetime(df.last_update, unit ='ms')
+    # df.set_index('last_update_date', inplace=True)
+    res = engine.execute(df).fetchall()
     print(res)
     return jsonify([dict(row.items()) for row in res])
 
