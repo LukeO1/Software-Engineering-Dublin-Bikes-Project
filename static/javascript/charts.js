@@ -18,9 +18,7 @@
         ]);
 
         // Set options for Anthony's pie chart.
-        var options = {title:'How Much Pizza Anthony Ate Last Night',
-                       width:300,
-                       height:200};
+        var options = {title:'Chart 1'};
 
         // Instantiate and draw the chart for Anthony's pizza.
         var chart = new google.visualization.PieChart(document.getElementById('chart-div1'));
@@ -44,9 +42,7 @@
         ]);
 
         // Set options for Anthony's pie chart.
-        var options = {title:'How Much Pizza Anthony Ate Last Night',
-                       width:300,
-                       height:200};
+        var options = {title:'Chart 2'};
 
         // Instantiate and draw the chart for Anthony's pizza.
         var chart = new google.visualization.PieChart(document.getElementById('chart-div2'));
@@ -70,9 +66,7 @@
         ]);
 
         // Set options for Sarah's pie chart.
-        var options = {title:'How Much Pizza Sarah Ate Last Night',
-                       width:300,
-                       height:200};
+        var options = {title:'Chart 3'};
 
         // Instantiate and draw the chart for Sarah's pizza.
         var chart = new google.visualization.PieChart(document.getElementById('chart-div3'));
