@@ -23,7 +23,7 @@ function myMap() {
         mapTypeControl: false
     };
     //$('#test').text("Hello");
-    map = new google.maps.Map(document.getElementById("map"), myOptions);
+    map = new google.maps.Map(document.getElementById("map-div"), myOptions);
 
     // document.getElementById("moreInfo").addEventListener("mouseover", mouseOver);
     // document.getElementById("moreInfo").addEventListener("mouseout", mouseOut);
@@ -176,6 +176,7 @@ function myMap() {
     // document.getElementById('Yo').addEventListener('click', focus);
 }
 
+
 //trying to match the key value name from dynamic with the value for the current static name and return an index
 //so can match the correct info on the corresponding markers!
 function getObjectKeyIndex(obj, keyToFind) {
@@ -191,6 +192,7 @@ function getObjectKeyIndex(obj, keyToFind) {
         i++
     });
 }
+
 
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
@@ -236,9 +238,11 @@ function showListings() {
 //     marker.setAnimation(google.maps.Animation.BOUNCE);
 //   }
 // }
+
+
 // This function will loop through the listings and hide them all.
 function hideListings() {
-    console.log('Goodbye')
+//    console.log('Goodbye')
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
     }
@@ -263,6 +267,9 @@ function zoomfocus(station){
         }
     }
 }
+
+
+
 //
 // //Could use for switching between normal map and heat map
 // //$('#onoffswitch').click(function()
