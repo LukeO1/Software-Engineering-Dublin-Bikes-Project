@@ -23,7 +23,7 @@ function myMap() {
         mapTypeControl: false
     };
     //$('#test').text("Hello");
-    map = new google.maps.Map(document.getElementById("map"), myOptions);
+    map = new google.maps.Map(document.getElementById("map-div"), myOptions);
 
     // document.getElementById("moreInfo").addEventListener("mouseover", mouseOver);
     // document.getElementById("moreInfo").addEventListener("mouseout", mouseOut);
