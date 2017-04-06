@@ -141,7 +141,7 @@ function myMap() {
             markers.push(marker);
             // Create an onclick event to open an infowindow at each marker.
             // marker.addListener('click', toggleBounce);
-            marker.addListener('click', function () {
+            marker.addListener("mouseover", function () {
                 populateInfoWindow(this, largeInfowindow);
 
             });
