@@ -50,8 +50,9 @@ function myMap() {
     map = new google.maps.Map(document.getElementById("map-div"), myOptions);
 
     $.getJSON("/station/static", function (data) {
-        // console.log('station data', data);
-        renderHTML(data);
+        $.getJSON("/station/dynamic", function (dyndata) {
+         renderHTML(data, dyndata);
+        })
     }).fail(function (msg) {
         console.log('failed', msg);
     });
@@ -59,12 +60,12 @@ function myMap() {
     // The following group uses the location array to create an array of markers on initialize.
 
     //marker icon for the current location
-    var image = "/static/custom-marker-current.png";
-    var currentMarker = new google.maps.Marker({
-        position: {lat: 53.3415, lng: -6.25685},
-        map: map,
-        icon: image
-    });
+    // var image = "/static/custom-marker-current.png";
+    // var currentMarker = new google.maps.Marker({
+    //     position: {lat: 53.3415, lng: -6.25685},
+    //     map: map,
+    //     icon: image
+    // });
             //marker icon for the current location
 //    var image = "/static/custom-marker-current.png";
 //    var currentMarker = new google.maps.Marker({
@@ -74,11 +75,11 @@ function myMap() {
 //    });
 
     //changing icon image for all the marker
-    var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
-    var icons = {
-        bikes: {
-            icon: iconBase + "/static/custom-marker.png"
-        }
+    // var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+    // var icons = {
+    //     bikes: {
+    //         icon: iconBase + "/static/custom-marker.png"
+    //     }
         // ,
         // library: {
         //     icon: iconBase + 'library_maps.png'
@@ -86,35 +87,38 @@ function myMap() {
         // info: {
         //     icon: iconBase + 'info-i_maps.png'
         // }
-    };
+    // };
+    //
+    // function addMarker(feature) {
+    //     var marker = new google.maps.Marker({
+    //         position: feature.position,
+    //         icon: icons[feature.type].icon,
+    //         map: map
+    //     });
+    // }
 
-    function addMarker(feature) {
-        var marker = new google.maps.Marker({
-            position: feature.position,
-            icon: icons[feature.type].icon,
-            map: map
-        });
-    }
+    // var features = [
+    //     {
+    //         position: new google.maps.LatLng(53.341, -6.26229),
+    //         type: 'bikes'
+    //     }
+    //     // ,{
+    //     //     position: new google.maps.LatLng(-33.91727341958453, 151.23348314155578),
+    //     //     type: 'library'
+    //     //   }
+    // ];
 
-    var features = [
-        {
-            position: new google.maps.LatLng(53.341, -6.26229),
-            type: 'bikes'
-        }
-        // ,{
-        //     position: new google.maps.LatLng(-33.91727341958453, 151.23348314155578),
-        //     type: 'library'
-        //   }
-    ];
+    // /
 
-    for (var i = 0, feature; feature = features[i]; i++) {
-        addMarker(feature);
-    }
-
-    function renderHTML(bikeObj) {
+    function renderHTML(bikeObj, dynObj) {
         var largeInfowindow = new google.maps.InfoWindow();
         var image = "/static/custom-marker.png";
         for (var i = 0; i < bikeObj.length; i++) {
+
+            // console.log(dynObj[i].name);
+            // console.log(bikeObj[i].name);
+            // console.log(getObjectKeyIndex(dynObj, bikeObj[i].name));
+
             var lngPos = bikeObj[i].position_lng;
             var latPos = bikeObj[i].position_lat;
             // console.log(position);
@@ -171,6 +175,23 @@ function myMap() {
     document.getElementById('hide-listings').addEventListener('click', hideListings);
     // document.getElementById('Yo').addEventListener('click', focus);
 }
+
+//trying to match the key value name from dynamic with the value for the current static name and return an index
+//so can match the correct info on the corresponding markers!
+function getObjectKeyIndex(obj, keyToFind) {
+    var i = 0, key;
+    for (x = 0; i < obj.length; i++) $.each(obj, function (key, value) {
+        // console.log("obj" ,obj[x]);
+        // console.log("value",value.name);
+        // console.log("keyToFind",keyToFind);
+        // console.log("key:", key.Value);
+        if (value.name === keyToFind) {
+            return i;
+        }
+        i++
+    });
+}
+
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
 // on that markers position.
