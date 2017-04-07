@@ -25,29 +25,6 @@ function myMap() {
     //$('#test').text("Hello");
     map = new google.maps.Map(document.getElementById("map-div"), myOptions);
 
-    // document.getElementById("moreInfo").addEventListener("mouseover", mouseOver);
-    // document.getElementById("moreInfo").addEventListener("mouseout", mouseOut);
-    //
-    // function mouseover(){
-    //     $.getJSON("/station/dynamic", function (data) {
-    //         console.log("station data", data);
-    //         ('#moreinfo').html(data)
-    //     }).fail(function (msg) {
-    //         console.log('failed', msg);
-    //     });
-    //
-    // }
-
-
-        // $.getJSON("/station/dynamic", function (data) {
-        //     console.log('station data', data);
-        //     // dynamic(data);
-        // }).fail(function (msg) {
-        //     console.log('failed', msg);
-        // })
-    // });
-    //
-    map = new google.maps.Map(document.getElementById("map-div"), myOptions);
 
     $.getJSON("/station/static", function (data) {
         $.getJSON("/station/dynamic", function (dyndata) {
@@ -108,11 +85,12 @@ function myMap() {
     //     //   }
     // ];
 
-    // /
+
+
 
     function renderHTML(bikeObj, dynObj) {
         var largeInfowindow = new google.maps.InfoWindow();
-        var image = "/static/images/custom-marker.png";
+        var image = "/static/images/marker5.png";
         for (var i = 0; i < bikeObj.length; i++) {
 
             // console.log(dynObj[i].name);
@@ -142,11 +120,40 @@ function myMap() {
             // Create an onclick event to open an infowindow at each marker.
             // marker.addListener('click', toggleBounce);
             marker.addListener("mouseover", function () {
-                populateInfoWindow(this, largeInfowindow);
+                populateInfoWindow(this, largeInfowindow, '<div /id="showinfo">' +
+            'Area: ' + marker.title +
+            '<br>Station number: ' + marker.station +
+            '<br>Address: ' + marker.address +
+            '<br><a /href="#" id="moreInfo">more info</a> ' + '</div>');
 
             });
             // bounds.extend(markers[i].position);
         }
+        //This shows your current location (
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            var currentMarker = new google.maps.Marker({
+                position: new google.maps.LatLng(pos),
+                icon: "/static/images/current.png",
+                animation: google.maps.Animation.DROP
+            });
+            // currentmMarker.addListener("mouseover", function () {
+            //     populateInfoWindow(currentMarker, largeInfowindow, 'Location found');
+            map.setCenter(pos);
+            currentMarker.setMap(map);
+            // bounds.extend(currentMarker.position);
+
+        }, function () {
+            handleLocationError(true, infoWindow, map.getCenter());
+        });
+    } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+    }
 
         // Extend the boundaries of the map for each marker
         // map.fitBounds(bounds);
@@ -193,21 +200,23 @@ function getObjectKeyIndex(obj, keyToFind) {
     });
 }
 
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+}
 
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
 // on that markers position.
 
-function populateInfoWindow(marker, infowindow) {
+function populateInfoWindow(marker, infowindow, html) {
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
         infowindow.marker = marker;
         //here is where you can enter all the information you want into the window when you click on the marker
-        infowindow.setContent('<div /id="showinfo">' +
-            'Area: ' + marker.title +
-            '<br>Station number: ' + marker.station +
-            '<br>Address: ' + marker.address +
-            '<br><a /href="#" id="moreInfo">more info</a> ' + '</div>');
+        infowindow.setContent(html);
         infowindow.open(map, marker);
         // Make sure the marker property is cleared if the infowindow is closed.
         infowindow.addListener('closeclick', function () {
@@ -229,16 +238,6 @@ function showListings() {
     }
     map.fitBounds(bounds);
 }
-
-
-// function toggleBounce() {
-//   if (marker.getAnimation() !== null) {
-//     marker.setAnimation(null);
-//   } else {
-//     marker.setAnimation(google.maps.Animation.BOUNCE);
-//   }
-// }
-
 
 // This function will loop through the listings and hide them all.
 function hideListings() {
@@ -263,6 +262,7 @@ function zoomfocus(station){
         if (markers[i].address == station){
             map.setZoom(17);
             map.panTo(markers[i].position);
+            markers[i].setIcon("/static/current.png");
             markers[i].setIcon("/static/images/custom-marker-current.png");
         }
     }
