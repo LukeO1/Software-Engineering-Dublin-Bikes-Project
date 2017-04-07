@@ -123,20 +123,18 @@ function myMap() {
             markers.push(marker);
             // Create an onclick event to open an infowindow at each marker.
             // marker.addListener('click', toggleBounce);
-//            marker.addListener("mouseover", function () {
-//                populateInfoWindow(this, largeInfowindow, '<div /id="showinfo">' +
-//            'Area: ' + marker.title +
-//            '<br>Station number: ' + marker.station +
-//            '<br>Address: ' + marker.address +
-//            //'<br>Available bikes: ' + marker.availBikes +
-//            //'<br>Available bike stands: ' + marker.availBikeStands +
-//            '<br><a /href="#" id="moreInfo">more info</a> ' + '</div>');
-//
-//            });
+            //marker.addListener("mouseover", function () {
+            //    populateInfoWindow(this, largeInfowindow, '<div /id="showinfo">' +
+            //    'Area: ' + marker.title +
+            //    '<br>Station number: ' + marker.station +
+            //    '<br>Address: ' + marker.address +
+            //    '<br>Available bikes: ' + marker.availBikes +
+            //    '<br>Available bike stands: ' + marker.availBikeStands +
+            //    '<br><a /href="#" id="moreInfo">more info</a> ' + '</div>');
+            //    });
 
             // bounds.extend(markers[i].position);
         }
-       ;
 
         //This shows your current location (
 
@@ -273,10 +271,6 @@ $('#currentLoc').toggle(function(){
             //     populateInfoWindow(currentMarker, largeInfowindow, 'Location found');
             map.setCenter(pos);
             currentMarker.setMap(map);
-<<<<<<< HEAD
-=======
-            // bounds.extend(currentMarker.position);
->>>>>>> 54576a351c1126a2274c9d0e885394c38381590c
         }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
         });
@@ -284,54 +278,11 @@ $('#currentLoc').toggle(function(){
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
-<<<<<<< HEAD
+
 }, function(){
     //google !!
 });
         // bounds.extend(currentMarker.position);
-
-//This function Filters the dropdown menu for the search bar
-        function searchFunction() {
-            var input, filter, ul, li, a, i;
-            input = document.getElementById("search-box");
-            filter = input.value.toUpperCase();
-            ul = document.getElementById("dropdown-list");
-            li = ul.getElementsByTagName("li");
-            for (i = 0; i < li.length; i++) {
-                a = li[i].getElementsByTagName("a")[0];
-                if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                    li[i].style.display = "";
-                } else {
-                    li[i].style.display = "none";
-                }
-            }
-        }
-
-        $(".dropdown-content").on('click', function () {
-            $('div ul').toggle('');
-        });
-        $('. > li div ul li a').click(function (e) {
-            e.stopPropagation();
-        });
-
-
-
-
-//
-// //Could use for switching between normal map and heat map
-// //$('#onoffswitch').click(function()
-// //{
-// //     $('#target').toggleClass('show-listings hide-listings'); //Adds 'a', removes 'b' and vice versa
-// //});
-//
-//
-// /**
-//  * Created by Nikki on 13/03/2017.
-//  */
-
-=======
-}
-
 
 //This function Filters the dropdown menu for the search bar
 function searchFunction() {
@@ -349,4 +300,4 @@ function searchFunction() {
         }
     }
 }
->>>>>>> 54576a351c1126a2274c9d0e885394c38381590c
+
