@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <title>Project Dublin Bikes</title>
-    <!--<script type="text/javascript" src={{ url_for('static',filename='jquery-3.2.0.min.js') }}></script>-->
     <script type= "text/javascript" src="{{ url_for('static',filename='javascript/jquery-3.2.0.min.js') }}"></script>
     <meta charset="UTF-8">
     <link rel= "stylesheet" type= "text/css" href= "/static/css/style.css">
@@ -11,7 +10,6 @@
     <script type= "text/javascript" src="{{ url_for('static',filename='javascript/charts.js') }}"></script>
  </head>
  <body>
-
      <nav>
          <ul id="nav">
              <li class="nav-left"><a><img id="logo" src="/static/images/custom-marker.png"></a></li>
@@ -45,9 +43,12 @@
              </li>
          </ul>
      </nav>
-     <div class="container">
+
+     <div class="center-wrapper">
+         <div id="weather-div">Weather info here</div>
          <div id="map-div"></div>
      </div>
+
      <div id="chart-wrapper">
          <div id="chart-div1"></div>
          <div id="chart-div2"></div>

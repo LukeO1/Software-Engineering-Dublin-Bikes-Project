@@ -268,23 +268,3 @@ function searchFunction() {
     }
 }
 
-$(".dropdown-content").on('click',function () {
-   $('div ul').toggle('');
-});
-$('. > li div ul li a').click(function(e) {
-   e.stopPropagation();
-});
-
-
-//
-// //Could use for switching between normal map and heat map
-// //$('#onoffswitch').click(function()
-// //{
-// //     $('#target').toggleClass('show-listings hide-listings'); //Adds 'a', removes 'b' and vice versa
-// //});
-//
-//
-// /**
-//  * Created by Nikki on 13/03/2017.
-//  */
-
