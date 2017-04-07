@@ -1,3 +1,17 @@
+/**********************TITLE*****************************/
+.title{
+    padding-top: 5px;
+    background-color: white;
+}
+
+.title img{
+    background-color: white;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    height: 80px;
+}
 
 /**********************BODY*****************************/
 html{
@@ -27,7 +41,7 @@ nav ul{
     margin: 0;
 }
 nav ul li{
-    font-size: 1em;
+    font-size: 0.8em;
     display: inline;
     line-height: 20px;
     height: 30px;
