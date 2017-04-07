@@ -12,7 +12,7 @@ var markers = [];
 function myMap() {
     //var centerMap = new google.maps.LatLng(53.343793, -6.254572)
     var myOptions = {
-        zoom: 12,
+        zoom: 14,
         center: {lat: 53.343793, lng: -6.254572},//centerMap,
         panControl: true, //enable pan Control
         zoomControl: true, //enable zoom control
@@ -33,6 +33,7 @@ function myMap() {
     }).fail(function (msg) {
         console.log('failed', msg);
     });
+
 
     // The following group uses the location array to create an array of markers on initialize.
 
@@ -119,6 +120,7 @@ function myMap() {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
+            map.setZoom(14);
             var currentMarker = new google.maps.Marker({
                 position: new google.maps.LatLng(pos),
                 icon: "/static/images/current.png",
