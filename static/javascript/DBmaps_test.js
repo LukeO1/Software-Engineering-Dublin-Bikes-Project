@@ -63,31 +63,25 @@ function myMap() {
             //HEAT MAP CONDITIONS
             switch (true){
                 case(availBikes == '0'):
-                    console.log(' no bikes');
                     varIcon = '/static/images/nobikes.png';
                     break;
                 case(availBikes < percentage10):
-                    console.log(' 10');
                     varIcon = '/static/images/marker1.png';
                     break;
                 case(availBikes < percentage30):
-                    console.log(' 30');
                     varIcon = '/static/images/marker2.png';
                     break;
                 case(availBikes < percentage50):
-                    console.log(' 50');
                     varIcon = '/static/images/marker3.png';
                     break;
                 case(availBikes < percentage80):
-                    console.log(' 80');
                     varIcon = '/static/images/marker4.png';
                     break;
                 default:
-                    console.log(' full');
                     varIcon = '/static/images/marker5.png';
             }
 
-            console.log(availBikes, "", availBikeStands);
+
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(latPos, lngPos),
                 title: title,
