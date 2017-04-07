@@ -25,28 +25,7 @@ function myMap() {
     //$('#test').text("Hello");
     map = new google.maps.Map(document.getElementById("map-div"), myOptions);
 
-    // document.getElementById("moreInfo").addEventListener("mouseover", mouseOver);
-    // document.getElementById("moreInfo").addEventListener("mouseout", mouseOut);
-    //
-    // function mouseover(){
-    //     $.getJSON("/station/dynamic", function (data) {
-    //         console.log("station data", data);
-    //         ('#moreinfo').html(data)
-    //     }).fail(function (msg) {
-    //         console.log('failed', msg);
-    //     });
-    //
-    // }
 
-
-        // $.getJSON("/station/dynamic", function (data) {
-        //     console.log('station data', data);
-        //     // dynamic(data);
-        // }).fail(function (msg) {
-        //     console.log('failed', msg);
-        // })
-    // });
-    //
     map = new google.maps.Map(document.getElementById("map-div"), myOptions);
 
     $.getJSON("/station/static", function (data) {
@@ -108,7 +87,8 @@ function myMap() {
     //     //   }
     // ];
 
-    // /
+
+
 
     function renderHTML(bikeObj, dynObj) {
         var largeInfowindow = new google.maps.InfoWindow();
@@ -147,6 +127,25 @@ function myMap() {
             });
             // bounds.extend(markers[i].position);
         }
+        //This shows your current location (
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+
+            largeInfowindow.setPosition(pos);
+            largeInfowindow.setContent('Location found.');
+            map.setCenter(pos);
+
+        }, function () {
+            handleLocationError(true, infoWindow, map.getCenter());
+        });
+    } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+    }
 
         // Extend the boundaries of the map for each marker
         // map.fitBounds(bounds);
@@ -193,6 +192,12 @@ function getObjectKeyIndex(obj, keyToFind) {
     });
 }
 
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+}
 
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
@@ -230,16 +235,6 @@ function showListings() {
     map.fitBounds(bounds);
 }
 
-
-// function toggleBounce() {
-//   if (marker.getAnimation() !== null) {
-//     marker.setAnimation(null);
-//   } else {
-//     marker.setAnimation(google.maps.Animation.BOUNCE);
-//   }
-// }
-
-
 // This function will loop through the listings and hide them all.
 function hideListings() {
 //    console.log('Goodbye')
@@ -263,7 +258,7 @@ function zoomfocus(station){
         if (markers[i].address == station){
             map.setZoom(17);
             map.panTo(markers[i].position);
-            markers[i].setIcon("/static/custom-marker-current.png");
+            markers[i].setIcon("/static/current.png");
         }
     }
 }
