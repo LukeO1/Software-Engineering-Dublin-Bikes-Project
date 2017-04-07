@@ -1,5 +1,6 @@
 /**********************BODY*****************************/
 html{
+    font-family: 'Droid Sans', sans-serif;
     background-size: cover;
     background-color: grey;
 }
@@ -9,9 +10,9 @@ body{
     max-width: 100%;
     margin: 5px, 5px;
 }
-.container{
+/*.container{
     margin: 0px, 10px, 0px, 10px;
-}
+}*/
 /******************NAVIGATION BAR***********************/
 nav{
     height: 50px;
@@ -112,9 +113,8 @@ nav ul li a{
 }
 /*****************************GOOGLE MAP***********************/
 #map-div{
-
     display: block;
-    height: 280px;
+    height: 400px;
     width: 100%;
 }
 /****************************Images*********************/
@@ -123,28 +123,12 @@ nav ul li a{
     width: 20;
 }
 
-/****************************Marker Index*********************/
-
-#markerIndex {
-    background-color: white;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
 /*************************Drop-down Menu*********************/
 #dropdown-list{
     overflow: auto;
     max-height: 250px;
     height: 250px;
 }
-/*.dropbtn {
-    background-color: transparent;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-}*/
 
 .dropdown {
     position: relative;
@@ -168,13 +152,13 @@ nav ul li a{
     display: block;
 }
 
-.dropdown-content a:active {background-color: #f1f1f1}
+.dropdown-content a:hover {background-color: #f1f1f1}
 
-.dropdown:active .dropdown-content {
+.dropdown:hover .dropdown-content {
     display: block;
 }
 
-.dropdown:active .dropbtn {
+.dropdown:hover .dropbtn {
     background-color: #3e8e41;
 }
 /**************************GOOGLE CHARTS*************************************/
@@ -194,4 +178,74 @@ nav ul li a{
 #chart-div3{
     float: right;
     width: 33.4%;
+}
+
+/*******************WEATHER INFO DIV*******************************************/
+#center-wrapper{
+    width: 100%;
+    margin: 0px, auto;
+}
+#weather-div{
+    float: left;
+    width: 10%;
+}
+#marker-div {
+    text-align: center;
+    display: inline-block;
+    background-color: white;
+    width:  10%;
+    height:100%;
+}
+#map-div{
+    float: right;
+    width:  80%;
+}
+
+#marker-div ul li{
+    list-style-type: none;
+
+}
+/*************************FIND MY LOCATION BUTTON**********************/
+#location-button {
+  display: inline-block;
+  border-radius: 2px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 14px;
+  padding: 6px;
+  width: 170px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 2.5px;
+}
+
+#location-button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+#location-button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -10px;
+  transition: 0.5s;
+}
+
+#location-button:hover span {
+  padding-right: 16px;
+}
+
+#location-button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+#location-button img{
+    width: 20px;
+    height: 25px;
 }

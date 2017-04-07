@@ -7,9 +7,14 @@
 var map;
 // Create a new blank array for all the listing markers.
 var markers = [];
-
+var dynamic_data = [];
+function setDynamicData(data){
+    dynamic_data.push(data);
+    console.log("arary", dynamic_data)
+}
 
 function myMap() {
+    console.log("lulu-inside", dynamic_data)
     //var centerMap = new google.maps.LatLng(53.343793, -6.254572)
     var myOptions = {
         zoom: 13,
@@ -28,8 +33,8 @@ function myMap() {
 
     $.getJSON("/station/static", function (data) {
         $.getJSON("/station/dynamic", function (dyndata) {
-            renderHTML(data, dyndata);
-             map.setZoom(13)
+           renderHTML(data, dyndata);
+           map.setZoom(13)
         })
     }).fail(function (msg) {
         console.log('failed', msg);
@@ -48,14 +53,21 @@ function myMap() {
             // console.log(dynObj[i].available_bikes);
             // console.log(bikeObj[i].name);
             // console.log(getObjectKeyIndex(dynObj, bikeObj[i].name));
-            var availBikes = dynObj[i].available_bikes;
-            var availBikeStands = dynObj[i].available_bike_stands;
+            for(var j = 0; j < dynObj.length; j++){
+                if(bikeObj[i].name == dynObj[j].name){
+                    var availBikes = dynObj[j].available_bikes;
+                    //console.log(dynObj[j].available_bikes)
+                    var availBikeStands = dynObj[j].available_bike_stands;
+                    console.log("static data", bikeObj[i].name, "dynamic data ",dynObj[j].name)
+                }
+            }
             var lngPos = bikeObj[i].position_lng;
             var latPos = bikeObj[i].position_lat;
             // console.log(position);
             var title = bikeObj[i].name;
             var address = bikeObj[i].address;
             var station = bikeObj[i].number;
+            var info = new google.maps.InfoWindow({content: '<p><b>Address: </b>' + address + '<br>' + '<b>Available Bikes:</b> ' + availBikes + '<br>' + '<b>Free Stands:</b> ' + availBikeStands + '</p>'});
             // Create a marker per location, and put into markers array.
             //you take the info from here and put into the comment box when you click the marker.
 
@@ -95,27 +107,36 @@ function myMap() {
                 availBikeStands: availBikeStands,
                 icon: varIcon,
                 animation: google.maps.Animation.DROP,
-                id: i
+                id: i,
+                info: info
             });
 
 
             // console.log(marker);
             // Push the marker to our array of markers.
+            google.maps.event.addListener(marker, 'mouseover', function() {
+                this.info.open(map, this);
+            });
+            google.maps.event.addListener(marker, 'mouseout', function() {
+                this.info.close();
+            });
+
             markers.push(marker);
             // Create an onclick event to open an infowindow at each marker.
             // marker.addListener('click', toggleBounce);
-            marker.addListener("mouseover", function () {
-                populateInfoWindow(this, largeInfowindow, '<div /id="showinfo">' +
-                    'Area: ' + marker.title +
-                    '<br>Station number: ' + marker.station +
-                    '<br>Address: ' + marker.address +
-                    // '<br>Available bikes: ' + marker.availBikes +
-                    // '<br>Available bike stands: ' + marker.availBikeStands +
-                    '<br><a /href="#" id="moreInfo">more info</a> ' + '</div>');
-            });
+//            marker.addListener("mouseover", function () {
+//                populateInfoWindow(this, largeInfowindow, '<div /id="showinfo">' +
+//            'Area: ' + marker.title +
+//            '<br>Station number: ' + marker.station +
+//            '<br>Address: ' + marker.address +
+//            //'<br>Available bikes: ' + marker.availBikes +
+//            //'<br>Available bike stands: ' + marker.availBikeStands +
+//            '<br><a /href="#" id="moreInfo">more info</a> ' + '</div>');
+//
+//            });
+
             // bounds.extend(markers[i].position);
         }
-       ;
 
         //This shows your current location (
 
@@ -144,27 +165,10 @@ function myMap() {
 //        }
     }
 
-    document.getElementById('currentLoc').addEventListener('click', showCurrentLocation);
+    document.getElementById('location-button').addEventListener('click', showCurrentLocation);
     document.getElementById('show-listings').addEventListener('click', showListings);
     document.getElementById('hide-listings').addEventListener('click', hideListings);
     // document.getElementById('Yo').addEventListener('click', focus);
-}
-
-
-function getObjectKeyIndex(obj, keyToFind) {
-//trying to match the key value name from dynamic with the value for the current static name and return an index
-//so can match the correct info on the corresponding markers!
-    var i = 0, key;
-    for (x = 0; i < obj.length; i++) $.each(obj, function (key, value) {
-        // console.log("obj" ,obj[x]);
-        // console.log("value",value.name);
-        // console.log("keyToFind",keyToFind);
-        // console.log("key:", key.Value);
-        if (value.name === keyToFind) {
-            return i;
-        }
-        i++
-    });
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -252,6 +256,7 @@ $('#currentLoc').toggle(function(){
             //     populateInfoWindow(currentMarker, largeInfowindow, 'Location found');
             map.setCenter(pos);
             currentMarker.setMap(map);
+            // bounds.extend(currentMarker.position);
         }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
         });
@@ -303,3 +308,21 @@ $('#currentLoc').toggle(function(){
 //  * Created by Nikki on 13/03/2017.
 //  */
 
+
+
+//This function Filters the dropdown menu for the search bar
+function searchFunction() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("search-box");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("dropdown-list");
+    li = ul.getElementsByTagName("li");
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
