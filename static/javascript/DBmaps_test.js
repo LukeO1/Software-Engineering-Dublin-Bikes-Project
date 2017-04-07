@@ -39,14 +39,14 @@ function myMap() {
     // The following group uses the location array to create an array of markers on initialize.
 
     //marker icon for the current location
-    // var image = "/static/custom-marker-current.png";
+    // var image = "/static/images/custom-marker-current.png";
     // var currentMarker = new google.maps.Marker({
     //     position: {lat: 53.3415, lng: -6.25685},
     //     map: map,
     //     icon: image
     // });
             //marker icon for the current location
-//    var image = "/static/custom-marker-current.png";
+//    var image = "/static/images/custom-marker-current.png";
 //    var currentMarker = new google.maps.Marker({
 //        position: {lat: 53.3415, lng: -6.25685},
 //        map: map,
@@ -57,7 +57,7 @@ function myMap() {
     // var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
     // var icons = {
     //     bikes: {
-    //         icon: iconBase + "/static/custom-marker.png"
+    //         icon: iconBase + "/static/images/custom-marker.png"
     //     }
         // ,
         // library: {
@@ -92,7 +92,7 @@ function myMap() {
 
     function renderHTML(bikeObj, dynObj) {
         var largeInfowindow = new google.maps.InfoWindow();
-        var image = "/static/custom-marker.png";
+        var image = "/static/images/custom-marker.png";
         for (var i = 0; i < bikeObj.length; i++) {
 
             // console.log(dynObj[i].name);
@@ -248,8 +248,8 @@ function zoomfocus(station){
     console.log('Hello')
     //Checks what the current icon is for the station
     for (var i = 0; i < markers.length; i++){
-        if(markers[i].icon == "/static/custom-marker-current.png"){
-            markers[i].setIcon("/static/custom-marker.png");
+        if(markers[i].icon == "/static/images/custom-marker-current.png"){
+            markers[i].setIcon("/static/images/custom-marker.png");
         }
     }
     //takes in the station name as a variable, changes the map focus to the position and change the icon to the current icon
@@ -258,7 +258,11 @@ function zoomfocus(station){
         if (markers[i].address == station){
             map.setZoom(17);
             map.panTo(markers[i].position);
+<<<<<<< HEAD:static/DBmaps_test.js
             markers[i].setIcon("/static/current.png");
+=======
+            markers[i].setIcon("/static/images/custom-marker-current.png");
+>>>>>>> master:static/javascript/DBmaps_test.js
         }
     }
 }
