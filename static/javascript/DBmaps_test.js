@@ -25,29 +25,6 @@ function myMap() {
     //$('#test').text("Hello");
     map = new google.maps.Map(document.getElementById("map-div"), myOptions);
 
-    // document.getElementById("moreInfo").addEventListener("mouseover", mouseOver);
-    // document.getElementById("moreInfo").addEventListener("mouseout", mouseOut);
-    //
-    // function mouseover(){
-    //     $.getJSON("/station/dynamic", function (data) {
-    //         console.log("station data", data);
-    //         ('#moreinfo').html(data)
-    //     }).fail(function (msg) {
-    //         console.log('failed', msg);
-    //     });
-    //
-    // }
-
-
-        // $.getJSON("/station/dynamic", function (data) {
-        //     console.log('station data', data);
-        //     // dynamic(data);
-        // }).fail(function (msg) {
-        //     console.log('failed', msg);
-        // })
-    // });
-    //
-    map = new google.maps.Map(document.getElementById("map-div"), myOptions);
 
     $.getJSON("/station/static", function (data) {
         $.getJSON("/station/dynamic", function (dyndata) {
@@ -59,66 +36,16 @@ function myMap() {
 
     // The following group uses the location array to create an array of markers on initialize.
 
-    //marker icon for the current location
-    // var image = "/static/images/custom-marker-current.png";
-    // var currentMarker = new google.maps.Marker({
-    //     position: {lat: 53.3415, lng: -6.25685},
-    //     map: map,
-    //     icon: image
-    // });
-            //marker icon for the current location
-//    var image = "/static/images/custom-marker-current.png";
-//    var currentMarker = new google.maps.Marker({
-//        position: {lat: 53.3415, lng: -6.25685},
-//        map: map,
-//        icon: image
-//    });
-
-    //changing icon image for all the marker
-    // var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
-    // var icons = {
-    //     bikes: {
-    //         icon: iconBase + "/static/images/custom-marker.png"
-    //     }
-        // ,
-        // library: {
-        //     icon: iconBase + 'library_maps.png'
-        // },
-        // info: {
-        //     icon: iconBase + 'info-i_maps.png'
-        // }
-    // };
-    //
-    // function addMarker(feature) {
-    //     var marker = new google.maps.Marker({
-    //         position: feature.position,
-    //         icon: icons[feature.type].icon,
-    //         map: map
-    //     });
-    // }
-
-    // var features = [
-    //     {
-    //         position: new google.maps.LatLng(53.341, -6.26229),
-    //         type: 'bikes'
-    //     }
-    //     // ,{
-    //     //     position: new google.maps.LatLng(-33.91727341958453, 151.23348314155578),
-    //     //     type: 'library'
-    //     //   }
-    // ];
-
-    // /
 
     function renderHTML(bikeObj, dynObj) {
         var largeInfowindow = new google.maps.InfoWindow();
-        var image = "/static/images/custom-marker.png";
+        // var image = "/static/images/marker5.png";
         for (var i = 0; i < bikeObj.length; i++) {
-
-            // console.log(dynObj[i].name);
+            // console.log(dynObj[i].available_bikes);
             // console.log(bikeObj[i].name);
             // console.log(getObjectKeyIndex(dynObj, bikeObj[i].name));
-
+            var availBikes = dynObj[i].available_bikes;
+            var availBikeStands = dynObj[i].available_bike_stands;
             var lngPos = bikeObj[i].position_lng;
             var latPos = bikeObj[i].position_lat;
             // console.log(position);
@@ -127,26 +54,89 @@ function myMap() {
             var station = bikeObj[i].number;
             // Create a marker per location, and put into markers array.
             //you take the info from here and put into the comment box when you click the marker.
+
+            var percentage10 = bikeObj[i].bike_stands*(10/100);
+            var percentage30 = bikeObj[i].bike_stands*(30/100);
+            var percentage50 = bikeObj[i].bike_stands*(50/100);
+            var percentage80 = bikeObj[i].bike_stands*(80/100);
+
+            //HEAT MAP CONDITIONS
+            switch (true){
+                case(availBikes == '0'):
+                    varIcon = '/static/images/nobikes.png';
+                    break;
+                case(availBikes < percentage10):
+                    varIcon = '/static/images/marker1.png';
+                    break;
+                case(availBikes < percentage30):
+                    varIcon = '/static/images/marker2.png';
+                    break;
+                case(availBikes < percentage50):
+                    varIcon = '/static/images/marker3.png';
+                    break;
+                case(availBikes < percentage80):
+                    varIcon = '/static/images/marker4.png';
+                    break;
+                default:
+                    varIcon = '/static/images/marker5.png';
+            }
+
+
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(latPos, lngPos),
                 title: title,
                 station: station,
                 address: address,
-                icon: image,
+                availBikes: availBikes,
+                availBikeStands: availBikeStands,
+                icon: varIcon,
                 animation: google.maps.Animation.DROP,
                 id: i
             });
+
+
             // console.log(marker);
             // Push the marker to our array of markers.
             markers.push(marker);
             // Create an onclick event to open an infowindow at each marker.
             // marker.addListener('click', toggleBounce);
             marker.addListener("mouseover", function () {
-                populateInfoWindow(this, largeInfowindow);
+                populateInfoWindow(this, largeInfowindow, '<div /id="showinfo">' +
+            'Area: ' + marker.title +
+            '<br>Station number: ' + marker.station +
+            '<br>Address: ' + marker.address +
+            // '<br>Available bikes: ' + marker.availBikes +
+            // '<br>Available bike stands: ' + marker.availBikeStands +
+            '<br><a /href="#" id="moreInfo">more info</a> ' + '</div>');
 
             });
             // bounds.extend(markers[i].position);
         }
+        //This shows your current location (
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            var currentMarker = new google.maps.Marker({
+                position: new google.maps.LatLng(pos),
+                icon: "/static/images/current.png",
+                animation: google.maps.Animation.DROP
+            });
+            // currentmMarker.addListener("mouseover", function () {
+            //     populateInfoWindow(currentMarker, largeInfowindow, 'Location found');
+            map.setCenter(pos);
+            currentMarker.setMap(map);
+            // bounds.extend(currentMarker.position);
+
+        }, function () {
+            handleLocationError(true, infoWindow, map.getCenter());
+        });
+    } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+    }
 
         // Extend the boundaries of the map for each marker
         // map.fitBounds(bounds);
@@ -177,9 +167,9 @@ function myMap() {
 }
 
 
+function getObjectKeyIndex(obj, keyToFind) {
 //trying to match the key value name from dynamic with the value for the current static name and return an index
 //so can match the correct info on the corresponding markers!
-function getObjectKeyIndex(obj, keyToFind) {
     var i = 0, key;
     for (x = 0; i < obj.length; i++) $.each(obj, function (key, value) {
         // console.log("obj" ,obj[x]);
@@ -193,21 +183,23 @@ function getObjectKeyIndex(obj, keyToFind) {
     });
 }
 
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+}
 
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
 // on that markers position.
 
-function populateInfoWindow(marker, infowindow) {
+function populateInfoWindow(marker, infowindow, html) {
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
         infowindow.marker = marker;
         //here is where you can enter all the information you want into the window when you click on the marker
-        infowindow.setContent('<div /id="showinfo">' +
-            'Area: ' + marker.title +
-            '<br>Station number: ' + marker.station +
-            '<br>Address: ' + marker.address +
-            '<br><a /href="#" id="moreInfo">more info</a> ' + '</div>');
+        infowindow.setContent(html);
         infowindow.open(map, marker);
         // Make sure the marker property is cleared if the infowindow is closed.
         infowindow.addListener('closeclick', function () {
@@ -230,16 +222,6 @@ function showListings() {
     map.fitBounds(bounds);
 }
 
-
-// function toggleBounce() {
-//   if (marker.getAnimation() !== null) {
-//     marker.setAnimation(null);
-//   } else {
-//     marker.setAnimation(google.maps.Animation.BOUNCE);
-//   }
-// }
-
-
 // This function will loop through the listings and hide them all.
 function hideListings() {
 //    console.log('Goodbye')
@@ -250,11 +232,11 @@ function hideListings() {
 
 //This function receives a station from the dropdown menu and zooms in on it
 function zoomfocus(station){
-    console.log('Hello')
+    console.log('Hello');
     //Checks what the current icon is for the station
     for (var i = 0; i < markers.length; i++){
         if(markers[i].icon == "/static/images/custom-marker-current.png"){
-            markers[i].setIcon("/static/images/custom-marker.png");
+            markers[i].setIcon("/static/images/marker5.png");
         }
     }
     //takes in the station name as a variable, changes the map focus to the position and change the icon to the current icon
@@ -263,6 +245,7 @@ function zoomfocus(station){
         if (markers[i].address == station){
             map.setZoom(17);
             map.panTo(markers[i].position);
+            markers[i].setIcon("/static/current.png");
             markers[i].setIcon("/static/images/custom-marker-current.png");
         }
     }
