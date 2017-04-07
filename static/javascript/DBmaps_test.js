@@ -256,7 +256,14 @@ $('#currentLoc').toggle(function(){
             //     populateInfoWindow(currentMarker, largeInfowindow, 'Location found');
             map.setCenter(pos);
             currentMarker.setMap(map);
+<<<<<<< HEAD
             // bounds.extend(currentMarker.position);
+=======
+<<<<<<< HEAD
+=======
+            // bounds.extend(currentMarker.position);
+>>>>>>> 54576a351c1126a2274c9d0e885394c38381590c
+>>>>>>> ea0da04d44a131bb45b5c3a405cfe28909ccfa33
         }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
         });
@@ -264,6 +271,10 @@ $('#currentLoc').toggle(function(){
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> ea0da04d44a131bb45b5c3a405cfe28909ccfa33
 }, function(){
     //google !!
 });
@@ -308,6 +319,11 @@ $('#currentLoc').toggle(function(){
 //  * Created by Nikki on 13/03/2017.
 //  */
 
+<<<<<<< HEAD
+=======
+=======
+}
+>>>>>>> ea0da04d44a131bb45b5c3a405cfe28909ccfa33
 
 
 //This function Filters the dropdown menu for the search bar
@@ -326,3 +342,7 @@ function searchFunction() {
         }
     }
 }
+<<<<<<< HEAD
+=======
+>>>>>>> 54576a351c1126a2274c9d0e885394c38381590c
+>>>>>>> ea0da04d44a131bb45b5c3a405cfe28909ccfa33
