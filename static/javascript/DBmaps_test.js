@@ -268,6 +268,10 @@ function zoomfocus(station){
     }
 }
 
+//This function Filters the dropdown menu for the search bar
+//function myFunction() {
+//
+//}
 
 
 //
@@ -281,26 +285,4 @@ function zoomfocus(station){
 // /**
 //  * Created by Nikki on 13/03/2017.
 //  */
-//  /******************************Google chart Section*********************/
-// //  Load the Visualization API and the corechart package.
-// //google.charts.load('current', {'packages':['corechart']});
-// //
-// //// Set a callback to run when the Google Visualization API is loaded.
-// //google.charts.setOnLoadCallback(drawChart);
-// //
-// function drawChart(){
-//     var data = new google.visualization.DataTable();
-//     data.addColumn('number', 'stands');
-//     data.addColumn('number', 'Bikes');
-//     data.addRows([
-//         [9, 1]
-//         [8, 2]
-//         [7, 3]
-//     ]);
-//
-//
-// //var options = {'title':'Bike Occupancy Chart','Width':200,'height':100};
-// //
-// var chart = new google.visualization.BarChart(document.getElementById('chart-div'));
-// chart.draw(data, null);
-// }
+
