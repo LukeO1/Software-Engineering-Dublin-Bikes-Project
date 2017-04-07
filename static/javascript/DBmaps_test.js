@@ -1,5 +1,3 @@
-//static dublin bikes info
-// var dublinObj;
 /**
  * Created by Nikki on 03/04/2017.
  */
@@ -14,8 +12,7 @@ function setDynamicData(data){
 }
 
 function myMap() {
-    console.log("lulu-inside", dynamic_data)
-    //var centerMap = new google.maps.LatLng(53.343793, -6.254572)
+
     var myOptions = {
         zoom: 13,
         center: {lat: 53.343793, lng: -6.254572},//centerMap,
@@ -27,7 +24,7 @@ function myMap() {
         scaleControl: true, // enable scale control
         mapTypeControl: false
     };
-    //$('#test').text("Hello");
+
     map = new google.maps.Map(document.getElementById("map-div"), myOptions);
 
 
@@ -41,24 +38,14 @@ function myMap() {
     });
 
 
-    // The following group uses the location array to create an array of markers on initialize.
-
-
     function renderHTML(bikeObj, dynObj) {
 
-        var largeInfowindow = new google.maps.InfoWindow();
-        // var image = "/static/images/marker5.png";
         for (var i = 0; i < bikeObj.length; i++) {
-
-            // console.log(dynObj[i].available_bikes);
-            // console.log(bikeObj[i].name);
-            // console.log(getObjectKeyIndex(dynObj, bikeObj[i].name));
             for(var j = 0; j < dynObj.length; j++){
                 if(bikeObj[i].name == dynObj[j].name){
                     var availBikes = dynObj[j].available_bikes;
                     //console.log(dynObj[j].available_bikes)
                     var availBikeStands = dynObj[j].available_bike_stands;
-                    console.log("static data", bikeObj[i].name, "dynamic data ",dynObj[j].name)
                 }
             }
             var lngPos = bikeObj[i].position_lng;
@@ -111,8 +98,6 @@ function myMap() {
                 info: info
             });
 
-
-            // console.log(marker);
             // Push the marker to our array of markers.
             google.maps.event.addListener(marker, 'mouseover', function() {
                 this.info.open(map, this);
@@ -122,27 +107,8 @@ function myMap() {
             });
 
             markers.push(marker);
-            // Create an onclick event to open an infowindow at each marker.
-            // marker.addListener('click', toggleBounce);
-//            marker.addListener("mouseover", function () {
-//                populateInfoWindow(this, largeInfowindow, '<div /id="showinfo">' +
-//            'Area: ' + marker.title +
-//            '<br>Station number: ' + marker.station +
-//            '<br>Address: ' + marker.address +
-//            //'<br>Available bikes: ' + marker.availBikes +
-//            //'<br>Available bike stands: ' + marker.availBikeStands +
-//            '<br><a /href="#" id="moreInfo">more info</a> ' + '</div>');
-//
-//            });
-
-            // bounds.extend(markers[i].position);
         }
 
-        //This shows your current location (
-
-
-        // Extend the boundaries of the map for each marker
-        // map.fitBounds(bounds);
 
         // console.log(markers[3].title);
         var bounds = new google.maps.LatLngBounds();
@@ -153,22 +119,12 @@ function myMap() {
         }
         map.fitBounds(bounds);
 
-//        function focus(zoomed){
-//            console.log('Hello')
-//            for (var i = 0; i < markers.length; i++){
-//                // console.log(markers[i].address)
-//                if (markers[i].address == zoomed){
-//                //map.setZoom(17);
-//                map.panTo(markers[i].position)
-//                }
-//            }
-//        }
     }
 
     document.getElementById('location-button').addEventListener('click', showCurrentLocation);
     document.getElementById('show-listings').addEventListener('click', showListings);
     document.getElementById('hide-listings').addEventListener('click', hideListings);
-    // document.getElementById('Yo').addEventListener('click', focus);
+
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -178,25 +134,6 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         'Error: Your browser doesn\'t support geolocation.');
 }
 
-// This function populates the infowindow when the marker is clicked. We'll only allow
-// one infowindow which will open at the marker that is clicked, and populate based
-// on that markers position.
-
-function populateInfoWindow(marker, infowindow, html) {
-    // Check to make sure the infowindow is not already opened on this marker.
-    if (infowindow.marker != marker) {
-        infowindow.marker = marker;
-        //here is where you can enter all the information you want into the window when you click on the marker
-        infowindow.setContent(html);
-        infowindow.open(map, marker);
-        // Make sure the marker property is cleared if the infowindow is closed.
-        infowindow.addListener('closeclick', function () {
-            infowindow.setMarker = null;
-        });
-    }
-}
-
-
 function showListings() {
     // console.log(markers[3].title);
     var bounds = new google.maps.LatLngBounds();
@@ -204,8 +141,6 @@ function showListings() {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(map);
         bounds.extend(markers[i].position);
-
-
     }
     map.fitBounds(bounds);
 }
@@ -239,7 +174,7 @@ function zoomfocus(station) {
     }
 }
 
-$('#currentLoc').toggle(function(){
+function showCurrentLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             var pos = {
@@ -252,18 +187,10 @@ $('#currentLoc').toggle(function(){
                 icon: "/static/images/current.png",
                 animation: google.maps.Animation.DROP
             });
-            // currentmMarker.addListener("mouseover", function () {
-            //     populateInfoWindow(currentMarker, largeInfowindow, 'Location found');
             map.setCenter(pos);
             currentMarker.setMap(map);
-<<<<<<< HEAD
             // bounds.extend(currentMarker.position);
-=======
-<<<<<<< HEAD
-=======
-            // bounds.extend(currentMarker.position);
->>>>>>> 54576a351c1126a2274c9d0e885394c38381590c
->>>>>>> ea0da04d44a131bb45b5c3a405cfe28909ccfa33
+
         }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
         });
@@ -271,14 +198,8 @@ $('#currentLoc').toggle(function(){
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> ea0da04d44a131bb45b5c3a405cfe28909ccfa33
-}, function(){
-    //google !!
-});
-        // bounds.extend(currentMarker.position);
+}
+
 
 //This function Filters the dropdown menu for the search bar
         function searchFunction() {
@@ -304,45 +225,3 @@ $('#currentLoc').toggle(function(){
             e.stopPropagation();
         });
 
-
-
-
-//
-// //Could use for switching between normal map and heat map
-// //$('#onoffswitch').click(function()
-// //{
-// //     $('#target').toggleClass('show-listings hide-listings'); //Adds 'a', removes 'b' and vice versa
-// //});
-//
-//
-// /**
-//  * Created by Nikki on 13/03/2017.
-//  */
-
-<<<<<<< HEAD
-=======
-=======
-}
->>>>>>> ea0da04d44a131bb45b5c3a405cfe28909ccfa33
-
-
-//This function Filters the dropdown menu for the search bar
-function searchFunction() {
-    var input, filter, ul, li, a, i;
-    input = document.getElementById("search-box");
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("dropdown-list");
-    li = ul.getElementsByTagName("li");
-    for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("a")[0];
-        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-        } else {
-            li[i].style.display = "none";
-        }
-    }
-}
-<<<<<<< HEAD
-=======
->>>>>>> 54576a351c1126a2274c9d0e885394c38381590c
->>>>>>> ea0da04d44a131bb45b5c3a405cfe28909ccfa33
