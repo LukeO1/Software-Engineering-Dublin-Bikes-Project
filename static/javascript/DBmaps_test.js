@@ -256,8 +256,7 @@ function zoomfocus(station) {
     }
 }
 
-
-function showCurrentLocation() {
+$('#currentLoc').toggle(function(){
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             var pos = {
@@ -274,7 +273,10 @@ function showCurrentLocation() {
             //     populateInfoWindow(currentMarker, largeInfowindow, 'Location found');
             map.setCenter(pos);
             currentMarker.setMap(map);
+<<<<<<< HEAD
+=======
             // bounds.extend(currentMarker.position);
+>>>>>>> 54576a351c1126a2274c9d0e885394c38381590c
         }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
         });
@@ -282,6 +284,52 @@ function showCurrentLocation() {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
+<<<<<<< HEAD
+}, function(){
+    //google !!
+});
+        // bounds.extend(currentMarker.position);
+
+//This function Filters the dropdown menu for the search bar
+        function searchFunction() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("search-box");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("dropdown-list");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+
+        $(".dropdown-content").on('click', function () {
+            $('div ul').toggle('');
+        });
+        $('. > li div ul li a').click(function (e) {
+            e.stopPropagation();
+        });
+
+
+
+
+//
+// //Could use for switching between normal map and heat map
+// //$('#onoffswitch').click(function()
+// //{
+// //     $('#target').toggleClass('show-listings hide-listings'); //Adds 'a', removes 'b' and vice versa
+// //});
+//
+//
+// /**
+//  * Created by Nikki on 13/03/2017.
+//  */
+
+=======
 }
 
 
@@ -301,3 +349,4 @@ function searchFunction() {
         }
     }
 }
+>>>>>>> 54576a351c1126a2274c9d0e885394c38381590c
