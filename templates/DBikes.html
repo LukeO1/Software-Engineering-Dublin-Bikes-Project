@@ -33,7 +33,7 @@
              <li class="nav-right"><a href="">Find Closest</a></li>
              <li class="nav-right">
                  <div class="dropdown">
-                 <button><input id="search-box" type="text" name="search" placeholder="Search.."></button>
+                 <input id="search-box" onkeyup="searchFunction()" type="text" name="search" placeholder="Search...">
                  <div class="dropdown-content">
                      <ul id="dropdown-list">
                      {% for row in data %}
