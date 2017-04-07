@@ -12,7 +12,7 @@ var markers = [];
 function myMap() {
     //var centerMap = new google.maps.LatLng(53.343793, -6.254572)
     var myOptions = {
-        zoom: 12,
+        zoom: 13,
         center: {lat: 53.343793, lng: -6.254572},//centerMap,
         panControl: true, //enable pan Control
         zoomControl: true, //enable zoom control
@@ -28,19 +28,23 @@ function myMap() {
 
     $.getJSON("/station/static", function (data) {
         $.getJSON("/station/dynamic", function (dyndata) {
-         renderHTML(data, dyndata);
+            renderHTML(data, dyndata);
+             map.setZoom(13)
         })
     }).fail(function (msg) {
         console.log('failed', msg);
     });
 
+
     // The following group uses the location array to create an array of markers on initialize.
 
 
     function renderHTML(bikeObj, dynObj) {
+
         var largeInfowindow = new google.maps.InfoWindow();
         // var image = "/static/images/marker5.png";
         for (var i = 0; i < bikeObj.length; i++) {
+
             // console.log(dynObj[i].available_bikes);
             // console.log(bikeObj[i].name);
             // console.log(getObjectKeyIndex(dynObj, bikeObj[i].name));
@@ -55,13 +59,13 @@ function myMap() {
             // Create a marker per location, and put into markers array.
             //you take the info from here and put into the comment box when you click the marker.
 
-            var percentage10 = bikeObj[i].bike_stands*(10/100);
-            var percentage30 = bikeObj[i].bike_stands*(30/100);
-            var percentage50 = bikeObj[i].bike_stands*(50/100);
-            var percentage80 = bikeObj[i].bike_stands*(80/100);
+            var percentage10 = bikeObj[i].bike_stands * (10 / 100);
+            var percentage30 = bikeObj[i].bike_stands * (30 / 100);
+            var percentage50 = bikeObj[i].bike_stands * (50 / 100);
+            var percentage80 = bikeObj[i].bike_stands * (80 / 100);
 
             //HEAT MAP CONDITIONS
-            switch (true){
+            switch (true) {
                 case(availBikes == '0'):
                     varIcon = '/static/images/nobikes.png';
                     break;
@@ -102,41 +106,19 @@ function myMap() {
             // marker.addListener('click', toggleBounce);
             marker.addListener("mouseover", function () {
                 populateInfoWindow(this, largeInfowindow, '<div /id="showinfo">' +
-            'Area: ' + marker.title +
-            '<br>Station number: ' + marker.station +
-            '<br>Address: ' + marker.address +
-            // '<br>Available bikes: ' + marker.availBikes +
-            // '<br>Available bike stands: ' + marker.availBikeStands +
-            '<br><a /href="#" id="moreInfo">more info</a> ' + '</div>');
-
+                    'Area: ' + marker.title +
+                    '<br>Station number: ' + marker.station +
+                    '<br>Address: ' + marker.address +
+                    // '<br>Available bikes: ' + marker.availBikes +
+                    // '<br>Available bike stands: ' + marker.availBikeStands +
+                    '<br><a /href="#" id="moreInfo">more info</a> ' + '</div>');
             });
             // bounds.extend(markers[i].position);
         }
-        //This shows your current location (
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-            var currentMarker = new google.maps.Marker({
-                position: new google.maps.LatLng(pos),
-                icon: "/static/images/current.png",
-                animation: google.maps.Animation.DROP
-            });
-            // currentmMarker.addListener("mouseover", function () {
-            //     populateInfoWindow(currentMarker, largeInfowindow, 'Location found');
-            map.setCenter(pos);
-            currentMarker.setMap(map);
-            // bounds.extend(currentMarker.position);
+       ;
 
-        }, function () {
-            handleLocationError(true, infoWindow, map.getCenter());
-        });
-    } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
-    }
+        //This shows your current location (
+
 
         // Extend the boundaries of the map for each marker
         // map.fitBounds(bounds);
@@ -161,6 +143,8 @@ function myMap() {
 //            }
 //        }
     }
+
+    document.getElementById('currentLoc').addEventListener('click', showCurrentLocation);
     document.getElementById('show-listings').addEventListener('click', showListings);
     document.getElementById('hide-listings').addEventListener('click', hideListings);
     // document.getElementById('Yo').addEventListener('click', focus);
@@ -184,10 +168,10 @@ function getObjectKeyIndex(obj, keyToFind) {
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-            'Error: The Geolocation service failed.' :
-            'Error: Your browser doesn\'t support geolocation.');
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(browserHasGeolocation ?
+        'Error: The Geolocation service failed.' :
+        'Error: Your browser doesn\'t support geolocation.');
 }
 
 // This function populates the infowindow when the marker is clicked. We'll only allow
@@ -231,18 +215,18 @@ function hideListings() {
 }
 
 //This function receives a station from the dropdown menu and zooms in on it
-function zoomfocus(station){
+function zoomfocus(station) {
     console.log('Hello');
     //Checks what the current icon is for the station
-    for (var i = 0; i < markers.length; i++){
-        if(markers[i].icon == "/static/images/custom-marker-current.png"){
+    for (var i = 0; i < markers.length; i++) {
+        if (markers[i].icon == "/static/images/custom-marker-current.png") {
             markers[i].setIcon("/static/images/marker5.png");
         }
     }
     //takes in the station name as a variable, changes the map focus to the position and change the icon to the current icon
-    for (var i = 0; i < markers.length; i++){
-       // console.log(markers[i].address)
-        if (markers[i].address == station){
+    for (var i = 0; i < markers.length; i++) {
+        // console.log(markers[i].address)
+        if (markers[i].address == station) {
             map.setZoom(17);
             map.panTo(markers[i].position);
             markers[i].setIcon("/static/current.png");
@@ -250,6 +234,26 @@ function zoomfocus(station){
         }
     }
 }
+
+
+function showCurrentLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            map.setZoom(14);
+            var currentMarker = new google.maps.Marker({
+                position: new google.maps.LatLng(pos),
+                icon: "/static/images/current.png",
+                animation: google.maps.Animation.DROP
+            });
+            // currentmMarker.addListener("mouseover", function () {
+            //     populateInfoWindow(currentMarker, largeInfowindow, 'Location found');
+            map.setCenter(pos);
+            currentMarker.setMap(map);
+            // bounds.extend(currentMarker.position);
 
 //This function Filters the dropdown menu for the search bar
 function searchFunction() {
@@ -275,6 +279,15 @@ $('. > li div ul li a').click(function(e) {
    e.stopPropagation();
 });
 
+
+        }, function () {
+            handleLocationError(true, infoWindow, map.getCenter());
+        });
+    } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+    }
+}
 
 //
 // //Could use for switching between normal map and heat map
