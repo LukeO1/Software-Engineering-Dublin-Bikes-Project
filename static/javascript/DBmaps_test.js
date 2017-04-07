@@ -7,9 +7,14 @@
 var map;
 // Create a new blank array for all the listing markers.
 var markers = [];
-
+var dynamic_data = [];
+function setDynamicData(data){
+    dynamic_data.push(data);
+    console.log("arary", dynamic_data)
+}
 
 function myMap() {
+    console.log("lulu-inside", dynamic_data)
     //var centerMap = new google.maps.LatLng(53.343793, -6.254572)
     var myOptions = {
         zoom: 13,
@@ -28,8 +33,8 @@ function myMap() {
 
     $.getJSON("/station/static", function (data) {
         $.getJSON("/station/dynamic", function (dyndata) {
-            renderHTML(data, dyndata);
-             map.setZoom(13)
+           renderHTML(data, dyndata);
+           map.setZoom(13)
         })
     }).fail(function (msg) {
         console.log('failed', msg);
@@ -48,14 +53,20 @@ function myMap() {
             // console.log(dynObj[i].available_bikes);
             // console.log(bikeObj[i].name);
             // console.log(getObjectKeyIndex(dynObj, bikeObj[i].name));
-            var availBikes = dynObj[i].available_bikes;
-            var availBikeStands = dynObj[i].available_bike_stands;
+            for(var j = 0; j < dynObj.length; j++){
+                if(bikeObj[i].name == dynObj[j].name){
+                    var availBikes = dynObj[j].available_bikes;
+                    //console.log(dynObj[j].available_bikes)
+                    var availBikeStands = dynObj[j].available_bike_stands;
+                }
+            }
             var lngPos = bikeObj[i].position_lng;
             var latPos = bikeObj[i].position_lat;
             // console.log(position);
             var title = bikeObj[i].name;
             var address = bikeObj[i].address;
             var station = bikeObj[i].number;
+            var info = new google.maps.InfoWindow({content: '<p><b>Address: </b>' + address + '<br>' + '<b>Available Bikes:</b> ' + availBikes + '<br>' + '<b>Free Stands:</b> ' + availBikeStands + '</p>'});
             // Create a marker per location, and put into markers array.
             //you take the info from here and put into the comment box when you click the marker.
 
@@ -95,24 +106,34 @@ function myMap() {
                 availBikeStands: availBikeStands,
                 icon: varIcon,
                 animation: google.maps.Animation.DROP,
-                id: i
+                id: i,
+                info: info
             });
 
 
             // console.log(marker);
             // Push the marker to our array of markers.
+            google.maps.event.addListener(marker, 'mouseover', function() {
+                this.info.open(map, this);
+            });
+            google.maps.event.addListener(marker, 'mouseout', function() {
+                this.info.close();
+            });
+
             markers.push(marker);
             // Create an onclick event to open an infowindow at each marker.
             // marker.addListener('click', toggleBounce);
-            marker.addListener("mouseover", function () {
-                populateInfoWindow(this, largeInfowindow, '<div /id="showinfo">' +
-                    'Area: ' + marker.title +
-                    '<br>Station number: ' + marker.station +
-                    '<br>Address: ' + marker.address +
-                    // '<br>Available bikes: ' + marker.availBikes +
-                    // '<br>Available bike stands: ' + marker.availBikeStands +
-                    '<br><a /href="#" id="moreInfo">more info</a> ' + '</div>');
-            });
+//            marker.addListener("mouseover", function () {
+//                populateInfoWindow(this, largeInfowindow, '<div /id="showinfo">' +
+//            'Area: ' + marker.title +
+//            '<br>Station number: ' + marker.station +
+//            '<br>Address: ' + marker.address +
+//            //'<br>Available bikes: ' + marker.availBikes +
+//            //'<br>Available bike stands: ' + marker.availBikeStands +
+//            '<br><a /href="#" id="moreInfo">more info</a> ' + '</div>');
+//
+//            });
+
             // bounds.extend(markers[i].position);
         }
        ;
@@ -144,7 +165,7 @@ function myMap() {
 //        }
     }
 
-    document.getElementById('currentLoc').addEventListener('click', showCurrentLocation);
+    document.getElementById('location-button').addEventListener('click', showCurrentLocation);
     document.getElementById('show-listings').addEventListener('click', showListings);
     document.getElementById('hide-listings').addEventListener('click', hideListings);
     // document.getElementById('Yo').addEventListener('click', focus);
@@ -252,6 +273,10 @@ $('#currentLoc').toggle(function(){
             //     populateInfoWindow(currentMarker, largeInfowindow, 'Location found');
             map.setCenter(pos);
             currentMarker.setMap(map);
+<<<<<<< HEAD
+=======
+            // bounds.extend(currentMarker.position);
+>>>>>>> 54576a351c1126a2274c9d0e885394c38381590c
         }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
         });
@@ -259,6 +284,7 @@ $('#currentLoc').toggle(function(){
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
+<<<<<<< HEAD
 }, function(){
     //google !!
 });
@@ -303,3 +329,24 @@ $('#currentLoc').toggle(function(){
 //  * Created by Nikki on 13/03/2017.
 //  */
 
+=======
+}
+
+
+//This function Filters the dropdown menu for the search bar
+function searchFunction() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("search-box");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("dropdown-list");
+    li = ul.getElementsByTagName("li");
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+>>>>>>> 54576a351c1126a2274c9d0e885394c38381590c
