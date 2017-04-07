@@ -80,8 +80,6 @@ function myMap() {
                 default:
                     varIcon = '/static/images/marker5.png';
             }
-
-
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(latPos, lngPos),
                 title: title,
@@ -105,9 +103,6 @@ function myMap() {
 
             markers.push(marker);
         }
-
-
-        // console.log(markers[3].title);
         var bounds = new google.maps.LatLngBounds();
         // Extend the boundaries of the map for each marker and display the marker
         for (var i = 0; i < markers.length; i++) {
@@ -186,8 +181,6 @@ function showCurrentLocation() {
             });
             map.setCenter(pos);
             currentMarker.setMap(map);
-            // bounds.extend(currentMarker.position);
-
         }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
         });
@@ -196,7 +189,6 @@ function showCurrentLocation() {
         handleLocationError(false, infoWindow, map.getCenter());
     }
 }
-
 
 //This function Filters the dropdown menu for the search bar
 function searchFunction() {
