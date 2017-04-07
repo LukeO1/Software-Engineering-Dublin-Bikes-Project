@@ -9,9 +9,9 @@ body{
     max-width: 100%;
     margin: 5px, 5px;
 }
-.container{
+/*.container{
     margin: 0px, 10px, 0px, 10px;
-}
+}*/
 /******************NAVIGATION BAR***********************/
 nav{
     height: 50px;
@@ -112,9 +112,8 @@ nav ul li a{
 }
 /*****************************GOOGLE MAP***********************/
 #map-div{
-
     display: block;
-    height: 280px;
+    height: 400px;
     width: 100%;
 }
 /****************************Images*********************/
@@ -138,7 +137,6 @@ nav ul li a{
     height: 250px;
 }
 
-
 .dropdown {
     position: relative;
     display: inline-block;
@@ -161,13 +159,13 @@ nav ul li a{
     display: block;
 }
 
-.dropdown-content a:active {background-color: #f1f1f1}
+.dropdown-content a:hover {background-color: #f1f1f1}
 
-.dropdown:active .dropdown-content {
+.dropdown:hover .dropdown-content {
     display: block;
 }
 
-.dropdown:active .dropbtn {
+.dropdown:hover .dropbtn {
     background-color: #3e8e41;
 }
 /**************************GOOGLE CHARTS*************************************/
@@ -192,7 +190,7 @@ nav ul li a{
 /*******************WEATHER INFO DIV*******************************************/
 #center-wrapper{
     width: 100%;
-    margin: 0px;;
+    margin: 0px, auto;
 }
 #weather-div{
     float: left;

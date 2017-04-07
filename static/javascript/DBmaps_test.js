@@ -254,6 +254,15 @@ function showCurrentLocation() {
             map.setCenter(pos);
             currentMarker.setMap(map);
             // bounds.extend(currentMarker.position);
+        }, function () {
+            handleLocationError(true, infoWindow, map.getCenter());
+        });
+    } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+    }
+}
+
 
 //This function Filters the dropdown menu for the search bar
 function searchFunction() {
@@ -272,35 +281,3 @@ function searchFunction() {
     }
 }
 
-<<<<<<< HEAD
-=======
-$(".dropdown-content").on('click',function () {
-   $('div ul').toggle('');
-});
-$('. > li div ul li a').click(function(e) {
-   e.stopPropagation();
-});
-
-
-        }, function () {
-            handleLocationError(true, infoWindow, map.getCenter());
-        });
-    } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
-    }
-}
-
-//
-// //Could use for switching between normal map and heat map
-// //$('#onoffswitch').click(function()
-// //{
-// //     $('#target').toggleClass('show-listings hide-listings'); //Adds 'a', removes 'b' and vice versa
-// //});
-//
-//
-// /**
-//  * Created by Nikki on 13/03/2017.
-//  */
-
->>>>>>> 0874592cfb37148cbe8d812fbd268ab96cea4b58
