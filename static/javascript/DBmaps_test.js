@@ -144,7 +144,7 @@ function myMap() {
 //        }
     }
 
-    document.getElementById('currentLoc').addEventListener('click', showCurrentLocation);
+    document.getElementById('location-button').addEventListener('click', showCurrentLocation);
     document.getElementById('show-listings').addEventListener('click', showListings);
     document.getElementById('hide-listings').addEventListener('click', hideListings);
     // document.getElementById('Yo').addEventListener('click', focus);
@@ -280,4 +280,3 @@ function searchFunction() {
         }
     }
 }
-

@@ -28,7 +28,8 @@
              <!--<li class="nav-left"><a >Hide Stations</a></li>-->
              <!--<li class="nav-left"><input id="search-box" type="text" name="search" placeholder="Search.."></li>-->
 
-             <li class="nav-right"><button id="currentLoc">Current Location</button></li>
+             <li class="nav-right"><button style="vertical-align:middle" id="location-button">
+                 <span>Find My location</span></button></li>
              <li class="nav-right">
                  <div class="dropdown">
                  <input id="search-box" onkeyup="searchFunction()" type="text" name="search" placeholder="Search...">
@@ -46,25 +47,28 @@
 
      <div class="center-wrapper">
          <div id="weather-div">Weather info here</div>
+         <div id="marker-div">
+         Availability
+             <ul>
+                 <li><img class="marker" src="/static/images/nobikes.png">0%</li>
+                 <li><img class="marker" src="/static/images/marker1.png">10%</li>
+                 <li><img class="marker" src="/static/images/marker2.png">30%</li>
+                 <li><img class="marker" src="/static/images/marker3.png">50%</li>
+                 <li><img class="marker" src="/static/images/marker4.png">80%</li>
+                 <li><img class="marker" src="/static/images/marker5.png">100%</li>
+                 <li><img class="marker" src="/static/images/current.png">Current location</li>
+             </ul>
+         </div>
          <div id="map-div"></div>
      </div>
 
-     <div id="markerIndex">
-         <img class="marker" src="/static/images/nobikes.png">No bikes available
-         <img class="marker" src="/static/images/marker1.png">10% availability
-         <img class="marker" src="/static/images/marker2.png">30% availability
-         <img class="marker" src="/static/images/marker3.png">50% availability
-         <img class="marker" src="/static/images/marker4.png">80% availability
-         <img class="marker" src="/static/images/marker5.png">All bikes at this station are available
-         <img class="marker" src="/static/images/current.png">Current location
-     </div>
+
 
      <div id="chart-wrapper">
          <div id="chart-div1"></div>
          <div id="chart-div2"></div>
          <div id="chart-div3"></div>
      </div>
-
  <script async defer
      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCK2dld8TVzjVCQeM2TPADkVdUr7fiA6KI&v=3&callback=myMap">
  </script>
