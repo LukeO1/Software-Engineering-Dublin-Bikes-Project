@@ -190,6 +190,7 @@ nav ul li a{
     width: 10%;
 }
 #marker-div {
+    text-align: center;
     display: inline-block;
     background-color: white;
     width:  10%;
@@ -202,6 +203,7 @@ nav ul li a{
 
 #marker-div ul li{
     list-style-type: none;
+
 }
 /*************************FIND MY LOCATION BUTTON**********************/
 #location-button {
