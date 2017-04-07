@@ -235,6 +235,7 @@ function zoomfocus(station) {
     }
 }
 
+
 function showCurrentLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -253,6 +254,31 @@ function showCurrentLocation() {
             map.setCenter(pos);
             currentMarker.setMap(map);
             // bounds.extend(currentMarker.position);
+
+//This function Filters the dropdown menu for the search bar
+function searchFunction() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("search-box");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("dropdown-list");
+    li = ul.getElementsByTagName("li");
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+
+$(".dropdown-content").on('click',function () {
+   $('div ul').toggle('');
+});
+$('. > li div ul li a').click(function(e) {
+   e.stopPropagation();
+});
+
 
         }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
@@ -274,26 +300,4 @@ function showCurrentLocation() {
 // /**
 //  * Created by Nikki on 13/03/2017.
 //  */
-//  /******************************Google chart Section*********************/
-// //  Load the Visualization API and the corechart package.
-// //google.charts.load('current', {'packages':['corechart']});
-// //
-// //// Set a callback to run when the Google Visualization API is loaded.
-// //google.charts.setOnLoadCallback(drawChart);
-// //
-// function drawChart(){
-//     var data = new google.visualization.DataTable();
-//     data.addColumn('number', 'stands');
-//     data.addColumn('number', 'Bikes');
-//     data.addRows([
-//         [9, 1]
-//         [8, 2]
-//         [7, 3]
-//     ]);
-//
-//
-// //var options = {'title':'Bike Occupancy Chart','Width':200,'height':100};
-// //
-// var chart = new google.visualization.BarChart(document.getElementById('chart-div'));
-// chart.draw(data, null);
-// }
+

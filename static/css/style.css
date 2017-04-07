@@ -137,14 +137,14 @@ nav ul li a{
     max-height: 250px;
     height: 250px;
 }
-.dropbtn {
-    background-color: #4CAF50;
+/*.dropbtn {
+    background-color: transparent;
     color: white;
     padding: 16px;
     font-size: 16px;
     border: none;
     cursor: pointer;
-}
+}*/
 
 .dropdown {
     position: relative;
@@ -168,13 +168,13 @@ nav ul li a{
     display: block;
 }
 
-.dropdown-content a:hover {background-color: #f1f1f1}
+.dropdown-content a:active {background-color: #f1f1f1}
 
-.dropdown:hover .dropdown-content {
+.dropdown:active .dropdown-content {
     display: block;
 }
 
-.dropdown:hover .dropbtn {
+.dropdown:active .dropbtn {
     background-color: #3e8e41;
 }
 /**************************GOOGLE CHARTS*************************************/
