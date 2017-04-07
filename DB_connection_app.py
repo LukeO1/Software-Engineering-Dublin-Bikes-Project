@@ -71,6 +71,6 @@ def get_dynamic2(available_bikes):
     return jsonify([dict(row.items()) for row in res])
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5002)
+    app.run(debug=True, port=5000)
 
 
