@@ -9,9 +9,6 @@
     <script type= "text/javascript" src="{{ url_for('static',filename='javascript/DBmaps_test.js') }}"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type= "text/javascript" src="{{ url_for('static',filename='javascript/charts.js') }}"></script>
-    {% for row in data2 %}
-        <a onload = "setDynamicData(row)"></a>
-    {% endfor %}
  </head>
  <body>
 
