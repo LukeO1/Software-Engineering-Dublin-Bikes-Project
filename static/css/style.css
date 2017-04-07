@@ -128,14 +128,14 @@ nav ul li a{
     max-height: 250px;
     height: 250px;
 }
-.dropbtn {
-    background-color: #4CAF50;
+/*.dropbtn {
+    background-color: transparent;
     color: white;
     padding: 16px;
     font-size: 16px;
     border: none;
     cursor: pointer;
-}
+}*/
 
 .dropdown {
     position: relative;
