@@ -19,7 +19,11 @@ def main():
     rows = engine.execute("SELECT address from static_information order by address")
     for row in rows:
         data.append(dict(row))
-    return render_template('DBikes.html', data=data)
+    dy_data = []
+    dy_rows = engine.execute("SELECT name, available_bikes, available_bike_stands from station_info order by last_update limit 200")
+    for row in dy_rows:
+        dy_data.append(dict(row))
+    return render_template('DBikes.html', data=data, data2=dy_data)
 
 @app.route('/templates/DBikes.html') #If user clicks Home button the page refreshes
 def refresh_page():
@@ -76,5 +80,3 @@ def get_dynamic2(name):
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
-
-
