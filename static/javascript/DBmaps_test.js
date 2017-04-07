@@ -268,6 +268,13 @@ function searchFunction() {
     }
 }
 
+$(".dropdown-content").on('click',function () {
+   $('div ul').toggle('');
+});
+$('. > li div ul li a').click(function(e) {
+   e.stopPropagation();
+});
+
 
 //
 // //Could use for switching between normal map and heat map
