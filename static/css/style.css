@@ -1,5 +1,6 @@
 /**********************BODY*****************************/
 html{
+    font-family: 'Droid Sans', sans-serif;
     background-size: cover;
     background-color: grey;
 }
@@ -189,6 +190,7 @@ nav ul li a{
     width: 10%;
 }
 #marker-div {
+    text-align: center;
     display: inline-block;
     background-color: white;
     width:  10%;
@@ -201,6 +203,7 @@ nav ul li a{
 
 #marker-div ul li{
     list-style-type: none;
+
 }
 /*************************FIND MY LOCATION BUTTON**********************/
 #location-button {
@@ -211,8 +214,8 @@ nav ul li a{
   color: #FFFFFF;
   text-align: center;
   font-size: 14px;
-  padding: 10px;
-  width: 150px;
+  padding: 6px;
+  width: 170px;
   transition: all 0.5s;
   cursor: pointer;
   margin: 2.5px;
@@ -235,10 +238,14 @@ nav ul li a{
 }
 
 #location-button:hover span {
-  padding-right: 12.5px;
+  padding-right: 16px;
 }
 
 #location-button:hover span:after {
   opacity: 1;
   right: 0;
+}
+#location-button img{
+    width: 20px;
+    height: 25px;
 }

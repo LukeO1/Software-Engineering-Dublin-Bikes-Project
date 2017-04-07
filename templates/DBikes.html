@@ -8,6 +8,7 @@
     <script type= "text/javascript" src="{{ url_for('static',filename='javascript/DBmaps_test.js') }}"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type= "text/javascript" src="{{ url_for('static',filename='javascript/charts.js') }}"></script>
+    <link href="https://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet">
  </head>
  <body>
      <nav>
@@ -29,6 +30,7 @@
              <!--<li class="nav-left"><input id="search-box" type="text" name="search" placeholder="Search.."></li>-->
 
              <li class="nav-right"><button style="vertical-align:middle" id="location-button">
+                 <img class="marker" src="/static/images/current.png">
                  <span>Find My location</span></button></li>
              <li class="nav-right">
                  <div class="dropdown">
@@ -50,13 +52,12 @@
          <div id="marker-div">
          Availability
              <ul>
-                 <li><img class="marker" src="/static/images/nobikes.png">0%</li>
-                 <li><img class="marker" src="/static/images/marker1.png">10%</li>
-                 <li><img class="marker" src="/static/images/marker2.png">30%</li>
-                 <li><img class="marker" src="/static/images/marker3.png">50%</li>
-                 <li><img class="marker" src="/static/images/marker4.png">80%</li>
-                 <li><img class="marker" src="/static/images/marker5.png">100%</li>
-                 <li><img class="marker" src="/static/images/current.png">Current location</li>
+                 <li><img src="/static/images/nobikes.png">0%</li>
+                 <li><img src="/static/images/marker1.png">10%</li>
+                 <li><img src="/static/images/marker2.png">30%</li>
+                 <li><img src="/static/images/marker3.png">50%</li>
+                 <li><img src="/static/images/marker4.png">80%</li>
+                 <li><img src="/static/images/marker5.png">100%</li>
              </ul>
          </div>
          <div id="map-div"></div>
