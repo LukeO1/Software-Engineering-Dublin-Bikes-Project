@@ -1,6 +1,3 @@
-/**
- * Created by Nikki on 03/04/2017.
- */
 
 var map;
 // Create a new blank array for all the listing markers.
@@ -83,8 +80,6 @@ function myMap() {
                 default:
                     varIcon = '/static/images/marker5.png';
             }
-
-
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(latPos, lngPos),
                 title: title,
@@ -108,9 +103,6 @@ function myMap() {
 
             markers.push(marker);
         }
-
-
-        // console.log(markers[3].title);
         var bounds = new google.maps.LatLngBounds();
         // Extend the boundaries of the map for each marker and display the marker
         for (var i = 0; i < markers.length; i++) {
@@ -189,8 +181,6 @@ function showCurrentLocation() {
             });
             map.setCenter(pos);
             currentMarker.setMap(map);
-            // bounds.extend(currentMarker.position);
-
         }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
         });
@@ -200,28 +190,21 @@ function showCurrentLocation() {
     }
 }
 
-
 //This function Filters the dropdown menu for the search bar
-        function searchFunction() {
-            var input, filter, ul, li, a, i;
-            input = document.getElementById("search-box");
-            filter = input.value.toUpperCase();
-            ul = document.getElementById("dropdown-list");
-            li = ul.getElementsByTagName("li");
-            for (i = 0; i < li.length; i++) {
-                a = li[i].getElementsByTagName("a")[0];
-                if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                    li[i].style.display = "";
-                } else {
-                    li[i].style.display = "none";
-                }
-            }
+function searchFunction() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("search-box");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("dropdown-list");
+    li = ul.getElementsByTagName("li");
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
         }
+    }
+}
 
-        $(".dropdown-content").on('click', function () {
-            $('div ul').toggle('');
-        });
-        $('. > li div ul li a').click(function (e) {
-            e.stopPropagation();
-        });
 
