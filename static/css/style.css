@@ -1,3 +1,18 @@
+/**********************TITLE*****************************/
+.title{
+    padding-top: 5px;
+    background-color: white;
+}
+
+.title img{
+    background-color: white;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    height: 80px;
+}
+
 /**********************BODY*****************************/
 html{
     font-family: 'Droid Sans', sans-serif;
@@ -26,7 +41,7 @@ nav ul{
     margin: 0;
 }
 nav ul li{
-    font-size: 1em;
+    font-size: 0.8em;
     display: inline;
     line-height: 20px;
     height: 30px;
@@ -114,7 +129,7 @@ nav ul li a{
 /*****************************GOOGLE MAP***********************/
 #map-div{
     display: block;
-    height: 400px;
+    height: 320px;
     width: 100%;
 }
 /****************************Images*********************/
@@ -202,6 +217,7 @@ nav ul li a{
 }
 
 #marker-div ul li{
+    text-align: center;
     list-style-type: none;
 
 }
