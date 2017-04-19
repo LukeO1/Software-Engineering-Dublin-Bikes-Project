@@ -1,6 +1,7 @@
 from flask import Flask, g, jsonify, render_template
 from sqlalchemy import create_engine
 import pandas
+import sqlalchemy
 import numpy
 
 app = Flask(__name__, static_url_path='')
@@ -17,6 +18,8 @@ def get_db():
 @app.route('/detailed/<string:station_name>')
 def get_occupancy(station_name):
     engine = get_db()
+    query = "SELECT * from static_information where name = '%s'" % station_name
+    number = engine.execute(query)
     #number = engine.execute("SELECT number from static_information where")
     df = pandas.read_sql_query("SELECT available_bike_stands, available_bikes, last_update from station_info where name=%(name)s and status='OPEN' order by last_update DESC", engine, params={'name':station_name})
     df.set_index('last_update', inplace=True)
@@ -26,7 +29,7 @@ def get_occupancy(station_name):
     df['day_of_week'] = df['last_update'].dt.weekday_name
     #df['last_update'] = df.index
     x = df.to_html(classes='station')
-    return x
+    return number
     #return render_template('index.html', data=data)
 
 @app.route('/')

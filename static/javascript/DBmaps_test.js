@@ -116,6 +116,18 @@ function myMap() {
     document.getElementById('show-listings').addEventListener('click', showListings);
     document.getElementById('hide-listings').addEventListener('click', hideListings);
 
+//    Possible extra, get the weather icon from open weather api
+//    $.getJSON("/weather", function (status) {
+//        console.log(status)
+//        $.getJSON("/weather/icons", function (status2){
+//            console.log(status2)
+//            for (var key in myArr){
+//                console.log(key);
+//            }
+//        })
+//    }).fail(function (msg) {
+//        console.log('failed', msg);
+//    });
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
