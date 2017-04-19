@@ -49,8 +49,10 @@
      </nav>
 
      <div class="center-wrapper">
-         <div id="weather-div">Weather info here
-            <p id="result">? °</p>
+         <div id="weather-div" onload="getIcon('{{data3}}')">
+            <p>Temp: {{data3[1]}}º</p>
+            <p>Wind Speed: {{data3[2]}}km/h</p>
+            <p>Status: {{data3[0]}}</p>
          </div>
          <div id="marker-div">
          Availability
