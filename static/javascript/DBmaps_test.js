@@ -4,7 +4,7 @@ var markers = [];
 var dynamic_data = [];
 function setDynamicData(data){
     dynamic_data.push(data);
-    console.log("arary", dynamic_data)
+    // console.log("arary", dynamic_data)
 }
 
 function myMap() {
@@ -27,6 +27,7 @@ function myMap() {
     $.getJSON("/station/static", function (data) {
         $.getJSON("/station/dynamic", function (dyndata) {
            renderHTML(data, dyndata);
+           EuclidianLocation(data, dyndata);
            map.setZoom(13)
         })
     }).fail(function (msg) {
@@ -101,6 +102,7 @@ function myMap() {
             });
 
             markers.push(marker);
+
         }
         var bounds = new google.maps.LatLngBounds();
         // Extend the boundaries of the map for each marker and display the marker
@@ -166,29 +168,64 @@ function zoomfocus(station) {
     }
 }
 
-function EuclidianLocation() {
+function EuclidianLocation(bikeObj, dynObj) {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-            map.setZoom(14);
-            var currentMarker = new google.maps.Marker({
-                position: new google.maps.LatLng(pos),
-                icon: "/static/images/current.png",
-                animation: google.maps.Animation.DROP
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                map.setZoom(14);
+
+                var min = 10000000000000000;
+                var closestStation = "";
+                var PI = Math.PI;
+                // Calculation to find the distance between each station and the users location
+                for (var i = 0; i < bikeObj.length; i++) {
+                    var R = 6371e3; //  radius of the earth in metres
+                    var φ1 = pos.lat * (PI / 180);
+                    // console.log(bikeObj[i].position_lat);
+                    var φ2 = bikeObj[i].position_lat * (PI / 180);
+                    var Δφ = (bikeObj[i].position_lat- pos.lat) * (PI / 180);
+                    var Δλ = (bikeObj[i].position_lng- pos.lng) * (PI / 180);
+
+                    var a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                        Math.cos(φ1) * Math.cos(φ2) *
+                        Math.sin(Δλ/2) * Math.sin(Δλ/2);
+                    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+                    var d = R * c;
+
+                    if(d < min){
+                        min = d;
+                        closestStation = bikeObj[i].name;
+                        closestlat = bikeObj[i].position_lat;
+                        closestlng = bikeObj[i].position_lng;
+                        // console.log(closestStation);
+                    }
+
+                }
+                var closestpos = {
+                    lat: closestlat,
+                    lng: closestlng
+                };
+
+                var currentMarker = new google.maps.Marker({
+                    position: new google.maps.LatLng(closestpos),
+                    icon: "/static/images/current.png",
+                    animation: google.maps.Animation.DROP
+                });
+                map.setCenter(closestpos);
+                currentMarker.setMap(map);
+
+                // return closestStation;
+            }, function () {
+                handleLocationError(true, infoWindow, map.getCenter());
             });
-            map.setCenter(pos);
-            currentMarker.setMap(map);
-        }, function () {
-            handleLocationError(true, infoWindow, map.getCenter());
-        });
-    } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
     }
-}
 
 
 function showCurrentLocation() {
@@ -249,3 +286,6 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
 function deg2rad(deg) {
       return deg * (Math.PI/180)
     }
+
+
+
