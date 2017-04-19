@@ -146,7 +146,7 @@ function hideListings() {
 
 //This function receives a station from the dropdown menu and zooms in on it
 function zoomfocus(station) {
-    console.log('Hello');
+    //console.log('Hello');
     //Checks what the current icon is for the station
     for (var i = 0; i < markers.length; i++) {
         if (markers[i].icon == "/static/images/custom-marker-current.png") {
