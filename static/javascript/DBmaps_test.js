@@ -1,4 +1,3 @@
-
 var map;
 // Create a new blank array for all the listing markers.
 var markers = [];
@@ -206,31 +205,3 @@ function searchFunction() {
         }
     }
 }
-
-
-//function getWeather(){
-//    var api_key = '51a2aeb31f24d602a541c80f16dd31e5';
-//    results.loadhtml('http://api.openweathermap.org/data/2.5/weather?q=Dublin,Ireland' + api_key);
-//
-//
-//}
-
-$(document).ready(function () {
-        var api_key = '51a2aeb31f24d602a541c80f16dd31e5';
-        var api_url = 'http://api.openweathermap.org/data/2.5/weather?q=Dublin,Ireland' + api_key;
-
-        $.ajax({
-          url : api_url,
-          method : 'GET',
-          success : function (data) {
-            console.log(data);
-            var temp = data.main.temp;
-            var location = data.name;
-            var desc = data.weather.description;
-
-            $('#result').text(temp + '°' + location);
-          }
-        });
-     }) else {
-    alert('Your browser doesnt support geolocation. Sorry.');
-  };
