@@ -113,7 +113,7 @@ function myMap() {
     }
 
     document.getElementById('location-button').addEventListener('click', showCurrentLocation);
-    document.getElementById('Eloc-button').addEventListener('click', EuclidianLocation);
+    document.getElementById('eloc-button').addEventListener('click', EuclidianLocation);
     document.getElementById('show-listings').addEventListener('click', showListings);
     document.getElementById('hide-listings').addEventListener('click', hideListings);
 
