@@ -190,8 +190,8 @@ function EuclidianLocation() {
                 lng: position.coords.longitude
             };
             map.setZoom(13);
-            console.log(markers[0].getPosition().lat());
-            console.log(markers[0].getPosition().lng());
+            // console.log(markers[0].getPosition().lat());
+            // console.log(markers[0].getPosition().lng());
             var min = 10000000000000000;
             var closestStation = "";
             var PI = Math.PI;
@@ -213,41 +213,59 @@ function EuclidianLocation() {
 
                 if (d < min) {
                     min = d;
-                    // closestStation = bikeObj[i].name;
+                    // closestStation = markers[i].getName();
                     closestlat = markers[i].getPosition().lat();
                     closestlng = markers[i].getPosition().lng();
                     closestmarker = markers[i];
+                    // console.log(markers[i]);
                     // console.log(closestStation);
                 }
 
             }
-            var closestpos = {
-                lat: closestlat,
-                lng: closestlng
-            };
-            var closestmarker = new google.maps.Marker({
-                position: new google.maps.LatLng(closestpos),
-                icon: "/static/images/custom-marker-current.png",
-                animation: google.maps.Animation.DROP
-            });
-            google.maps.event.addListener(marker, 'mouseover', function () {
-                closestmarker.info.open(map, closestmarker);
-            });
-            google.maps.event.addListener(marker, 'mouseout', function () {
-                closestmarker.info.close();
-            });
-            map.setCenter(closestpos);
-            closestmarker.setMap(map);
 
-
-            // return closestStation;
-        }, function () {
-            handleLocationError(true, infoWindow, map.getCenter());
+        var info = '<p><b>Address: </b>' + closestmarker.address + '<br>' + '<b>Available Bikes:</b> ' + closestmarker.availBikes + '<br>' + '<b>Free Stands:</b> ' + closestmarker.availBikeStands + '</p>'
+        var infowindow = new google.maps.InfoWindow({
+            content: info
         });
-    } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
+
+        var closestpos = {
+            lat: closestlat,
+            lng: closestlng
+        };
+        var closestmarker = new google.maps.Marker({
+            position: new google.maps.LatLng(closestpos),
+            icon: "/static/images/custom-marker-current.png",
+            animation: google.maps.Animation.DROP
+        });
+        closestmarker.addListener('mouseover', function () {
+            infowindow.open(map, closestmarker);
+        });
+
+        map.setCenter(closestpos);
+        closestmarker.setMap(map);
+//             new google.maps.InfoWindow({content: '<p><b>Address: </b>' + closestmarker.address + '<br>' + '<b>Available Bikes:</b> ' + closestmarker.availBikes + '<br>' + '<b>Free Stands:</b> ' + closestmarker.availBikeStands + '</p>'});
+//
+//             google.maps.event.addListener(closestmarker, 'mouseover', function () {
+//                 infowindow.open(map, this);
+//             });
+//
+// // assuming you also want to hide the infowindow when user mouses-out
+//             google.maps.event.addListener(closestmarker, 'mouseout', function () {
+//                 infowindow.close();
+//             });
+
+        // return closestStation;
+    },
+    function() {
+        handleLocationError(true, infoWindow, map.getCenter());
     }
+
+);
+} else
+{
+    // Browser doesn't support Geolocation
+    handleLocationError(false, infoWindow, map.getCenter());
+}
 }
 
 
