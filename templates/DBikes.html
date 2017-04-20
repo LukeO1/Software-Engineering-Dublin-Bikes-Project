@@ -64,14 +64,16 @@
 </div>
 
 <div id="main">
-  <span id= weatherInfo style="font-size:15px;cursor:pointer" onclick="openNav()"><img src=/static/images/weather.png></span>
+    <span id= weatherInfo style="font-size:15px;cursor:pointer" onclick="openNav()"><img src=/static/images/weather.png></span>
+    <span id= chartInfo style="font-size:30px;cursor:pointer" onclick="openNav2()"><img src=/static/images/graphicon.png></span>
     <div id="map-div"></div>
     <div id="legend"><h3>Availability</h3></div>
 </div>
 </div>
 
-
+<div id="googleChartBottom" class="bottomNav">
 <div id="chart-wrapper">
+    <a href="javascript:void(0)" class="closebtn2" onclick="closeNav2()">&times;</a>
     <div id="chart-div1"></div>
     <div id="chart-div2"></div>
     <div id="chart-div3"></div>

@@ -172,8 +172,16 @@ function myMap() {
 
     map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
 
+    //weather icon on the map!!
+
     var weatherInfo = document.getElementById('weatherInfo');
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(weatherInfo);
+
+
+    //chart icon on the map!!
+
+    var chartInfo = document.getElementById('chartInfo');
+    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(chartInfo);
 
 
     //********* LEG END *******
@@ -407,7 +415,14 @@ function openNav() {
     document.getElementById("main").style.marginLeft = "250px";
 }
 
+//*********************** GOOGLECHARTS BOTTOM ************************************//
 
+function openNav2() {
+    document.getElementById("googleChartBottom").style.height = "250px";
+}
+function closeNav2() {
+    document.getElementById("googleChartBottom").style.height = "0";
+}
 /******************************GOOGLECHARTS*******************************/
 
 //google.charts.load('current', {packages: ['corechart']});

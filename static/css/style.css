@@ -61,6 +61,7 @@ nav ul li a{
 }
 /***********************SEARCH BAR***************************/
 #search-box[type=text] {
+
     width: 130px;
     box-sizing: border-box;
     border: 2px solid #ccc;
@@ -74,6 +75,7 @@ nav ul li a{
     -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
 }
+
 #search-box[type=text]:focus {
     width: 100%;
 }
@@ -325,4 +327,44 @@ nav ul li a{
 #main {
     transition: margin-left .5s;
     padding: 16px;
+}
+
+/****************************** GOOGLECHARTS BOTTOM **************************************/
+
+.bottomNav {
+    height: 0%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    bottom: 0;
+    background-color: #111;
+    opacity: 0.7;
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+chart-div1, chart-div2, chart-div3  {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.bottomNav a:hover, .offcanvas a:focus{
+    color: #f1f1f1;
+}
+
+.bottomNav .closebtn2 {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .bottomNav {padding-top: 15px;}
+  .bottomNav a {font-size: 18px;}
 }
