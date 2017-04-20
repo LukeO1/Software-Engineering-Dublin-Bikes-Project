@@ -195,21 +195,24 @@ nav ul li a{
 /**************************GOOGLE CHARTS*************************************/
 #chart-wrapper{
     width: 100%;
-    margin: 0px;;
+    margin: 0px;
+    height: 400px;
 }
 #chart-div1{
     float: left;
-    width: 33.3%;
+    width: 50%;
+    height: 100%;
 }
 #chart-div2{
     display: inline-block;
-    width: 33.3%;
+    width: 50%;
+    height: 100%;
 
 }
 #chart-div3{
     float: right;
     width: 33.4%;
-}
+}*/
 
 /*******************WEATHER INFO DIV*******************************************/
 #center-wrapper{

@@ -58,7 +58,7 @@ def get_station():
     """
     res = engine.execute(sql).fetchall()
     # return "this is station {} {}".format(station_id, engine)
-    print(res)
+    # print(res)
     return jsonify([dict(row.items()) for row in res])
 
 @app.route("/station/dynamic")
@@ -72,7 +72,7 @@ def get_dynamic():
     """
     res = engine.execute(sql).fetchall()
     # return "this is station {} {}".format(station_id, engine)
-    print(res)
+    # print(res)
     return jsonify([dict(row.items()) for row in res])
 
 @app.route("/station/<name>")
@@ -85,8 +85,21 @@ def get_dynamic2(name):
     # df['last_update_date'] = pd.to_datetime(df.last_update, unit ='ms')
     # df.set_index('last_update_date', inplace=True)
     # res = engine.execute(sql)
-    print(df)
+    #print(df)
     return jsonify(df.to_dict())
+
+@app.route("/chartDayView/<string:name>")
+def get_DayInfo(name):
+    engine = get_db()
+    sql = "select unix_timestamp(sec_to_time(time_to_sec(last_update)- time_to_sec(last_update)%%(60*60))) as intervals, round(avg(available_bike_stands), 0) as available_bike_stands, round(avg(available_bikes), 0) as available_bikes from station_info where DAYOFWEEK(last_update) = 1 and name = '" + name + "' group by intervals;"
+    res = engine.execute(sql).fetchall()
+    data = []
+    for row in res:
+        data.append(dict(row))
+    for i in range(0, len(data)):
+        data[i]['available_bikes'] = int(data[i]['available_bikes'])
+        data[i]['available_bike_stands'] = int(data[i]['available_bike_stands'])
+    return jsonify(data)
 
 @app.route("/weather")
 def get_weather():
@@ -104,6 +117,7 @@ def get_weather():
     # sunrise1 = w.get_sunrise_time('iso')
     # sunset1 = w.get_sunset_time('iso')
     return jsonify(detailed_status1) #jsonify(observation.to_dict())
+
 
 # @app.route("/weather/icons")
 # def get_icons():

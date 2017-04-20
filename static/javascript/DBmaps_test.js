@@ -1,7 +1,10 @@
+
 var map;
 // Create a new blank array for all the listing markers.
 var markers = [];
 var dynamic_data = [];
+
+
 function setDynamicData(data) {
     dynamic_data.push(data);
     // console.log("arary", dynamic_data)
@@ -26,8 +29,12 @@ function myMap() {
 
     $.getJSON("/station/static", function (data) {
         $.getJSON("/station/dynamic", function (dyndata) {
-            renderHTML(data, dyndata);
-            map.setZoom(13)
+           console.log('Testing')
+           renderHTML(data, dyndata);
+           EuclidianLocation(data, dyndata);
+
+           map.setZoom(13)
+
         })
     }).fail(function (msg) {
         console.log('failed', msg);
@@ -99,6 +106,16 @@ function myMap() {
             google.maps.event.addListener(marker, 'mouseout', function () {
                 this.info.close();
             });
+            google.maps.event.addListener(marker, 'click', function() {
+                console.log(this.title);
+                var url_Day = "/chartDayView/" + this.title;
+//                console.log(url_Day)
+                $.getJSON(url_Day, function(dayData) {
+                    console.log('IMMA HERE in the event handler')
+                    googleCharts(dayData);
+                })
+                //googleCharts(this.);
+            });
 
             markers.push(marker);
 
@@ -165,6 +182,10 @@ function myMap() {
     document.getElementById('eloc-button').addEventListener('click', EuclidianLocation);
     document.getElementById('show-listings').addEventListener('click', showListings);
     document.getElementById('hide-listings').addEventListener('click', hideListings);
+
+    //Code to run the charts
+    google.charts.load('current', {packages: ['corechart']});
+
 
 //    Possible extra, get the weather icon from open weather api
 //    $.getJSON("/weather", function (status) {
@@ -356,14 +377,110 @@ function searchFunction() {
     }
 }
 
+
+function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+      var R = 6371; // Radius of the earth in km
+      var dLat = deg2rad(lat2-lat1);  // deg2rad below
+      var dLon = deg2rad(lon2-lon1);
+      var a =
+        Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon/2) * Math.sin(dLon/2)
+        ;
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      var d = R * c; // Distance in km
+      return d;
+    }
+
+function deg2rad(deg) {
+      return deg * (Math.PI/180)
+}
+
+
 //*********************** WEATHER SIDE ************************************//
+
 
 function openNav() {
     document.getElementById("weather-div").style.width = "250px";
     document.getElementById("main").style.marginLeft = "250px";
 }
 
+
+/******************************GOOGLECHARTS*******************************/
+
+//google.charts.load('current', {packages: ['corechart']});
+//google.charts.setOnLoadCallback(drawChart_bike);
+
+function googleCharts(dyndata){
+    console.log('inside google charts')
+    console.log(dyndata)
+    google.charts.setOnLoadCallback(drawChart_bike(dyndata));
+    google.charts.setOnLoadCallback(drawChart_stand(dyndata));
+}
+
+function drawChart_bike(dyndata){
+    console.log('Inside drawchart_bike, draws the map')
+
+    var table_Data = new google.visualization.DataTable();
+
+    table_Data.addColumn('datetime', 'Time');
+    table_Data.addColumn('number', 'Bikes Available');
+
+   ;
+    console.log("Checking index - of interval", dyndata[0].intervals*1000)
+    for ( var i=0; i < dyndata.length; i++){
+         table_Data.addRow([new Date(dyndata[i].intervals*1000), dyndata[i].available_bikes]);
+    }
+
+
+    var options = {
+        title:'Data from last Week',
+        vAxis: {title: 'Availability'},
+        hAxis: {title: 'Time of Day'},
+        seriesType: 'bars',
+//        series: {5: {type: 'line'}}
+    };
+
+    var chart = new google.visualization.ComboChart(document.getElementById('chart-div1'));
+    chart.draw(table_Data, options);
+
+}
+
+
+function drawChart_stand(dyndata){
+    console.log('Inside drawchart_bike, draws the map')
+
+    var table_Data = new google.visualization.DataTable();
+
+    table_Data.addColumn('datetime', 'Time');
+    table_Data.addColumn('number', 'Bikes Stands Available');
+
+   ;
+    console.log("Checking index - of interval", dyndata[0].intervals*1000)
+    for ( var i=0; i < dyndata.length; i++){
+         table_Data.addRow([new Date(dyndata[i].intervals*1000), dyndata[i].available_bike_stands]);
+    }
+
+
+    var options = {
+        title:'Data from last Week',
+        vAxis: {title: 'Availability'},
+        hAxis: {title: 'Time of Day'},
+        seriesType: 'bars',
+//        series: {5: {type: 'line'}}
+    };
+
+    var chart = new google.visualization.ComboChart(document.getElementById('chart-div2'));
+    chart.draw(table_Data, options);
+
+}
+
+
+
+
+
 function closeNav() {
     document.getElementById("weather-div").style.width = "0";
     document.getElementById("main").style.marginLeft= "0";
 }
+
