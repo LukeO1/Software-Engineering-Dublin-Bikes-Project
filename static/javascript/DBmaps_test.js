@@ -1,7 +1,9 @@
+
 var map;
 // Create a new blank array for all the listing markers.
 var markers = [];
 var dynamic_data = [];
+
 function setDynamicData(data){
     dynamic_data.push(data);
     // console.log("arary", dynamic_data)
@@ -26,8 +28,10 @@ function myMap() {
 
     $.getJSON("/station/static", function (data) {
         $.getJSON("/station/dynamic", function (dyndata) {
+           console.log('Testing')
            renderHTML(data, dyndata);
            EuclidianLocation(data, dyndata);
+           googleCharts(data, dyndata);
            map.setZoom(13)
         })
     }).fail(function (msg) {
@@ -100,6 +104,17 @@ function myMap() {
             google.maps.event.addListener(marker, 'mouseout', function() {
                 this.info.close();
             });
+            google.maps.event.addListener(marker, 'click', function() {
+                console.log(this.title);
+                var url_Day = "/chartDayView/" + this.title;
+                console.log(url_Day)
+                $.getJSON(url_Day, function(dayData) {
+                    console.log('IMMA HERE')
+                    console.log(dayData)
+                //googleCharts(data, dayData);
+                })
+                //googleCharts(this.);
+            });
 
             markers.push(marker);
 
@@ -118,6 +133,9 @@ function myMap() {
     document.getElementById('eloc-button').addEventListener('click', EuclidianLocation);
     document.getElementById('show-listings').addEventListener('click', showListings);
     document.getElementById('hide-listings').addEventListener('click', hideListings);
+
+    //Code to run the charts
+    google.charts.load('current', {packages: ['corechart']});
 
 }
 
@@ -285,7 +303,63 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
 
 function deg2rad(deg) {
       return deg * (Math.PI/180)
-    }
+}
 
 
+
+
+
+/******************************GOOGLECHARTS*******************************/
+
+//google.charts.load('current', {packages: ['corechart']});
+//google.charts.setOnLoadCallback(drawChart_PerDay);
+
+function googleCharts(data, dyndata){
+    console.log('inside google charts')
+    console.log(dyndata)
+    google.charts.setOnLoadCallback(drawChart_PerDay(data, dyndata));
+}
+
+function drawChart_PerDay(data, dyndata){
+    console.log('Inside Perday')
+
+
+//    var data = new google.visualization.DataTable({
+//     cols: [{id: 'Time', label: 'Time of Day', type: 'date'},
+//            {id: 'Bikes available', label: 'Bikes Available', type: 'number'}],
+//
+//     rows: [{
+//
+//     for (var i=0; i < dyndata.length; i++){
+//        c:[{v: new Date(dyndata[i].h)}, {v: dyndata[i].available_bikes}]},
+//      }]
+//     }
+//    )
+
+
+//    var data = google.visualization.arrayToDataTable(dyndata);
+//    for ( var i=0; i < dyndata.length; i++){};
+
+    var table_Data = new google.visualization.DataTable();
+
+    table_Data.addColumn('date', 'Time');
+    table_Data.addColumn('number', 'Bikes Available');
+
+//    for ( var i=0; i < dyndata.length; i++){
+//        table_Data.addRow([new Date(dyndata[i].h), dyndata[i].available_bikes]);
+//    }
+
+    var options = {
+        title:'Data from last Week',
+        vAxis: {title: 'Availability'},
+        hAxis: {title: 'Time of Day'},
+        seriesType: 'bars',
+//        series: {5: {type: 'line'}}
+    };
+
+    // Instantiate and draw the chart for Anthony's pizza.
+    var chart = new google.visualization.ComboChart(document.getElementById('chart-div1'));
+    chart.draw(table_Data, options);
+
+}
 

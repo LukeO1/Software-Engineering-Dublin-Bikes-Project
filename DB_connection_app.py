@@ -73,9 +73,18 @@ def get_dynamic2(name):
     # df['last_update_date'] = pd.to_datetime(df.last_update, unit ='ms')
     # df.set_index('last_update_date', inplace=True)
     # res = engine.execute(sql)
-    print(df)
+    #print(df)
     return jsonify(df.to_dict())
 
+@app.route("/chartDayView/<string:name>")
+def get_DayInfo(name):
+    engine = get_db()
+    sql = "select avg(available_bike_stands), avg(available_bikes), sec_to_time(time_to_sec(last_update)- time_to_sec(last_update)/(60*60)) as intervals from station_info where DAYOFWEEK(last_update) = 1 and name = '" + name + "' group by intervals;"
+    res = engine.execute(sql).fetchall()
+    # return "this is station {} {}".format(station_id, engine)
+    res = json.dumps(res)
+    print("here:", jsonify([dict(row.items()) for row in res]))
+    return jsonify([dict(row.items()) for row in res])
 
 
 if __name__ == "__main__":
