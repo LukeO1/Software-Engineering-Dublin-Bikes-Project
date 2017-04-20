@@ -91,12 +91,15 @@ def get_dynamic2(name):
 @app.route("/chartDayView/<string:name>")
 def get_DayInfo(name):
     engine = get_db()
-    sql = "select avg(available_bike_stands), avg(available_bikes), sec_to_time(time_to_sec(last_update)- time_to_sec(last_update)%(60*60)) as intervals from station_info where DAYOFWEEK(last_update) = 1 and name = '" + name + "' group by intervals;"
+    sql = "select unix_timestamp(sec_to_time(time_to_sec(last_update)- time_to_sec(last_update)%%(60*60))) as intervals, round(avg(available_bike_stands), 0) as available_bike_stands, round(avg(available_bikes), 0) as available_bikes from station_info where DAYOFWEEK(last_update) = 1 and name = '" + name + "' group by intervals;"
     res = engine.execute(sql).fetchall()
-    # return "this is station {} {}".format(station_id, engine)
-    res = json.dumps(res)
-    # print("here:", jsonify([dict(row.items()) for row in res]))
-    return jsonify([dict(row.items()) for row in res])
+    data = []
+    for row in res:
+        data.append(dict(row))
+    for i in range(0, len(data)):
+        data[i]['available_bikes'] = int(data[i]['available_bikes'])
+        data[i]['available_bike_stands'] = int(data[i]['available_bike_stands'])
+    return jsonify(data)
 
 @app.route("/weather")
 def get_weather():

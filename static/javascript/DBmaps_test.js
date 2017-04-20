@@ -32,7 +32,7 @@ function myMap() {
            console.log('Testing')
            renderHTML(data, dyndata);
            EuclidianLocation(data, dyndata);
-           googleCharts(data, dyndata);
+//           googleCharts(data, dyndata);
            map.setZoom(13)
 
         })
@@ -111,9 +111,9 @@ function myMap() {
                 var url_Day = "/chartDayView/" + this.title;
                 console.log(url_Day)
                 $.getJSON(url_Day, function(dayData) {
-                    console.log('IMMA HERE')
-                    console.log(dayData)
-                //googleCharts(data, dayData);
+                    console.log('IMMA HERE in the event handler')
+//                    console.log(dayData)
+                    googleCharts(dayData);
                 })
                 //googleCharts(this.);
             });
@@ -412,40 +412,26 @@ function openNav() {
 //google.charts.load('current', {packages: ['corechart']});
 //google.charts.setOnLoadCallback(drawChart_PerDay);
 
-function googleCharts(data, dyndata){
+function googleCharts(dyndata){
     console.log('inside google charts')
     console.log(dyndata)
-    google.charts.setOnLoadCallback(drawChart_PerDay(data, dyndata));
+    google.charts.setOnLoadCallback(drawChart_PerDay(dyndata));
 }
 
-function drawChart_PerDay(data, dyndata){
-    console.log('Inside Perday')
-
-
-//    var data = new google.visualization.DataTable({
-//     cols: [{id: 'Time', label: 'Time of Day', type: 'date'},
-//            {id: 'Bikes available', label: 'Bikes Available', type: 'number'}],
-//
-//     rows: [{
-//
-//     for (var i=0; i < dyndata.length; i++){
-//        c:[{v: new Date(dyndata[i].h)}, {v: dyndata[i].available_bikes}]},
-//      }]
-//     }
-//    )
-
-
-//    var data = google.visualization.arrayToDataTable(dyndata);
-//    for ( var i=0; i < dyndata.length; i++){};
+function drawChart_PerDay(dyndata){
+    console.log('Inside drawchart_Perday, draws the map')
 
     var table_Data = new google.visualization.DataTable();
 
-    table_Data.addColumn('date', 'Time');
+    table_Data.addColumn('datetime', 'Time');
     table_Data.addColumn('number', 'Bikes Available');
 
-//    for ( var i=0; i < dyndata.length; i++){
-//        table_Data.addRow([new Date(dyndata[i].h), dyndata[i].available_bikes]);
-//    }
+   ;
+    console.log("Checking index - of interval", dyndata[0].intervals*1000)
+    for ( var i=0; i < dyndata.length; i++){
+         table_Data.addRow([new Date(dyndata[i].intervals*1000), dyndata[i].available_bikes]);
+    }
+
 
     var options = {
         title:'Data from last Week',
@@ -455,7 +441,6 @@ function drawChart_PerDay(data, dyndata){
 //        series: {5: {type: 'line'}}
     };
 
-    // Instantiate and draw the chart for Anthony's pizza.
     var chart = new google.visualization.ComboChart(document.getElementById('chart-div1'));
     chart.draw(table_Data, options);
 
