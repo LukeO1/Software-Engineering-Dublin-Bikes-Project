@@ -4,7 +4,8 @@ var map;
 var markers = [];
 var dynamic_data = [];
 
-function setDynamicData(data){
+
+function setDynamicData(data) {
     dynamic_data.push(data);
     // console.log("arary", dynamic_data)
 }
@@ -33,6 +34,7 @@ function myMap() {
            EuclidianLocation(data, dyndata);
            googleCharts(data, dyndata);
            map.setZoom(13)
+
         })
     }).fail(function (msg) {
         console.log('failed', msg);
@@ -42,8 +44,8 @@ function myMap() {
     function renderHTML(bikeObj, dynObj) {
 
         for (var i = 0; i < bikeObj.length; i++) {
-            for(var j = 0; j < dynObj.length; j++){
-                if(bikeObj[i].name == dynObj[j].name){
+            for (var j = 0; j < dynObj.length; j++) {
+                if (bikeObj[i].name == dynObj[j].name) {
                     var availBikes = dynObj[j].available_bikes;
                     //console.log(dynObj[j].available_bikes)
                     var availBikeStands = dynObj[j].available_bike_stands;
@@ -98,10 +100,10 @@ function myMap() {
             });
 
             // Push the marker to our array of markers.
-            google.maps.event.addListener(marker, 'mouseover', function() {
+            google.maps.event.addListener(marker, 'mouseover', function () {
                 this.info.open(map, this);
             });
-            google.maps.event.addListener(marker, 'mouseout', function() {
+            google.maps.event.addListener(marker, 'mouseout', function () {
                 this.info.close();
             });
             google.maps.event.addListener(marker, 'click', function() {
@@ -129,6 +131,54 @@ function myMap() {
 
     }
 
+// ********************** LEGEND ***************
+
+
+    var icons = {
+        '0': {
+            name: '0%',
+            icon: '/static/images/nobikes.png'
+        },
+        '1': {
+            name: '< 10%',
+            icon: '/static/images/marker1.png'
+        },
+        '2': {
+            name: '< 30%',
+            icon: '/static/images/marker2.png'
+        },
+        '3': {
+            name: '< 50%',
+            icon: '/static/images/marker3.png'
+        },
+        '4': {
+            name: '< 80%',
+            icon: '/static/images/marker4.png'
+        },
+        '5': {
+            name: '< 100%',
+            icon: '/static/images/marker5.png'
+        }
+    };
+
+    var legend = document.getElementById('legend');
+    for (var key in icons) {
+        var type = icons[key];
+        var name = type.name;
+        var icon = type.icon;
+        var div = document.createElement('div');
+        div.innerHTML = '<img src="' + icon + '"> ' + name;
+        legend.appendChild(div);
+    }
+
+    map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
+
+    var weatherInfo = document.getElementById('weatherInfo');
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(weatherInfo);
+
+
+    //********* LEG END *******
+
     document.getElementById('location-button').addEventListener('click', showCurrentLocation);
     document.getElementById('eloc-button').addEventListener('click', EuclidianLocation);
     document.getElementById('show-listings').addEventListener('click', showListings);
@@ -137,6 +187,19 @@ function myMap() {
     //Code to run the charts
     google.charts.load('current', {packages: ['corechart']});
 
+
+//    Possible extra, get the weather icon from open weather api
+//    $.getJSON("/weather", function (status) {
+//        console.log(status)
+//        $.getJSON("/weather/icons", function (status2){
+//            console.log(status2)
+//            for (var key in myArr){
+//                console.log(key);
+//            }
+//        })
+//    }).fail(function (msg) {
+//        console.log('failed', msg);
+//    });
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -153,6 +216,8 @@ function showListings() {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(map);
         bounds.extend(markers[i].position);
+        // console.log(markers[i].position);
+
     }
     map.fitBounds(bounds);
 }
@@ -186,64 +251,90 @@ function zoomfocus(station) {
     }
 }
 
-function EuclidianLocation(bikeObj, dynObj) {
+function EuclidianLocation() {
+    var closestPosition;
     if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                var pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
-                map.setZoom(14);
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            map.setZoom(13);
+            // console.log(markers[0].getPosition().lat());
+            // console.log(markers[0].getPosition().lng());
+            var min = 10000000000000000;
+            var closestStation = "";
+            var PI = Math.PI;
+            // Calculation to find the distance between each station and the users location
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(null);
+                var R = 6371e3; //  radius of the earth in metres
+                var φ1 = pos.lat * (PI / 180);
+                // console.log(bikeObj[i].position_lat);
+                var φ2 = markers[i].getPosition().lat() * (PI / 180);
+                var Δφ = (markers[i].getPosition().lat() - pos.lat) * (PI / 180);
+                var Δλ = (markers[i].getPosition().lng() - pos.lng) * (PI / 180);
 
-                var min = 10000000000000000;
-                var closestStation = "";
-                var PI = Math.PI;
-                // Calculation to find the distance between each station and the users location
-                for (var i = 0; i < bikeObj.length; i++) {
-                    var R = 6371e3; //  radius of the earth in metres
-                    var φ1 = pos.lat * (PI / 180);
-                    // console.log(bikeObj[i].position_lat);
-                    var φ2 = bikeObj[i].position_lat * (PI / 180);
-                    var Δφ = (bikeObj[i].position_lat- pos.lat) * (PI / 180);
-                    var Δλ = (bikeObj[i].position_lng- pos.lng) * (PI / 180);
+                var a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+                    Math.cos(φ1) * Math.cos(φ2) *
+                    Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                var d = R * c;
 
-                    var a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
-                        Math.cos(φ1) * Math.cos(φ2) *
-                        Math.sin(Δλ/2) * Math.sin(Δλ/2);
-                    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-                    var d = R * c;
-
-                    if(d < min){
-                        min = d;
-                        closestStation = bikeObj[i].name;
-                        closestlat = bikeObj[i].position_lat;
-                        closestlng = bikeObj[i].position_lng;
-                        // console.log(closestStation);
-                    }
-
+                if (d < min) {
+                    min = d;
+                    // closestStation = markers[i].getName();
+                    closestlat = markers[i].getPosition().lat();
+                    closestlng = markers[i].getPosition().lng();
+                    closestmarker = markers[i];
+                    closestmarkerPosition = markers[i].position;
+                    // console.log(markers[i]);
+                    // console.log(closestS tation);
                 }
-                var closestpos = {
-                    lat: closestlat,
-                    lng: closestlng
-                };
 
-                var currentMarker = new google.maps.Marker({
-                    position: new google.maps.LatLng(closestpos),
-                    icon: "/static/images/current.png",
-                    animation: google.maps.Animation.DROP
-                });
-                map.setCenter(closestpos);
-                currentMarker.setMap(map);
+            }
 
-                // return closestStation;
-            }, function () {
-                handleLocationError(true, infoWindow, map.getCenter());
+            // var info = '<p><b>Address: </b>' + closestmarker.address + '<br>' + '<b>Available Bikes:</b> ' + closestmarker.availBikes + '<br>' + '<b>Free Stands:</b> ' + closestmarker.availBikeStands + '</p>'
+
+
+            var closestMarker = new google.maps.Marker({
+                position: closestmarkerPosition,
+                map: map,
+                icon: "/static/images/custom-marker-current.png",
+                animation: google.maps.Animation.DROP
             });
-        } else {
-            // Browser doesn't support Geolocation
-            handleLocationError(false, infoWindow, map.getCenter());
-        }
+
+            var content = '<p><b>Address: </b>' + closestmarker.address + '<br>' + '<b>Available Bikes:</b> ' + closestmarker.availBikes + '<br>' + '<b>Free Stands:</b> ' + closestmarker.availBikeStands + '</p>'
+;
+
+            var infowindow = new google.maps.InfoWindow();
+
+            google.maps.event.addListener(closestMarker, 'mouseover', (function (closestMarker, content, infowindow) {
+                return function () {
+                    infowindow.setContent(content);
+                    infowindow.open(map, closestMarker);
+                };
+            })(closestMarker, content, infowindow));
+            google.maps.event.addListener(closestMarker, 'mouseout', (function (closestMarker, content, infowindow) {
+                return function () {
+                    infowindow.close();
+                };
+            })(closestMarker, content, infowindow));
+
+        map.setCenter(closestmarkerPosition);
     }
+,
+    function () {
+        handleLocationError(true, infoWindow, map.getCenter());
+    }
+
+);
+} else
+{
+    // Browser doesn't support Geolocation
+    handleLocationError(false, infoWindow, map.getCenter());
+}
+}
 
 
 function showCurrentLocation() {
@@ -287,6 +378,7 @@ function searchFunction() {
     }
 }
 
+
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
       var R = 6371; // Radius of the earth in km
       var dLat = deg2rad(lat2-lat1);  // deg2rad below
@@ -306,7 +398,13 @@ function deg2rad(deg) {
 }
 
 
+//*********************** WEATHER SIDE ************************************//
 
+
+function openNav() {
+    document.getElementById("weather-div").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+}
 
 
 /******************************GOOGLECHARTS*******************************/
@@ -361,5 +459,10 @@ function drawChart_PerDay(data, dyndata){
     var chart = new google.visualization.ComboChart(document.getElementById('chart-div1'));
     chart.draw(table_Data, options);
 
+}
+
+function closeNav() {
+    document.getElementById("weather-div").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
 }
 

@@ -2,79 +2,82 @@
 <html lang="en">
 <head>
     <title>Project Dublin Bikes</title>
-    <script type= "text/javascript" src="{{ url_for('static',filename='javascript/jquery-3.2.0.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='javascript/jquery-3.2.0.min.js') }}"></script>
     <meta charset="UTF-8">
-    <link rel= "stylesheet" type= "text/css" href= "/static/css/style.css">
-    <script type= "text/javascript" src="{{ url_for('static',filename='javascript/DBmaps_test.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <script type="text/javascript" src="{{ url_for('static',filename='javascript/DBmaps_test.js') }}"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type= "text/javascript" src="{{ url_for('static',filename='javascript/charts.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='javascript/charts.js') }}"></script>
     <link href="https://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet">
- </head>
- <body>
+</head>
+<body>
+
 <div class="title"><img src="/static/images/title.png"></div>
-     <nav>
-         <ul id="nav">
-             <li class="nav-left"><a href="/templates/DBikes.html">Home</a></li>
-             <li class="nav-left"><a id="show-listings">Show</a></li>
-             <li class="nav-left"><a id="hide-listings">Hide Stations</a></li>
-             <!--This is some code for a toggle switch that can be used later on-->
-             <!--<li><div class="onoffswitch">-->
-                    <!--<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="show-listings" checked>-->
-                    <!--<label class="onoffswitch-label" for="show-listings">-->
-                        <!--<span class="onoffswitch-inner"></span>-->
-                        <!--<span class="onoffswitch-switch"></span>-->
-                    <!--</label>-->
-                 <!--</div>-->
-             <!--</li>-->
-             <!--<li class="nav-left"><a >Hide Stations</a></li>-->
-             <!--<li class="nav-left"><input id="search-box" type="text" name="search" placeholder="Search.."></li>-->
-             <li class="nav-right"><button id="eloc-button">
-                 <span>Find Closest Stations</span></button></li>
-             <li class="nav-right"><button style="vertical-align:middle" id="location-button">
-                 <img class="marker" src="/static/images/current.png">
-                 <span>Find My location</span></button></li>
-             <li class="nav-right">
-                 <div class="dropdown">
-                 <input id="search-box" onkeyup="searchFunction()" type="text" name="search" placeholder="Search...">
-                 <div class="dropdown-content">
-                     <ul id="dropdown-list">
-                     {% for row in data %}
-                         <li><a onclick='zoomfocus("{{row.address}}")'>{{row.address}}</a></li>
-                     {% endfor %}
-                     </ul>
-                 </div>
-                 </div>
-             </li>
-         </ul>
-     </nav>
+<nav>
+    <ul id="nav">
+        <li class="nav-left"><a href="/">Home</a></li>
+        <li class="nav-left"><a id="show-listings">Show</a></li>
+        <li class="nav-left"><a id="hide-listings">Hide Stations</a></li>
+        <!--This is some code for a toggle switch that can be used later on-->
+        <!--<li><div class="onoffswitch">-->
+        <!--<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="show-listings" checked>-->
+        <!--<label class="onoffswitch-label" for="show-listings">-->
+        <!--<span class="onoffswitch-inner"></span>-->
+        <!--<span class="onoffswitch-switch"></span>-->
+        <!--</label>-->
+        <!--</div>-->
+        <!--</li>-->
+        <!--<li class="nav-left"><a >Hide Stations</a></li>-->
+        <!--<li class="nav-left"><input id="search-box" type="text" name="search" placeholder="Search.."></li>-->
+        <li class="nav-right">
+            <button id="eloc-button">
+                <span>Find Closest Stations</span></button>
+        </li>
+        <li class="nav-right">
+            <button style="vertical-align:middle" id="location-button">
+                <img class="marker" src="/static/images/current.png">
+                <span>Find My location</span></button>
+        </li>
+        <li class="nav-right">
+            <div class="dropdown">
+                <input id="search-box" onkeyup="searchFunction()" type="text" name="search" placeholder="Search...">
+                <div class="dropdown-content">
+                    <ul id="dropdown-list">
+                        {% for row in data %}
+                            <li><a onclick='zoomfocus("{{ row.address }}")'>{{ row.address }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </li>
+    </ul>
+</nav>
 
-     <div class="center-wrapper">
-         <div id="weather-div">Weather info here
-            <p id="result">? °</p>
-         </div>
-         <div id="marker-div">
-         Availability
-             <ul>
-                 <li><img src="/static/images/nobikes.png">0%</li>
-                 <li><img src="/static/images/marker1.png">< 10%</li>
-                 <li><img src="/static/images/marker2.png">< 30%</li>
-                 <li><img src="/static/images/marker3.png">< 50%</li>
-                 <li><img src="/static/images/marker4.png">< 80%</li>
-                 <li><img src="/static/images/marker5.png">100%</li>
-             </ul>
-         </div>
-         <div id="map-div"></div>
-     </div>
+<div class="center-wrapper">
 
 
+    <div id="weather-div" class="sidenav" onload="getIcon('{{ data3 }}')">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <p>Temp: {{ data3[1] }}º</p>
+    <p>Wind Speed: {{ data3[2] }}km/h</p>
+    <p>Status: {{ data3[0] }}</p>
+</div>
 
-     <div id="chart-wrapper">
-         <div id="chart-div1"></div>
-         <div id="chart-div2"></div>
-         <div id="chart-div3"></div>
-     </div>
- <script async defer
-     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCK2dld8TVzjVCQeM2TPADkVdUr7fiA6KI&v=3&callback=myMap">
- </script>
- </body>
+<div id="main">
+  <span id= weatherInfo style="font-size:15px;cursor:pointer" onclick="openNav()"><img src=/static/images/weather.png></span>
+    <div id="map-div"></div>
+    <div id="legend"><h3>Availability</h3></div>
+</div>
+</div>
+
+
+<div id="chart-wrapper">
+    <div id="chart-div1"></div>
+    <div id="chart-div2"></div>
+    <div id="chart-div3"></div>
+</div>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCK2dld8TVzjVCQeM2TPADkVdUr7fiA6KI&v=3&callback=myMap">
+</script>
+</body>
 </html>
