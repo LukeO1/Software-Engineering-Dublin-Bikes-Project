@@ -200,12 +200,13 @@ nav ul li a{
 }
 #chart-div1{
     float: left;
-    width: 100%;
+    width: 50%;
     height: 100%;
 }
-/*#chart-div2{
+#chart-div2{
     display: inline-block;
-    width: 33.3%;
+    width: 50%;
+    height: 100%;
 
 }
 #chart-div3{

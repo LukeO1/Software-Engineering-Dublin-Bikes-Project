@@ -32,7 +32,7 @@ function myMap() {
            console.log('Testing')
            renderHTML(data, dyndata);
            EuclidianLocation(data, dyndata);
-//           googleCharts(data, dyndata);
+
            map.setZoom(13)
 
         })
@@ -109,10 +109,9 @@ function myMap() {
             google.maps.event.addListener(marker, 'click', function() {
                 console.log(this.title);
                 var url_Day = "/chartDayView/" + this.title;
-                console.log(url_Day)
+//                console.log(url_Day)
                 $.getJSON(url_Day, function(dayData) {
                     console.log('IMMA HERE in the event handler')
-//                    console.log(dayData)
                     googleCharts(dayData);
                 })
                 //googleCharts(this.);
@@ -410,16 +409,17 @@ function openNav() {
 /******************************GOOGLECHARTS*******************************/
 
 //google.charts.load('current', {packages: ['corechart']});
-//google.charts.setOnLoadCallback(drawChart_PerDay);
+//google.charts.setOnLoadCallback(drawChart_bike);
 
 function googleCharts(dyndata){
     console.log('inside google charts')
     console.log(dyndata)
-    google.charts.setOnLoadCallback(drawChart_PerDay(dyndata));
+    google.charts.setOnLoadCallback(drawChart_bike(dyndata));
+    google.charts.setOnLoadCallback(drawChart_stand(dyndata));
 }
 
-function drawChart_PerDay(dyndata){
-    console.log('Inside drawchart_Perday, draws the map')
+function drawChart_bike(dyndata){
+    console.log('Inside drawchart_bike, draws the map')
 
     var table_Data = new google.visualization.DataTable();
 
@@ -445,6 +445,39 @@ function drawChart_PerDay(dyndata){
     chart.draw(table_Data, options);
 
 }
+
+
+function drawChart_stand(dyndata){
+    console.log('Inside drawchart_bike, draws the map')
+
+    var table_Data = new google.visualization.DataTable();
+
+    table_Data.addColumn('datetime', 'Time');
+    table_Data.addColumn('number', 'Bikes Stands Available');
+
+   ;
+    console.log("Checking index - of interval", dyndata[0].intervals*1000)
+    for ( var i=0; i < dyndata.length; i++){
+         table_Data.addRow([new Date(dyndata[i].intervals*1000), dyndata[i].available_bike_stands]);
+    }
+
+
+    var options = {
+        title:'Data from last Week',
+        vAxis: {title: 'Availability'},
+        hAxis: {title: 'Time of Day'},
+        seriesType: 'bars',
+//        series: {5: {type: 'line'}}
+    };
+
+    var chart = new google.visualization.ComboChart(document.getElementById('chart-div2'));
+    chart.draw(table_Data, options);
+
+}
+
+
+
+
 
 function closeNav() {
     document.getElementById("weather-div").style.width = "0";
