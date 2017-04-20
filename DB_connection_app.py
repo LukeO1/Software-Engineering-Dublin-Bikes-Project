@@ -37,14 +37,14 @@ def main():
     weather_tupple = (detailed_status, temp, wind_speed)
     return render_template('DBikes.html', data=data, data2=dy_data, data3=weather_tupple)
 
-@app.route('/templates/DBikes.html') #If user clicks Home button the page refreshes
+@app.route('/') #If user clicks Home button the page refreshes
 def refresh_page():
     engine = get_db()
     data = []
     rows = engine.execute("SELECT name from static_information order by name")
     for row in rows:
         data.append(dict(row))
-    return render_template('Dbikes.html', data=data)
+    return render_template('DBikes.html', data=data)
 
 
 

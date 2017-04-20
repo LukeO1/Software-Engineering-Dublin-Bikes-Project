@@ -112,8 +112,8 @@ function myMap() {
         map.fitBounds(bounds);
 
     }
-// ********************** LEGEND ***************
 
+// ********************** LEGEND ***************
 
 
     var icons = {
@@ -144,16 +144,16 @@ function myMap() {
     };
 
     var legend = document.getElementById('legend');
-  for (var key in icons) {
-    var type = icons[key];
-    var name = type.name;
-    var icon = type.icon;
-    var div = document.createElement('div');
-    div.innerHTML = '<img src="' + icon + '"> ' + name;
-    legend.appendChild(div);
-  }
+    for (var key in icons) {
+        var type = icons[key];
+        var name = type.name;
+        var icon = type.icon;
+        var div = document.createElement('div');
+        div.innerHTML = '<img src="' + icon + '"> ' + name;
+        legend.appendChild(div);
+    }
 
- map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
+    map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
 
     document.getElementById('location-button').addEventListener('click', showCurrentLocation);
     document.getElementById('eloc-button').addEventListener('click', EuclidianLocation);
@@ -188,7 +188,7 @@ function showListings() {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(map);
         bounds.extend(markers[i].position);
-        console.log(markers[i].position);
+        // console.log(markers[i].position);
 
     }
     map.fitBounds(bounds);
@@ -224,6 +224,7 @@ function zoomfocus(station) {
 }
 
 function EuclidianLocation() {
+    var closestPosition;
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             var pos = {
@@ -258,32 +259,66 @@ function EuclidianLocation() {
                     closestlat = markers[i].getPosition().lat();
                     closestlng = markers[i].getPosition().lng();
                     closestmarker = markers[i];
+                    closestmarkerPosition = markers[i].position;
                     // console.log(markers[i]);
                     // console.log(closestS tation);
                 }
 
             }
 
-        var info = '<p><b>Address: </b>' + closestmarker.address + '<br>' + '<b>Available Bikes:</b> ' + closestmarker.availBikes + '<br>' + '<b>Free Stands:</b> ' + closestmarker.availBikeStands + '</p>'
-        var infowindow = new google.maps.InfoWindow({
-            content: info
-        });
+            // var info = '<p><b>Address: </b>' + closestmarker.address + '<br>' + '<b>Available Bikes:</b> ' + closestmarker.availBikes + '<br>' + '<b>Free Stands:</b> ' + closestmarker.availBikeStands + '</p>'
 
-        var closestpos = {
-            lat: closestlat,
-            lng: closestlng
-        };
-        var closestmarker = new google.maps.Marker({
-            position: new google.maps.LatLng(closestpos),
-            icon: "/static/images/custom-marker-current.png",
-            animation: google.maps.Animation.DROP
-        });
-        closestmarker.addListener('mouseover', function () {
-            infowindow.open(map, closestmarker);
-        });
 
-        map.setCenter(closestpos);
-        closestmarker.setMap(map);
+            var closestMarker = new google.maps.Marker({
+                position: closestmarkerPosition,
+                map: map,
+                icon: "/static/images/custom-marker-current.png",
+                animation: google.maps.Animation.DROP
+            });
+
+            var content = '<p><b>Address: </b>' + closestmarker.address + '<br>' + '<b>Available Bikes:</b> ' + closestmarker.availBikes + '<br>' + '<b>Free Stands:</b> ' + closestmarker.availBikeStands + '</p>'
+;
+
+            var infowindow = new google.maps.InfoWindow();
+
+            google.maps.event.addListener(closestMarker, 'mouseover', (function (closestMarker, content, infowindow) {
+                return function () {
+                    infowindow.setContent(content);
+                    infowindow.open(map, closestMarker);
+                };
+            })(closestMarker, content, infowindow));
+            google.maps.event.addListener(closestMarker, 'mouseout', (function (closestMarker, content, infowindow) {
+                return function () {
+                    infowindow.close();
+                };
+            })(closestMarker, content, infowindow));
+
+        map.setCenter(closestmarkerPosition);
+
+
+
+        // var infowindow = new google.maps.InfoWindow({
+        //     content: info
+        // });
+        //
+        // var closestpos = {
+        //     lat: closestlat,
+        //     lng: closestlng
+        // };
+        // var closestmarker = new google.maps.Marker({
+        //     position: new google.maps.LatLng(closestpos),
+        //     icon: "/static/images/custom-marker-current.png",
+        //     animation: google.maps.Animation.DROP
+        // });
+        // closestmarker.addListener('mouseover', function () {
+        //     infowindow.open(map, closestmarker);
+        // });
+        // closestmarker.addListener('mouseover', function () {
+        //         this.info.close();
+        //     });
+        //
+        // map.setCenter(closestpos);
+        // closestmarker.setMap(map);
 //             new google.maps.InfoWindow({content: '<p><b>Address: </b>' + closestmarker.address + '<br>' + '<b>Available Bikes:</b> ' + closestmarker.availBikes + '<br>' + '<b>Free Stands:</b> ' + closestmarker.availBikeStands + '</p>'});
 //
 //             google.maps.event.addListener(closestmarker, 'mouseover', function () {
@@ -296,8 +331,9 @@ function EuclidianLocation() {
 //             });
 
         // return closestStation;
-    },
-    function() {
+    }
+,
+    function () {
         handleLocationError(true, infoWindow, map.getCenter());
     }
 
