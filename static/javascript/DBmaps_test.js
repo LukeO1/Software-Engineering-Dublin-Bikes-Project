@@ -155,6 +155,12 @@ function myMap() {
 
     map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
 
+    var weatherInfo = document.getElementById('weatherInfo');
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(weatherInfo);
+
+
+    //********* LEG END *******
+
     document.getElementById('location-button').addEventListener('click', showCurrentLocation);
     document.getElementById('eloc-button').addEventListener('click', EuclidianLocation);
     document.getElementById('show-listings').addEventListener('click', showListings);
@@ -294,43 +300,6 @@ function EuclidianLocation() {
             })(closestMarker, content, infowindow));
 
         map.setCenter(closestmarkerPosition);
-
-
-
-        // var infowindow = new google.maps.InfoWindow({
-        //     content: info
-        // });
-        //
-        // var closestpos = {
-        //     lat: closestlat,
-        //     lng: closestlng
-        // };
-        // var closestmarker = new google.maps.Marker({
-        //     position: new google.maps.LatLng(closestpos),
-        //     icon: "/static/images/custom-marker-current.png",
-        //     animation: google.maps.Animation.DROP
-        // });
-        // closestmarker.addListener('mouseover', function () {
-        //     infowindow.open(map, closestmarker);
-        // });
-        // closestmarker.addListener('mouseover', function () {
-        //         this.info.close();
-        //     });
-        //
-        // map.setCenter(closestpos);
-        // closestmarker.setMap(map);
-//             new google.maps.InfoWindow({content: '<p><b>Address: </b>' + closestmarker.address + '<br>' + '<b>Available Bikes:</b> ' + closestmarker.availBikes + '<br>' + '<b>Free Stands:</b> ' + closestmarker.availBikeStands + '</p>'});
-//
-//             google.maps.event.addListener(closestmarker, 'mouseover', function () {
-//                 infowindow.open(map, this);
-//             });
-//
-// // assuming you also want to hide the infowindow when user mouses-out
-//             google.maps.event.addListener(closestmarker, 'mouseout', function () {
-//                 infowindow.close();
-//             });
-
-        // return closestStation;
     }
 ,
     function () {
@@ -385,4 +354,16 @@ function searchFunction() {
             li[i].style.display = "none";
         }
     }
+}
+
+//*********************** WEATHER SIDE ************************************//
+
+function openNav() {
+    document.getElementById("weather-div").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+}
+
+function closeNav() {
+    document.getElementById("weather-div").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
 }
