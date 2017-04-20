@@ -3,6 +3,7 @@ var map;
 // Create a new blank array for all the listing markers.
 var markers = [];
 var dynamic_data = [];
+var closestMarker;
 
 
 function setDynamicData(data) {
@@ -29,9 +30,8 @@ function myMap() {
 
     $.getJSON("/station/static", function (data) {
         $.getJSON("/station/dynamic", function (dyndata) {
-           console.log('Testing')
+           // console.log('Testing')
            renderHTML(data, dyndata);
-           EuclidianLocation(data, dyndata);
 
            map.setZoom(13)
 
@@ -111,9 +111,9 @@ function myMap() {
                 var url_Day = "/chartDayView/" + this.title;
 //                console.log(url_Day)
                 $.getJSON(url_Day, function(dayData) {
-                    console.log('IMMA HERE in the event handler')
+                    console.log('IMMA HERE in the event handler');;
                     googleCharts(dayData);
-                })
+                });
                 //googleCharts(this.);
             });
 
@@ -227,6 +227,7 @@ function hideListings() {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
     }
+    closestMarker.setMap(null);
 }
 
 //This function receives a station from the dropdown menu and zooms in on it
@@ -251,7 +252,7 @@ function zoomfocus(station) {
 }
 
 function EuclidianLocation() {
-    var closestPosition;
+    var closestmarkerPosition;
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             var pos = {
@@ -296,7 +297,7 @@ function EuclidianLocation() {
             // var info = '<p><b>Address: </b>' + closestmarker.address + '<br>' + '<b>Available Bikes:</b> ' + closestmarker.availBikes + '<br>' + '<b>Free Stands:</b> ' + closestmarker.availBikeStands + '</p>'
 
 
-            var closestMarker = new google.maps.Marker({
+                closestMarker = new google.maps.Marker({
                 position: closestmarkerPosition,
                 map: map,
                 icon: "/static/images/custom-marker-current.png",
@@ -321,6 +322,7 @@ function EuclidianLocation() {
             })(closestMarker, content, infowindow));
 
         map.setCenter(closestmarkerPosition);
+
     }
 ,
     function () {
