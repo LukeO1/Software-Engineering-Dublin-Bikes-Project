@@ -110,9 +110,50 @@ function myMap() {
             bounds.extend(markers[i].position);
         }
         map.fitBounds(bounds);
-        // EuclidianLocation(bikeObj);
 
     }
+// ********************** LEGEND ***************
+
+
+
+    var icons = {
+        '0': {
+            name: '0%',
+            icon: '/static/images/nobikes.png'
+        },
+        '1': {
+            name: '< 10%',
+            icon: '/static/images/marker1.png'
+        },
+        '2': {
+            name: '< 30%',
+            icon: '/static/images/marker2.png'
+        },
+        '3': {
+            name: '< 50%',
+            icon: '/static/images/marker3.png'
+        },
+        '4': {
+            name: '< 80%',
+            icon: '/static/images/marker4.png'
+        },
+        '5': {
+            name: '< 100%',
+            icon: '/static/images/marker5.png'
+        }
+    };
+
+    var legend = document.getElementById('legend');
+  for (var key in icons) {
+    var type = icons[key];
+    var name = type.name;
+    var icon = type.icon;
+    var div = document.createElement('div');
+    div.innerHTML = '<img src="' + icon + '"> ' + name;
+    legend.appendChild(div);
+  }
+
+ map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
 
     document.getElementById('location-button').addEventListener('click', showCurrentLocation);
     document.getElementById('eloc-button').addEventListener('click', EuclidianLocation);
@@ -218,7 +259,7 @@ function EuclidianLocation() {
                     closestlng = markers[i].getPosition().lng();
                     closestmarker = markers[i];
                     // console.log(markers[i]);
-                    // console.log(closestStation);
+                    // console.log(closestS tation);
                 }
 
             }
