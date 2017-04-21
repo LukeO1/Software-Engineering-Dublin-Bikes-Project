@@ -11,13 +11,14 @@
     <link href="https://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet">
 </head>
 <body>
-
-<div class="title"><img src="/static/images/title.png"></div>
 <nav>
     <ul id="nav">
         <li class="nav-left"><a href="/">Home</a></li>
         <li class="nav-left"><a id="show-listings">Show</a></li>
         <li class="nav-left"><a id="hide-listings">Hide Stations</a></li>
+        <!--<li><button onclick="OpenChart()">ChartView</button></li>-->
+
+
         <!--This is some code for a toggle switch that can be used later on-->
         <!--<li><div class="onoffswitch">-->
         <!--<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="show-listings" checked>-->
@@ -50,31 +51,72 @@
                 </div>
             </div>
         </li>
+        <li><div class="title nav-right"><img src="/static/images/title.png"></div></li>
     </ul>
 </nav>
+<div id="container">
+    <div class="center-wrapper">
+        <div id="weather-div" class="sidenav" onload="getIcon('{{ data3 }}')">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <p>Temp: {{ data3[1] }}º</p>
+        <p>Wind Speed: {{ data3[2] }}km/h</p>
+        <p>Status: {{ data3[0] }}</p>
+        </div>
 
-<div class="center-wrapper">
+        <div id="main">
+          <span id= weatherInfo style="font-size:15px;cursor:pointer" onclick="openNav()"><img src=/static/images/weather.png></span>
+
+            <div id="map-div"></div>
+            <div id="legend"><h3>Availability</h3></div>
+            <div id="chart-wrapper">
+                <div id="chart-nav-div">
+                    <ul id="chart-dropdown-content">
+                        <li>
+                            View by Day
+                            <ul>
+                                <li>Monday</li>
+                                <li>Tuesday</li>
+                                <li>Wednesday</li>
+                                <li>Thursday</li>
+                                <li>Friday</li>
+                                <li>Saturday</li>
+                                <li>Sunday</li>
+                            </ul>
+                        </li>
+                        <li>View By Week</li>
+                    </ul>
+                </div>
+                <div id="chart-div1"></div>
+                <div id="chart-div2"></div>
+
+            </div>
+        </div>
+    </div>
 
 
-    <div id="weather-div" class="sidenav" onload="getIcon('{{ data3 }}')">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <p>Temp: {{ data3[1] }}º</p>
-    <p>Wind Speed: {{ data3[2] }}km/h</p>
-    <p>Status: {{ data3[0] }}</p>
-</div>
+    <!--<div id="chart-wrapper">-->
+        <!--<div id="chart-nav-div">-->
+            <!--<ul id="chart-dropdown-content">-->
+                <!--<li>-->
+                    <!--Day of the week-->
+                    <!--<ul>-->
+                        <!--<li>Monday</li>-->
+                        <!--<li>Tuesday</li>-->
+                        <!--<li>Wednesday</li>-->
+                        <!--<li>Thursday</li>-->
+                        <!--<li>Friday</li>-->
+                        <!--<li>Saturday</li>-->
+                        <!--<li>Sunday</li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+                <!--<li>View By Day</li>-->
+                <!--<li>View By Week</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+        <!--<div id="chart-div1"></div>-->
+        <!--<div id="chart-div2"></div>-->
 
-<div id="main">
-  <span id= weatherInfo style="font-size:15px;cursor:pointer" onclick="openNav()"><img src=/static/images/weather.png></span>
-    <div id="map-div"></div>
-    <div id="legend"><h3>Availability</h3></div>
-</div>
-</div>
-
-
-<div id="chart-wrapper">
-    <div id="chart-div1"></div>
-    <div id="chart-div2"></div>
-    <div id="chart-div3"></div>
+    <!--</div>-->
 </div>
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCK2dld8TVzjVCQeM2TPADkVdUr7fiA6KI&v=3&callback=myMap">

@@ -176,6 +176,7 @@ function myMap() {
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(weatherInfo);
 
 
+
     //********* LEG END *******
 
     document.getElementById('location-button').addEventListener('click', showCurrentLocation);
@@ -406,12 +407,19 @@ function openNav() {
     document.getElementById("weather-div").style.width = "250px";
     document.getElementById("main").style.marginLeft = "250px";
 }
+//function OpenChart(){
+//    document.getElementById("chart-wrapper").style.height = "300px";
+//    document.getElementById("main").style.height = "250px";
+//}
+
+function closeNav() {
+    document.getElementById("weather-div").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+}
 
 
 /******************************GOOGLECHARTS*******************************/
 
-//google.charts.load('current', {packages: ['corechart']});
-//google.charts.setOnLoadCallback(drawChart_bike);
 
 function googleCharts(dyndata){
     console.log('inside google charts')
@@ -475,14 +483,5 @@ function drawChart_stand(dyndata){
     var chart = new google.visualization.ComboChart(document.getElementById('chart-div2'));
     chart.draw(table_Data, options);
 
-}
-
-
-
-
-
-function closeNav() {
-    document.getElementById("weather-div").style.width = "0";
-    document.getElementById("main").style.marginLeft= "0";
 }
 
