@@ -181,7 +181,7 @@ function myMap() {
     //chart icon on the map!!
 
     var chartInfo = document.getElementById('chartInfo');
-    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(chartInfo);
+    map.controls[google.maps.ControlPosition.LEFT_TOP].push(chartInfo);
 
 
     //********* LEG END *******
