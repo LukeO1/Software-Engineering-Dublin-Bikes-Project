@@ -418,7 +418,7 @@ function openNav() {
 //*********************** GOOGLECHARTS BOTTOM ************************************//
 
 function openNav2() {
-    document.getElementById("googleChartBottom").style.height = "250px";
+    document.getElementById("googleChartBottom").style.height = "400px";
 }
 function closeNav2() {
     document.getElementById("googleChartBottom").style.height = "0";

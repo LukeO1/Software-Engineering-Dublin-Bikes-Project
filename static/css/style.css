@@ -17,7 +17,7 @@
 html{
     font-family: 'Droid Sans', sans-serif;
     background-size: cover;
-    background-color: grey;
+    background-color: white;
 }
 body{
     margin: 0;
@@ -131,7 +131,7 @@ nav ul li a{
 /*****************************GOOGLE MAP***********************/
 #map-div{
     display: block;
-    height: 320px;
+    height: 420px;
     width: 100%;
 }
 
@@ -312,18 +312,6 @@ nav ul li a{
     transition: 0.3s;
 }
 
-.sidenav a:hover, .offcanvas a:focus{
-    color: #f1f1f1;
-}
-
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-}
-
 #main {
     transition: margin-left .5s;
     padding: 16px;
@@ -338,33 +326,11 @@ nav ul li a{
     z-index: 1;
     bottom: 0;
     background-color: #111;
-    opacity: 0.7;
+    opacity: 0.8;
     overflow-x: hidden;
     transition: 0.5s;
 }
 
-chart-div1, chart-div2, chart-div3  {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
-}
-
 .bottomNav a:hover, .offcanvas a:focus{
     color: #f1f1f1;
-}
-
-.bottomNav .closebtn2 {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-}
-
-@media screen and (max-height: 450px) {
-  .bottomNav {padding-top: 15px;}
-  .bottomNav a {font-size: 18px;}
 }
