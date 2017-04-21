@@ -1,4 +1,3 @@
-
 var map;
 // Create a new blank array for all the listing markers.
 var markers = [];
@@ -172,9 +171,16 @@ function myMap() {
 
     map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
 
+    //weather icon on the map!!
+
     var weatherInfo = document.getElementById('weatherInfo');
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(weatherInfo);
 
+
+    //chart icon on the map!!
+
+    var chartInfo = document.getElementById('chartInfo');
+    map.controls[google.maps.ControlPosition.LEFT_TOP].push(chartInfo);
 
 
     //********* LEG END *******
@@ -243,6 +249,8 @@ function zoomfocus(station) {
     //takes in the station name as a variable, changes the map focus to the position and change the icon to the current icon
     for (var i = 0; i < markers.length; i++) {
         // console.log(markers[i].address)
+        markers[i].setMap(map);
+
         if (markers[i].address == station) {
             map.setZoom(17);
             map.panTo(markers[i].position);
@@ -407,19 +415,19 @@ function openNav() {
     document.getElementById("weather-div").style.width = "250px";
     document.getElementById("main").style.marginLeft = "250px";
 }
-//function OpenChart(){
-//    document.getElementById("chart-wrapper").style.height = "300px";
-//    document.getElementById("main").style.height = "250px";
-//}
 
-function closeNav() {
-    document.getElementById("weather-div").style.width = "0";
-    document.getElementById("main").style.marginLeft= "0";
+//*********************** GOOGLECHARTS BOTTOM ************************************//
+
+function openNav2() {
+    document.getElementById("googleChartBottom").style.height = "400px";
 }
-
-
+function closeNav2() {
+    document.getElementById("googleChartBottom").style.height = "0";
+}
 /******************************GOOGLECHARTS*******************************/
 
+//google.charts.load('current', {packages: ['corechart']});
+//google.charts.setOnLoadCallback(drawChart_bike);
 
 function googleCharts(dyndata){
     console.log('inside google charts')
@@ -485,3 +493,7 @@ function drawChart_stand(dyndata){
 
 }
 
+function closeNav() {
+    document.getElementById("weather-div").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+}

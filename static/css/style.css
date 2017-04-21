@@ -1,47 +1,38 @@
 /**********************TITLE*****************************/
 .title{
     padding-top: 5px;
-/*    background-color: white;*/
+    background-color: white;
 }
 
 .title img{
-    /*background-color: white;
-      height: 80px;
-    */
-    margin-left: 0px;;
-    margin-right: 100px;
-    height: 60px;
-    width: 300px;
-    display: inline;
-
+    background-color: white;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    height: 80px;
 }
 
 /**********************BODY*****************************/
 html{
     font-family: 'Droid Sans', sans-serif;
     background-size: cover;
-    background-color: grey;
+    background-color: white;
 }
 body{
-    text-align: center;
     margin: 0;
     min-height: 100%;
     max-width: 100%;
     margin: 5px, 5px;
 }
-#container{
-    /*margin: 1000px, 50px, 0px, auto;*/
-    width: 1200px;
-    height: 600px;
-}
+/*.container{
+    margin: 0px, 10px, 0px, 10px;
+}*/
 /******************NAVIGATION BAR***********************/
 nav{
-    height: 60px;
+    height: 40px;
     display: block;
     background-color: #dddddd;
-    /*position: fixed;
-    top: 0;
-    width: 100%;*/
 }
 nav ul{
     background-color: #dddddd;
@@ -64,16 +55,18 @@ nav ul li a{
 
 .nav-left{
     float: left;
+    cursor: pointer;
 }
 .nav-right{
     float: right;
 }
 /***********************SEARCH BAR***************************/
 #search-box[type=text] {
+
     width: 130px;
     box-sizing: border-box;
     border: 2px solid #ccc;
-    border-radius: 3px;
+    border-radius: 1px;
     font-size: 14px;
     background-color: white;
     background-image: url('/static/images/search-icon.png');
@@ -83,6 +76,7 @@ nav ul li a{
     -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
 }
+
 #search-box[type=text]:focus {
     width: 100%;
 }
@@ -138,7 +132,7 @@ nav ul li a{
 /*****************************GOOGLE MAP***********************/
 #map-div{
     display: block;
-    height: 500px;
+    height: 420px;
     width: 100%;
 }
 
@@ -149,14 +143,24 @@ nav ul li a{
         background: #fff;
         padding: 10px;
         margin: 10px;
-        border: 3px solid #000;
+        border: 1px solid #000;
       }
-      #legend h3 {
-        margin-top: 0;
-      }
-      #legend img {
-        vertical-align: middle;
-      }
+#legend h3 {
+margin-top: 0;
+}
+#legend img {
+vertical-align: middle;
+}
+
+#chartInfo{
+    margin: 10px;
+
+}
+
+#weatherInfo img {
+    margin: 10px;
+}
+
 /****************************Images*********************/
 #logo{
     height: 20;
@@ -202,28 +206,32 @@ nav ul li a{
     background-color: #3e8e41;
 }
 /**************************GOOGLE CHARTS*************************************/
-
 #chart-wrapper{
+    text-align: center;
     width: 100%;
-    margin: 10px auto 10px auto;
-    height: px;
+    margin: 0px;
+    height: 400px;
 }
 #chart-div1{
+    z-index: 0;
     float: left;
     width: 50%;
     height: 100%;
 }
 #chart-div2{
+    z-index: 0;
     display: inline-block;
     width: 50%;
     height: 100%;
 
 }
 #chart-nav-div{
+    z-index: 1;
     margin-bottom: 10px;
 }
 
 #chart-dropdown-content{
+    z-index: 1;
     text-align: left;
     display: inline;
     margin: 0;
@@ -234,6 +242,7 @@ nav ul li a{
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
 }
 #chart-dropdown-content li {
+    z-index: 1;
     font: bold 12px/18px sans-serif;
     display: inline-block;
     margin-right: -4px;
@@ -248,10 +257,12 @@ nav ul li a{
     transition: all 0.2s;
 }
 #chart-dropdown-content li:hover {
+    z-index: 1;
   background: #555;
   color: #fff;
 }
 #chart-dropdown-content li ul {
+    z-index: 1;
     padding: 0;
     position: absolute;
     top: 48px;
@@ -270,14 +281,19 @@ nav ul li a{
     -transition: opacity 0.2s;
 }
 #chart-dropdown-content li ul li {
+    z-index: 1;
     background: #555;
     display: block;
     color: #fff;
     text-shadow: 0 -1px 0 #000;
 }
-#chart-dropdown-content li ul li:hover { background: #666; }
+#chart-dropdown-content li ul li:hover {
+    background: #666;
+    z-index: 1;
+}
 
 #chart-dropdown-content li:hover ul  {
+    z-index: 1;
     /*bottom: 100%;
     position: absolute;
     margin-top: 1px;*/
@@ -287,10 +303,10 @@ nav ul li a{
     opacity: 1;
     visibility: visible;
 }
+
 /*******************WEATHER INFO DIV*******************************************/
-.center-wrapper{
+#center-wrapper{
     width: 100%;
-    height: 530px;
     /*margin: 0px, auto;*/
 }
 /*#weather-div{*/
@@ -317,48 +333,96 @@ nav ul li a{
 }
 /*************************FIND MY LOCATION BUTTON**********************/
 #location-button {
-  display: inline-block;
-  border-radius: 2px;
-  background-color: #f4511e;
-  border: none;
-  color: #FFFFFF;
-  text-align: center;
-  font-size: 14px;
-  padding: 6px;
-  width: 170px;
-  transition: all 0.5s;
-  cursor: pointer;
-  margin: 2.5px;
+    padding: 5px;
+    display: inline-block;
+    /*box-sizing: border-box;*/
+    border-radius: 2px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 14px;
+    path: 170px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 2.5px;
+    vertical-align: middle;
 }
 
 #location-button span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
 }
 
 #location-button span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -10px;
-  transition: 0.5s;
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -10px;
+    transition: 0.5s;
 }
 
 #location-button:hover span {
-  padding-right: 16px;
+    padding-right: 16px;
 }
 
 #location-button:hover span:after {
-  opacity: 1;
-  right: 0;
+    opacity: 1;
+    right: 0;
 }
 #location-button img{
-    width: 20px;
-    height: 25px;
+    width: 15px;
+    height: 22px;
+    vertical-align: middle;
 }
+
+/*************************EUCLIDIAN DISTANCE BUTTON**********************/
+#eloc-button {
+    padding: 8px;
+    display: inline-block;
+    /*box-sizing: border-box;*/
+    border-radius: 2px;
+    background-color: limegreen;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 14px;
+    path: 170px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 2.5px;
+    vertical-align: middle;
+}
+
+#eloc-button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+#eloc-button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -10px;
+    transition: 0.5s;
+}
+
+#eloc-button :hover span {
+    padding-right: 16px;
+}
+
+#eloc-button :hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+
 
 /****************************** WEATHER SIDE **************************************/
 
@@ -384,19 +448,25 @@ nav ul li a{
     transition: 0.3s;
 }
 
-.sidenav a:hover, .offcanvas a:focus{
-    color: #f1f1f1;
-}
-
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-}
-
 #main {
     transition: margin-left .5s;
     padding: 16px;
+}
+
+/****************************** GOOGLECHARTS BOTTOM **************************************/
+
+.bottomNav {
+    height: 0%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    bottom: 0;
+    background-color: #111;
+    opacity: 0.8;
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+.bottomNav a:hover, .offcanvas a:focus{
+    color: #f1f1f1;
 }
