@@ -309,7 +309,7 @@ function EuclidianLocation() {
                 closestMarker = new google.maps.Marker({
                 position: closestmarkerPosition,
                 map: map,
-                icon: "/static/images/custom-marker-current.png",
+                icon: "/static/images/closestLocation.png",
                 animation: google.maps.Animation.DROP
             });
 
