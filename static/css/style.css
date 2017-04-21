@@ -1,14 +1,4 @@
-/**********************TITLE*****************************/
-.title{
-    /*background-color: white;*/
-    /*display: block;*/
-    /*margin-bottom: 10px;*/
-}
 
-.title img {
-    width: auto;
-    height: 70px;
-}
 
 /**********************BODY*****************************/
 html{
@@ -20,7 +10,8 @@ body{
     margin: 0;
     min-height: 100%;
     max-width: 100%;
-    margin: 10px;
+    /*margin-top: 10px;*/
+    /*margin-bottom: 10px;*/
 }
 /*.container{
     margin: 0px, 10px, 0px, 10px;
@@ -30,13 +21,13 @@ nav{
     height: 40px;
     display: block;
     background-color: white;
-    margin-right: 10px;
+    margin-right: 40px;
 }
 nav ul{
     background-color: white;
     list-style-type: none;
     /*padding: 0;*/
-    margin: 8px;
+    /*margin: 8px;*/
     padding-top: 5px;
 }
 nav ul li{
@@ -46,9 +37,9 @@ nav ul li{
     height: 30px;
 }
 nav ul li a{
-    text-align: center;
+    /*text-align: center;*/
     text-decoration: none;
-    display: block;
+    /*display: block;*/
     padding: 14px 16px;
 }
 
@@ -56,6 +47,13 @@ nav ul li a{
     float: left;
     cursor: pointer;
 }
+
+.nav-left img {
+    width: auto;
+    height: 70px;
+    margin: 0;
+}
+
 .nav-right{
     float: right;
 }
@@ -380,12 +378,13 @@ vertical-align: middle;
 }
 
 /*************************EUCLIDIAN DISTANCE BUTTON**********************/
+
 #eloc-button {
-    padding: 8px;
+    padding: 6px;
     display: inline-block;
     /*box-sizing: border-box;*/
     border-radius: 2px;
-    background-color: gold;
+    background-color: #f08d0d;
     border: none;
     color: #FFFFFF;
     text-align: center;
@@ -413,18 +412,17 @@ vertical-align: middle;
     transition: 0.5s;
 }
 
-#eloc-button :hover span {
+#eloc-button:hover span {
     padding-right: 16px;
 }
 
-#eloc-button :hover span:after {
+#eloc-button:hover span:after {
     opacity: 1;
     right: 0;
 }
-
 #eloc-button img{
-    width: 20px;
-    height: 22px;
+    width: 23px;
+    height: 25px;
     vertical-align: middle;
 }
 
