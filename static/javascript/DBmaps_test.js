@@ -108,9 +108,11 @@ function myMap() {
             });
             google.maps.event.addListener(marker, 'click', function() {
                 console.log(this.title);
-                var url_Day = "/chartDayView/" + this.title;
-//                console.log(url_Day)
-                $.getJSON(url_Day, function(dayData) {
+                //FOR DAYLY INFORMATION
+                //var url_Day = "/chartDayView/" + this.title;
+                //FOR WEEKLY INFORMATION
+                var url_Week = "/chartWeekView/" + this.title
+                $.getJSON(url_Week, function(dayData) {
                     console.log('IMMA HERE in the event handler');;
                     googleCharts(dayData);
                 });
@@ -416,8 +418,12 @@ function openNav() {
 function googleCharts(dyndata){
     console.log('inside google charts')
     console.log(dyndata)
-    google.charts.setOnLoadCallback(drawChart_bike(dyndata));
-    google.charts.setOnLoadCallback(drawChart_stand(dyndata));
+    //DAILY CHARTS BELOW
+    //google.charts.setOnLoadCallback(drawChart_bike(dyndata));
+    //google.charts.setOnLoadCallback(drawChart_stand(dyndata));
+    //WEEKLY CHARTS BELOW
+    google.charts.setOnLoadCallback(drawChartWeek_bike(dyndata));
+    google.charts.setOnLoadCallback(drawChartWeek_stand(dyndata));
 }
 
 function drawChart_bike(dyndata){
@@ -436,7 +442,7 @@ function drawChart_bike(dyndata){
 
 
     var options = {
-        title:'Data from last Week',
+        title:'Daily Averages - Available Bikes',
         vAxis: {title: 'Availability'},
         hAxis: {title: 'Time of Day'},
         seriesType: 'bars',
@@ -465,7 +471,7 @@ function drawChart_stand(dyndata){
 
 
     var options = {
-        title:'Data from last Week',
+        title:'Daily Averages - Available Bike Stands',
         vAxis: {title: 'Availability'},
         hAxis: {title: 'Time of Day'},
         seriesType: 'bars',
@@ -477,6 +483,67 @@ function drawChart_stand(dyndata){
 
 }
 
+function drawChartWeek_bike(dyndata){
+    console.log('Inside drawChartWeek_bike, draws the map')
+
+    var table_Data = new google.visualization.DataTable();
+
+    table_Data.addColumn('string', 'Day of the Week');
+    table_Data.addColumn('number', '00:00-06:00');
+    table_Data.addColumn('number', '06:00-12:00');
+    table_Data.addColumn('number', '12:00-18:00');
+    table_Data.addColumn('number', '18:00-00:00');
+
+    console.log("Checking index - of interval", dyndata[0][0].intervals*1000)
+    for ( var i=0; i < dyndata.length; i++){
+        table_Data.addRow([dyndata[i][0].week_day, dyndata[i][0].available_bikes, dyndata[i][1].available_bikes, dyndata[i][2].available_bikes, dyndata[i][3].available_bikes]);
+    }
+
+
+    var options = {
+        title:'Weekly - Bikes Available',
+        vAxis: {title: 'Availability'},
+        hAxis: {title: 'Time of Day'},
+        seriesType: 'bars',
+//        series: {5: {type: 'line'}}
+    };
+
+    var chart = new google.visualization.ComboChart(document.getElementById('chart-div1'));
+    chart.draw(table_Data, options);
+
+}
+
+
+function drawChartWeek_stand(dyndata){
+    console.log('Inside drawchart_bike, draws the map')
+
+    var table_Data = new google.visualization.DataTable();
+
+    table_Data.addColumn('string', 'Day of the Week');
+    table_Data.addColumn('number', '00:00-06:00');
+    table_Data.addColumn('number', '06:00-12:00');
+    table_Data.addColumn('number', '12:00-18:00');
+    table_Data.addColumn('number', '18:00-00:00');
+
+   ;
+    console.log("Checking index - of interval", dyndata[0][0].intervals*1000)
+    for ( var i=0; i < dyndata.length; i++){
+         table_Data.addRow([dyndata[i][0].week_day, dyndata[i][0].available_bike_stands, dyndata[i][1].available_bike_stands, dyndata[i][2].available_bike_stands, dyndata[i][3].available_bike_stands]);
+    }
+
+
+    var options = {
+        title:'Weekly - Bike Stands Available',
+        vAxis: {title: 'Availability'},
+        hAxis: {title: 'Time of Day'},
+        seriesType: 'bars',
+//        series: {5: {type: 'line'}}
+    };
+
+    var chart = new google.visualization.ComboChart(document.getElementById('chart-div2'));
+    chart.draw(table_Data, options);
+
+}
 
 
 
