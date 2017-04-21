@@ -112,6 +112,10 @@ function myMap() {
                 console.log("Station is:", nameStation)
                 googleChartsToday();
             });
+            marker.addListener('click', function() {
+                document.getElementById("googleChartBottom").style.height = "400px";
+            });
+
             // Push the marker to our array of markers.
             markers.push(marker);
 
@@ -174,11 +178,6 @@ function myMap() {
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(weatherInfo);
 
 
-    //chart icon on the map!!
-
-    var chartInfo = document.getElementById('chartInfo');
-    map.controls[google.maps.ControlPosition.LEFT_TOP].push(chartInfo);
-
 
     //********* LEG END *******
 
@@ -220,6 +219,7 @@ function showListings() {
         markers[i].setMap(map);
         bounds.extend(markers[i].position);
         // console.log(markers[i].position);
+
 
     }
     map.fitBounds(bounds);
@@ -306,7 +306,7 @@ function EuclidianLocation() {
                 closestMarker = new google.maps.Marker({
                 position: closestmarkerPosition,
                 map: map,
-                icon: "/static/images/custom-marker-current.png",
+                icon: "/static/images/closestLocation.png",
                 animation: google.maps.Animation.DROP
             });
 
@@ -415,9 +415,9 @@ function openNav() {
 
 //*********************** GOOGLECHARTS BOTTOM ************************************//
 
-function openNav2() {
-    document.getElementById("googleChartBottom").style.height = "400px";
-}
+// function openNav2() {
+//     document.getElementById("googleChartBottom").style.height = "400px";
+// }
 function closeNav2() {
     document.getElementById("googleChartBottom").style.height = "0";
 }
@@ -489,15 +489,14 @@ function drawChart_bike(dyndata){
 
 //Creates a ONE-DAY chart for avalaible_bike_stands
 function drawChart_stand(dyndata){
-    console.log('Inside drawchart_bike, draws the map')
+    console.log('Inside drawchart_bike, draws the map');
 
     var table_Data = new google.visualization.DataTable();
 
     table_Data.addColumn('datetime', 'Time');
     table_Data.addColumn('number', 'Bikes Stands Available');
 
-   ;
-    console.log("Checking index - of interval", dyndata[0].intervals*1000)
+    console.log("Checking index - of interval", dyndata[0].intervals*1000);
     for ( var i=0; i < dyndata.length; i++){
          table_Data.addRow([new Date(dyndata[i].intervals*1000), dyndata[i].available_bike_stands]);
     }

@@ -1,17 +1,4 @@
-/**********************TITLE*****************************/
-.title{
-    padding-top: 5px;
-    background-color: white;
-}
 
-.title img{
-    background-color: white;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: auto;
-    height: 80px;
-}
 
 /**********************BODY*****************************/
 html{
@@ -23,7 +10,8 @@ body{
     margin: 0;
     min-height: 100%;
     max-width: 100%;
-    margin: 5px, 5px;
+    /*margin-top: 10px;*/
+    /*margin-bottom: 10px;*/
 }
 /*.container{
     margin: 0px, 10px, 0px, 10px;
@@ -32,13 +20,15 @@ body{
 nav{
     height: 40px;
     display: block;
-    background-color: #dddddd;
+    background-color: white;
+    margin-right: 40px;
 }
 nav ul{
-    background-color: #dddddd;
+    background-color: white;
     list-style-type: none;
-    padding: 0;
-    margin: 0;
+    /*padding: 0;*/
+    /*margin: 8px;*/
+    padding-top: 5px;
 }
 nav ul li{
     font-size: 0.8em;
@@ -47,9 +37,9 @@ nav ul li{
     height: 30px;
 }
 nav ul li a{
-    text-align: center;
+    /*text-align: center;*/
     text-decoration: none;
-    display: block;
+    /*display: block;*/
     padding: 14px 16px;
 }
 
@@ -57,12 +47,19 @@ nav ul li a{
     float: left;
     cursor: pointer;
 }
+
+.nav-left img {
+    width: auto;
+    height: 70px;
+    margin: 0;
+}
+
 .nav-right{
     float: right;
 }
 /***********************SEARCH BAR***************************/
 #search-box[type=text] {
-
+    margin-top: 2px;
     width: 130px;
     box-sizing: border-box;
     border: 2px solid #ccc;
@@ -80,59 +77,12 @@ nav ul li a{
 #search-box[type=text]:focus {
     width: 100%;
 }
-/*************************ON/OFF TOGGLE************************/
-.onoffswitch {
-    top: 10px;
-    left: 5px;
-    position: relative;
-    width: 142px;
-    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
-}
-.onoffswitch-checkbox {
-    display: none;
-}
-.onoffswitch-label {
-    display: block; overflow: hidden; cursor: pointer;
-    border: 2px solid #999999; border-radius: 50px;
-}
-.onoffswitch-inner {
-    display: block; width: 200%; margin-left: -100%;
-    transition: margin 0.3s ease-in 0s;
-}
-.onoffswitch-inner:before, .onoffswitch-inner:after {
-    display: block; float: left; width: 50%; height: 15px; padding: 0; line-height: 15px;
-    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
-    box-sizing: border-box;
-}
-.onoffswitch-inner:before {
-    content: "Show Stations";
-    padding-left: 9px;
-    background-color: #36EBAC; color: #FFFFFF;
-}
-.onoffswitch-inner:after {
-    content: "Hide Stations";
-    padding-right: 9px;
-    background-color: #EEEEEE; color: #999999;
-    text-align: right;
-}
-.onoffswitch-switch {
-    display: block; width: 23px; margin: -4px;
-    background: #FFFFFF;
-    position: absolute; top: 0; bottom: 0;
-    right: 123px;
-    border: 2px solid #999999; border-radius: 50px;
-    transition: all 0.3s ease-in 0s;
-}
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
-    margin-left: 0;
-}
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-    right: 0px;
-}
+
 /*****************************GOOGLE MAP***********************/
 #map-div{
+    margin-top: 40px;
     display: block;
-    height: 420px;
+    height: 500px;
     width: 100%;
 }
 
@@ -333,7 +283,7 @@ vertical-align: middle;
 }
 /*************************FIND MY LOCATION BUTTON**********************/
 #location-button {
-    padding: 5px;
+    padding: 6px;
     display: inline-block;
     /*box-sizing: border-box;*/
     border-radius: 2px;
@@ -374,18 +324,20 @@ vertical-align: middle;
     right: 0;
 }
 #location-button img{
-    width: 15px;
-    height: 22px;
+    width: 23px;
+    height: 25px;
     vertical-align: middle;
 }
 
 /*************************EUCLIDIAN DISTANCE BUTTON**********************/
+
 #eloc-button {
-    padding: 8px;
+
+    padding: 6px;
     display: inline-block;
     /*box-sizing: border-box;*/
     border-radius: 2px;
-    background-color: limegreen;
+    background-color: #f08d0d;
     border: none;
     color: #FFFFFF;
     text-align: center;
@@ -413,15 +365,19 @@ vertical-align: middle;
     transition: 0.5s;
 }
 
-#eloc-button :hover span {
+#eloc-button:hover span {
     padding-right: 16px;
 }
 
-#eloc-button :hover span:after {
+#eloc-button:hover span:after {
     opacity: 1;
     right: 0;
 }
-
+#eloc-button img{
+    width: 23px;
+    height: 25px;
+    vertical-align: middle;
+}
 
 
 /****************************** WEATHER SIDE **************************************/
