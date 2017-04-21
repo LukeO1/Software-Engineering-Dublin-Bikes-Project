@@ -56,25 +56,43 @@
 <div class="center-wrapper">
 
 
-    <div id="weather-div" class="sidenav" onload="getIcon('{{ data3 }}')">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div id="weather-div" class="sidenav" onclick="closeNav()" onload="getIcon('{{ data3 }}')">
     <p>Temp: {{ data3[1] }}º</p>
     <p>Wind Speed: {{ data3[2] }}km/h</p>
     <p>Status: {{ data3[0] }}</p>
 </div>
 
 <div id="main">
-  <span id= weatherInfo style="font-size:15px;cursor:pointer" onclick="openNav()"><img src=/static/images/weather.png></span>
+    <span id= weatherInfo style="font-size:15px;cursor:pointer" onclick="openNav()"><img src=/static/images/weather.png></span>
+    <span id= chartInfo style="font-size:30px;cursor:pointer" onclick="openNav2()"><img src=/static/images/graphicon.png></span>
     <div id="map-div"></div>
     <div id="legend"><h3>Availability</h3></div>
 </div>
 </div>
 
-
-<div id="chart-wrapper">
-    <div id="chart-div1"></div>
-    <div id="chart-div2"></div>
-    <div id="chart-div3"></div>
+<div id="googleChartBottom" class="bottomNav" onclick="closeNav2()">
+    <div id="chart-wrapper">
+        <div id="chart-nav-div">
+            <ul id="chart-dropdown-content">
+                <li>
+                    View By Day
+                    <ul>
+                        <li onclick="googleChartsDaily(2)">Monday</li>
+                        <li onclick="googleChartsDaily(3)">Tuesday</li>
+                        <li onclick="googleChartsDaily(4)">Wednesday</li>
+                        <li onclick="googleChartsDaily(5)">Thursday</li>
+                        <li onclick="googleChartsDaily(6)">Friday</li>
+                        <li onclick="googleChartsDaily(7)">Saturday</li>
+                        <li onclick="googleChartsDaily(1)">Sunday</li>
+                    </ul>
+                </li>
+                <li onclick="googleChartsToday()">View Today</li>
+                <li onclick="googleChartsWeekly()">View Weekly</li>
+            </ul>
+        </div>
+        <div id="chart-div1"></div>
+        <div id="chart-div2"></div>
+    </div>
 </div>
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCK2dld8TVzjVCQeM2TPADkVdUr7fiA6KI&v=3&callback=myMap">

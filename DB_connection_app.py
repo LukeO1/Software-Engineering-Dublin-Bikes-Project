@@ -88,10 +88,10 @@ def get_dynamic2(name):
     #print(df)
     return jsonify(df.to_dict())
 
-@app.route("/chartDayView/<string:name>")
-def getDayInfo(name):
+@app.route("/chartDailyView/<string:name>/<int:day_number>")
+def getDayInfo(name, day_number):
     engine = get_db()
-    sql = "select unix_timestamp(sec_to_time(time_to_sec(last_update)- time_to_sec(last_update)%%(60*60))) as intervals, round(avg(available_bike_stands), 0) as available_bike_stands, round(avg(available_bikes), 0) as available_bikes from station_info where DAYOFWEEK(last_update) = 1 and name = '" + name + "' group by intervals;"
+    sql = "select unix_timestamp(sec_to_time(time_to_sec(last_update)- time_to_sec(last_update)%%(60*60))) as intervals, round(avg(available_bike_stands), 0) as available_bike_stands, round(avg(available_bikes), 0) as available_bikes from station_info where DAYOFWEEK(last_update) = " + str(day_number) + " and name = '" + name + "' group by intervals;"
     res = engine.execute(sql).fetchall()
     data = []
     for row in res:
@@ -117,6 +117,21 @@ def getWeekInfo(name):
         weekData.append(data)
         print(weekData)
     return jsonify(weekData)
+
+@app.route("/chartTodayView/<string:name>")
+def getTodayInfo(name):
+    engine = get_db()
+    sql_week_day = "select last_update, DAYOFWEEK(last_update) from station_info order by last_update desc limit 1;"
+    res_week_day = engine.execute(sql_week_day).fetchall()
+    sql = "select unix_timestamp(sec_to_time(time_to_sec(last_update)- time_to_sec(last_update)%%(60*60))) as intervals, round(avg(available_bike_stands), 0) as available_bike_stands, round(avg(available_bikes), 0) as available_bikes from station_info where DAYOFWEEK(last_update) = " + str(res_week_day[0][1]) + " and name = '" + name + "' group by intervals;"
+    res = engine.execute(sql).fetchall()
+    data = []
+    for row in res:
+        data.append(dict(row))
+    for i in range(0, len(data)):
+        data[i]['available_bikes'] = int(data[i]['available_bikes'])
+        data[i]['available_bike_stands'] = int(data[i]['available_bike_stands'])
+    return jsonify(data)
 
 @app.route("/weather")
 def get_weather():
