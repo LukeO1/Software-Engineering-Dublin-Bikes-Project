@@ -3,7 +3,8 @@ var map;
 var markers = [];
 var dynamic_data = [];
 var closestMarker;
-
+//Set global var nameStation to keep track of the marker's name station
+var nameStation;
 
 function setDynamicData(data) {
     dynamic_data.push(data);
@@ -98,7 +99,7 @@ function myMap() {
                 info: info
             });
 
-
+            //Create the event listeners for hover and click for the marker
             google.maps.event.addListener(marker, 'mouseover', function () {
                 this.info.open(map, this);
             });
@@ -106,20 +107,17 @@ function myMap() {
                 this.info.close();
             });
             google.maps.event.addListener(marker, 'click', function() {
-                console.log(this.title);
-                var url_Day = "/chartDayView/" + this.title;
-//                console.log(url_Day)
-                $.getJSON(url_Day, function(dayData) {
-                    console.log('IMMA HERE in the event handler');;
-                    googleCharts(dayData);
-                });
-                //googleCharts(this.);
+                //Change nameStation global var with the name of the new clicked marker's station
+                nameStation = this.title;
+                nameStation = nameStation.replace("'", "%27");
+                console.log("Station is:", nameStation)
+                googleChartsToday();
             });
-
             marker.addListener('click', function() {
                 document.getElementById("googleChartBottom").style.height = "400px";
             });
 
+            // Push the marker to our array of markers.
             markers.push(marker);
 
         }
@@ -388,33 +386,59 @@ function closeNav2() {
 }
 /******************************GOOGLECHARTS*******************************/
 
-//google.charts.load('current', {packages: ['corechart']});
-//google.charts.setOnLoadCallback(drawChart_bike);
-
-function googleCharts(dyndata){
-    console.log('inside google charts')
-    console.log(dyndata)
-    google.charts.setOnLoadCallback(drawChart_bike(dyndata));
-    google.charts.setOnLoadCallback(drawChart_stand(dyndata));
+//Shows today's data once user clicks on View Today button
+function googleChartsToday(){
+    console.log('inside google charts - today', nameStation);
+    var url = "/chartTodayView/" + nameStation;
+    $.getJSON(url, function(todayData) {
+        console.log('IMMA HERE in the event handler - today');
+        google.charts.setOnLoadCallback(drawChart_bike(todayData));
+        google.charts.setOnLoadCallback(drawChart_stand(todayData));
+    });
 }
 
+//Shows daily data once user clicks on View Daily button
+function googleChartsDaily(dayNumber){
+    console.log('inside google charts - daily', nameStation, dayNumber)
+    var url = "/chartDailyView/" + nameStation + "/" + dayNumber;
+    console.log(url)
+    $.getJSON(url, function(dailyData) {
+        console.log('IMMA HERE in the event handler - daily');
+        google.charts.setOnLoadCallback(drawChart_bike(dailyData));
+        google.charts.setOnLoadCallback(drawChart_stand(dailyData));
+    });
+}
+
+//Shows weekly data once user clicks on View Weekly button
+function googleChartsWeekly(){
+    console.log('inside google charts - weekly', nameStation)
+    var url = "/chartWeekView/" + nameStation;
+    console.log(url)
+    $.getJSON(url, function(weeklyData) {
+        console.log('IMMA HERE in the event handler - weekly');
+        google.charts.setOnLoadCallback(drawChartWeek_bike(weeklyData));
+        google.charts.setOnLoadCallback(drawChartWeek_stand(weeklyData));
+    });
+}
+
+//Creates a ONE-WEEKDAY chart for avalaible_bikes
 function drawChart_bike(dyndata){
-    console.log('Inside drawchart_bike, draws the map')
+    console.log('Inside drawchart_bike, draws the map');
 
     var table_Data = new google.visualization.DataTable();
 
     table_Data.addColumn('datetime', 'Time');
     table_Data.addColumn('number', 'Bikes Available');
 
-   ;
-    console.log("Checking index - of interval", dyndata[0].intervals*1000)
+
+    console.log("Checking index - of interval", dyndata[0].intervals*1000);
     for ( var i=0; i < dyndata.length; i++){
          table_Data.addRow([new Date(dyndata[i].intervals*1000), dyndata[i].available_bikes]);
     }
 
 
     var options = {
-        title:'Data from last Week',
+        title:'Daily Averages - Available Bikes',
         vAxis: {title: 'Availability'},
         hAxis: {title: 'Time of Day'},
         seriesType: 'bars',
@@ -426,7 +450,7 @@ function drawChart_bike(dyndata){
 
 }
 
-
+//Creates a ONE-DAY chart for avalaible_bike_stands
 function drawChart_stand(dyndata){
     console.log('Inside drawchart_bike, draws the map');
 
@@ -442,11 +466,70 @@ function drawChart_stand(dyndata){
 
 
     var options = {
-        title:'Data from last Week',
+        title:'Daily Averages - Available Bike Stands',
+        vAxis: {title: 'Availability'},
+        hAxis: {title: 'Time of Day'},
+        seriesType: 'bars'
+    };
+
+    var chart = new google.visualization.ComboChart(document.getElementById('chart-div2'));
+    chart.draw(table_Data, options);
+
+}
+
+//Creates a WEEK chart for avalaible_bikes
+function drawChartWeek_bike(dyndata){
+    console.log('Inside drawChartWeek_bike, draws the map');
+
+    var table_Data = new google.visualization.DataTable();
+
+    table_Data.addColumn('string', 'Day of the Week');
+    table_Data.addColumn('number', '00:00-06:00');
+    table_Data.addColumn('number', '06:00-12:00');
+    table_Data.addColumn('number', '12:00-18:00');
+    table_Data.addColumn('number', '18:00-00:00');
+
+    console.log("Checking index - of interval", dyndata[0][0].intervals*1000)
+    for ( var i=0; i < dyndata.length; i++){
+        table_Data.addRow([dyndata[i][0].week_day, dyndata[i][0].available_bikes, dyndata[i][1].available_bikes, dyndata[i][2].available_bikes, dyndata[i][3].available_bikes]);
+    }
+
+
+    var options = {
+        title:'Weekly Averages - Bikes Available',
         vAxis: {title: 'Availability'},
         hAxis: {title: 'Time of Day'},
         seriesType: 'bars',
-//        series: {5: {type: 'line'}}
+    };
+
+    var chart = new google.visualization.ComboChart(document.getElementById('chart-div1'));
+    chart.draw(table_Data, options);
+
+}
+
+//Creates a WEEK chart for avalaible_bikes
+function drawChartWeek_stand(dyndata){
+    console.log('Inside drawchart_bike, draws the map');
+
+    var table_Data = new google.visualization.DataTable();
+
+    table_Data.addColumn('string', 'Day of the Week');
+    table_Data.addColumn('number', '00:00-06:00');
+    table_Data.addColumn('number', '06:00-12:00');
+    table_Data.addColumn('number', '12:00-18:00');
+    table_Data.addColumn('number', '18:00-00:00');
+
+    console.log("Checking index - of interval", dyndata[0][0].intervals*1000);
+    for ( var i=0; i < dyndata.length; i++){
+         table_Data.addRow([dyndata[i][0].week_day, dyndata[i][0].available_bike_stands, dyndata[i][1].available_bike_stands, dyndata[i][2].available_bike_stands, dyndata[i][3].available_bike_stands]);
+    }
+
+
+    var options = {
+        title:'Weekly Averages - Bike Stands Available',
+        vAxis: {title: 'Availability'},
+        hAxis: {title: 'Time of Day'},
+        seriesType: 'bars',
     };
 
     var chart = new google.visualization.ComboChart(document.getElementById('chart-div2'));
