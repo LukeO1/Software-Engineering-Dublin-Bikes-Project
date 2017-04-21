@@ -245,48 +245,96 @@ nav ul li a{
 }
 /*************************FIND MY LOCATION BUTTON**********************/
 #location-button {
-  display: inline-block;
-  border-radius: 2px;
-  background-color: #f4511e;
-  border: none;
-  color: #FFFFFF;
-  text-align: center;
-  font-size: 14px;
-  padding: 6px;
-  width: 170px;
-  transition: all 0.5s;
-  cursor: pointer;
-  margin: 2.5px;
+    padding: 5px;
+    display: inline-block;
+    /*box-sizing: border-box;*/
+    border-radius: 2px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 14px;
+    path: 170px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 2.5px;
+    vertical-align: middle;
 }
 
 #location-button span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
 }
 
 #location-button span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -10px;
-  transition: 0.5s;
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -10px;
+    transition: 0.5s;
 }
 
 #location-button:hover span {
-  padding-right: 16px;
+    padding-right: 16px;
 }
 
 #location-button:hover span:after {
-  opacity: 1;
-  right: 0;
+    opacity: 1;
+    right: 0;
 }
 #location-button img{
-    width: 20px;
-    height: 25px;
+    width: 15px;
+    height: 22px;
+    vertical-align: middle;
 }
+
+/*************************EUCLIDIAN DISTANCE BUTTON**********************/
+#eloc-button {
+    padding: 8px;
+    display: inline-block;
+    /*box-sizing: border-box;*/
+    border-radius: 2px;
+    background-color: limegreen;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 14px;
+    path: 170px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 2.5px;
+    vertical-align: middle;
+}
+
+#eloc-button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+#eloc-button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -10px;
+    transition: 0.5s;
+}
+
+#eloc-button :hover span {
+    padding-right: 16px;
+}
+
+#eloc-button :hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+
 
 /****************************** WEATHER SIDE **************************************/
 
