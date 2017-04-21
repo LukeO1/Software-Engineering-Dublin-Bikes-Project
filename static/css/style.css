@@ -43,6 +43,41 @@ nav ul li a{
     padding: 14px 16px;
 }
 
+#hide-listings{
+    padding: 6px;
+    display: inline-block;
+    /*box-sizing: border-box;*/
+    border-radius: 8px;
+    background-color: #28cb5a;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 14px;
+    path: 170px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 2.5px;
+    vertical-align: middle;
+}
+
+#show-listings{
+    padding: 6px;
+    display: inline-block;
+    /*box-sizing: border-box;*/
+    border-radius: 8px;
+    background-color: #659af4;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 14px;
+    path: 170px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 2.5px;
+    vertical-align: middle;
+}
+
+
 .nav-left{
     float: left;
     cursor: pointer;
@@ -286,7 +321,7 @@ vertical-align: middle;
     padding: 6px;
     display: inline-block;
     /*box-sizing: border-box;*/
-    border-radius: 2px;
+    border-radius: 8px;
     background-color: #f4511e;
     border: none;
     color: #FFFFFF;
@@ -336,7 +371,7 @@ vertical-align: middle;
     padding: 6px;
     display: inline-block;
     /*box-sizing: border-box;*/
-    border-radius: 2px;
+    border-radius: 8px;
     background-color: #f08d0d;
     border: none;
     color: #FFFFFF;
@@ -425,4 +460,11 @@ vertical-align: middle;
 
 .bottomNav a:hover, .offcanvas a:focus{
     color: #f1f1f1;
+}
+.bottomNav .closebtn {
+    /*position: absolute;*/
+    top: 0;
+    left: 25px;
+    font-size: 36px;
+    margin-left: 50px;
 }

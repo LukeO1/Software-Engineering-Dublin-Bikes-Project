@@ -16,8 +16,7 @@
 <nav>
     <ul id="nav">
         <li class="nav-left"><a href="/"><img src="/static/images/title.png"></a></li>
-        <li class="nav-left"><a id="show-listings">Show</a></li>
-        <li class="nav-left"><a id="hide-listings">Hide Stations</a></li>
+
         <!--This is some code for a toggle switch that can be used later on-->
 {#        <li><div class="onoffswitch">-->#}
 {#        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="show-listings" checked>-->#}
@@ -31,6 +30,7 @@
 {#        </li>#}
         <!--<li class="nav-left"><a >Hide Stations</a></li>-->
         <!--<li class="nav-left"><input id="search-box" type="text" name="search" placeholder="Search.."></li>-->
+
         <li class="nav-right">
             <button style="vertical-align:middle" id="eloc-button">
                 <img class="marker" src="/static/images/closestLocation.png">
@@ -53,6 +53,9 @@
                 </div>
             </div>
         </li>
+
+        <li class="nav-right"><button style="vertical-align:middle" id="show-listings"> Show </button></li>
+        <li class="nav-right"><button style="vertical-align:middle" id="hide-listings"> Hide </button></li>
     </ul>
 </nav>
 
@@ -72,10 +75,13 @@
 </div>
 </div>
 
-<div id="googleChartBottom" class="bottomNav" onclick="closeNav2()">
+<div id="googleChartBottom" class="bottomNav">
     <div id="chart-wrapper">
         <div id="chart-nav-div">
+
+
             <ul id="chart-dropdown-content">
+                 <li style="float: right; background-color: #111" ><a href="javascript:void(0)" class="closebtn" onclick="closeNav2()">&times;</a></li>
                 <li>
                     View By Day
                     <ul>
