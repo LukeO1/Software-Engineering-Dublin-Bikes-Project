@@ -30,7 +30,7 @@ body{
 }*/
 /******************NAVIGATION BAR***********************/
 nav{
-    height: 50px;
+    height: 40px;
     display: block;
     background-color: #dddddd;
 }
@@ -55,6 +55,7 @@ nav ul li a{
 
 .nav-left{
     float: left;
+    cursor: pointer;
 }
 .nav-right{
     float: right;
@@ -65,7 +66,7 @@ nav ul li a{
     width: 130px;
     box-sizing: border-box;
     border: 2px solid #ccc;
-    border-radius: 3px;
+    border-radius: 1px;
     font-size: 14px;
     background-color: white;
     background-image: url('/static/images/search-icon.png');

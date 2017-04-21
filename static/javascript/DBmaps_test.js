@@ -250,6 +250,8 @@ function zoomfocus(station) {
     //takes in the station name as a variable, changes the map focus to the position and change the icon to the current icon
     for (var i = 0; i < markers.length; i++) {
         // console.log(markers[i].address)
+        markers[i].setMap(map);
+
         if (markers[i].address == station) {
             map.setZoom(17);
             map.panTo(markers[i].position);
