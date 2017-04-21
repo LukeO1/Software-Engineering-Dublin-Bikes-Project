@@ -207,25 +207,102 @@ vertical-align: middle;
 }
 /**************************GOOGLE CHARTS*************************************/
 #chart-wrapper{
+    text-align: center;
     width: 100%;
     margin: 0px;
     height: 400px;
 }
 #chart-div1{
+    z-index: 0;
     float: left;
     width: 50%;
     height: 100%;
 }
 #chart-div2{
+    z-index: 0;
     display: inline-block;
     width: 50%;
     height: 100%;
 
 }
-#chart-div3{
-    float: right;
-    width: 33.4%;
-}*/
+#chart-nav-div{
+    z-index: 1;
+    margin-bottom: 10px;
+}
+
+#chart-dropdown-content{
+    z-index: 1;
+    text-align: left;
+    display: inline;
+    margin: 0;
+    padding: 15px 4px 17px 0;
+    list-style: none;
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+#chart-dropdown-content li {
+    z-index: 1;
+    font: bold 12px/18px sans-serif;
+    display: inline-block;
+    margin-right: -4px;
+    position: relative;
+    padding: 15px 20px;
+    background: #fff;
+    cursor: pointer;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -ms-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+}
+#chart-dropdown-content li:hover {
+    z-index: 1;
+  background: #555;
+  color: #fff;
+}
+#chart-dropdown-content li ul {
+    z-index: 1;
+    padding: 0;
+    position: absolute;
+    top: 48px;
+    left: 0;
+    width: 150px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transiton: opacity 0.2s;
+    -moz-transition: opacity 0.2s;
+    -ms-transition: opacity 0.2s;
+    -o-transition: opacity 0.2s;
+    -transition: opacity 0.2s;
+}
+#chart-dropdown-content li ul li {
+    z-index: 1;
+    background: #555;
+    display: block;
+    color: #fff;
+    text-shadow: 0 -1px 0 #000;
+}
+#chart-dropdown-content li ul li:hover {
+    background: #666;
+    z-index: 1;
+}
+
+#chart-dropdown-content li:hover ul  {
+    z-index: 1;
+    /*bottom: 100%;
+    position: absolute;
+    margin-top: 1px;*/
+    overflow: auto;
+    max-height: 200px;
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
 
 /*******************WEATHER INFO DIV*******************************************/
 #center-wrapper{

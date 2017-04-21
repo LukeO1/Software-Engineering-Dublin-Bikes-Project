@@ -75,10 +75,28 @@
 </div>
 
 <div id="googleChartBottom" class="bottomNav" onclick="closeNav2()">
-<div id="chart-wrapper">
-    <div id="chart-div1"></div>
-    <div id="chart-div2"></div>
-    <div id="chart-div3"></div>
+    <div id="chart-wrapper">
+        <div id="chart-nav-div">
+            <ul id="chart-dropdown-content">
+                <li>
+                    View By Day
+                    <ul>
+                        <li onclick="">Monday</li>
+                        <li>Tuesday</li>
+                        <li>Wednesday</li>
+                        <li>Thursday</li>
+                        <li>Friday</li>
+                        <li>Saturday</li>
+                        <li>Sunday</li>
+                    </ul>
+                </li>
+                <li>View Today</li>
+                <li>View By Week</li>
+            </ul>
+        </div>
+        <div id="chart-div1"></div>
+        <div id="chart-div2"></div>
+    </div>
 </div>
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCK2dld8TVzjVCQeM2TPADkVdUr7fiA6KI&v=3&callback=myMap">

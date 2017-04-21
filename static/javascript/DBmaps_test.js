@@ -1,4 +1,3 @@
-
 var map;
 // Create a new blank array for all the listing markers.
 var markers = [];
@@ -494,12 +493,7 @@ function drawChart_stand(dyndata){
 
 }
 
-
-
-
-
 function closeNav() {
     document.getElementById("weather-div").style.width = "0";
     document.getElementById("main").style.marginLeft= "0";
 }
-
