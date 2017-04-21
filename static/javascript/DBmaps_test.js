@@ -109,6 +109,7 @@ function myMap() {
             google.maps.event.addListener(marker, 'click', function() {
                 //Change nameStation global var with the name of the new clicked marker's station
                 nameStation = this.title;
+                nameStation = nameStation.replace("'", "%27");
                 console.log("Station is:", nameStation)
                 googleChartsToday();
             });

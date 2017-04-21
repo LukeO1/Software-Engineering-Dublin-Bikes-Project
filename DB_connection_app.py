@@ -91,7 +91,7 @@ def get_dynamic2(name):
 @app.route("/chartDailyView/<string:name>/<int:day_number>")
 def getDayInfo(name, day_number):
     engine = get_db()
-    sql = "select unix_timestamp(sec_to_time(time_to_sec(last_update)- time_to_sec(last_update)%%(60*60))) as intervals, round(avg(available_bike_stands), 0) as available_bike_stands, round(avg(available_bikes), 0) as available_bikes from station_info where DAYOFWEEK(last_update) = " + str(day_number) + " and name = '" + name + "' group by intervals;"
+    sql = 'select unix_timestamp(sec_to_time(time_to_sec(last_update)- time_to_sec(last_update)%%(60*60))) as intervals, round(avg(available_bike_stands), 0) as available_bike_stands, round(avg(available_bikes), 0) as available_bikes from station_info where DAYOFWEEK(last_update) = ' + str(day_number) + ' and name = "' + name + '" group by intervals;'
     res = engine.execute(sql).fetchall()
     data = []
     for row in res:
@@ -103,10 +103,11 @@ def getDayInfo(name, day_number):
 
 @app.route("/chartWeekView/<string:name>")
 def getWeekInfo(name):
+    name = name.replace('%27', "'")
     engine = get_db()
     weekData = [];
     for i in range(1, 8):
-        sql = "select DAYNAME(last_update) as week_day, unix_timestamp(sec_to_time(time_to_sec(last_update)- time_to_sec(last_update)%%(360*60))) as intervals, round(avg(available_bike_stands), 0) as available_bike_stands, round(avg(available_bikes), 0) as available_bikes from station_info where DAYOFWEEK(last_update) = " + str(i) + " and name = '" + name + "' group by intervals;"
+        sql = 'select DAYNAME(last_update) as week_day, unix_timestamp(sec_to_time(time_to_sec(last_update)- time_to_sec(last_update)%%(360*60))) as intervals, round(avg(available_bike_stands), 0) as available_bike_stands, round(avg(available_bikes), 0) as available_bikes from station_info where DAYOFWEEK(last_update) = ' + str(i) + ' and name = "' + name + '" group by intervals;'
         res = engine.execute(sql).fetchall()
         data = []
         for row in res:
@@ -120,10 +121,12 @@ def getWeekInfo(name):
 
 @app.route("/chartTodayView/<string:name>")
 def getTodayInfo(name):
+    name = name.replace('%27', "'")
+    print(name)
     engine = get_db()
-    sql_week_day = "select last_update, DAYOFWEEK(last_update) from station_info order by last_update desc limit 1;"
+    sql_week_day = 'select last_update, DAYOFWEEK(last_update) from station_info order by last_update desc limit 1;'
     res_week_day = engine.execute(sql_week_day).fetchall()
-    sql = "select unix_timestamp(sec_to_time(time_to_sec(last_update)- time_to_sec(last_update)%%(60*60))) as intervals, round(avg(available_bike_stands), 0) as available_bike_stands, round(avg(available_bikes), 0) as available_bikes from station_info where DAYOFWEEK(last_update) = " + str(res_week_day[0][1]) + " and name = '" + name + "' group by intervals;"
+    sql = 'select unix_timestamp(sec_to_time(time_to_sec(last_update)- time_to_sec(last_update)%%(60*60))) as intervals, round(avg(available_bike_stands), 0) as available_bike_stands, round(avg(available_bikes), 0) as available_bikes from station_info where DAYOFWEEK(last_update) = ' + str(res_week_day[0][1]) + ' and name = "' + name + '" group by intervals;'
     res = engine.execute(sql).fetchall()
     data = []
     for row in res:
