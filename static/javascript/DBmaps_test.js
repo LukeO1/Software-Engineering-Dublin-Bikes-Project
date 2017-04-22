@@ -2,17 +2,18 @@ var map;
 // Create a new blank array for all the listing markers.
 var markers = [];
 var dynamic_data = [];
+//Set global var closestMarker so we can take the euclidian distance marker put it in the hideStations function
 var closestMarker;
 //Set global var nameStation to keep track of the marker's name station
 var nameStation;
 
 function setDynamicData(data) {
     dynamic_data.push(data);
-    // console.log("arary", dynamic_data)
 }
 
-function myMap() {
+//****************************** GOOGLE MAPS ***************************************//
 
+function myMap() {
     var myOptions = {
         zoom: 13,
         center: {lat: 53.343793, lng: -6.254572},//centerMap,
@@ -29,12 +30,12 @@ function myMap() {
 
 
     $.getJSON("/station/static", function (data) {
+        // extracting the static data from flask
         $.getJSON("/station/dynamic", function (dyndata) {
-           // console.log('Testing')
-           renderHTML(data, dyndata);
-
-           map.setZoom(13)
-
+            // extracting the dynamic data
+            renderHTML(data, dyndata);
+            // sending both static and dynamic data into the function renderHTML
+            map.setZoom(13)
         })
     }).fail(function (msg) {
         console.log('failed', msg);
@@ -42,18 +43,16 @@ function myMap() {
 
 
     function renderHTML(bikeObj, dynObj) {
-
+    //parsing the static and dynamic data and setting them to markers
         for (var i = 0; i < bikeObj.length; i++) {
             for (var j = 0; j < dynObj.length; j++) {
                 if (bikeObj[i].name == dynObj[j].name) {
                     var availBikes = dynObj[j].available_bikes;
-                    //console.log(dynObj[j].available_bikes)
                     var availBikeStands = dynObj[j].available_bike_stands;
                 }
             }
             var lngPos = bikeObj[i].position_lng;
             var latPos = bikeObj[i].position_lat;
-            // console.log(position);
             var title = bikeObj[i].name;
             var address = bikeObj[i].address;
             var station = bikeObj[i].number;
@@ -65,6 +64,7 @@ function myMap() {
             var percentage30 = bikeObj[i].bike_stands * (30 / 100);
             var percentage50 = bikeObj[i].bike_stands * (50 / 100);
             var percentage80 = bikeObj[i].bike_stands * (80 / 100);
+            //calculating the percentage of bikes at a particular station.
 
             //HEAT MAP CONDITIONS
             switch (true) {
@@ -86,6 +86,8 @@ function myMap() {
                 default:
                     varIcon = '/static/images/marker5.png';
             }
+
+            //setting marker information
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(latPos, lngPos),
                 title: title,
@@ -106,14 +108,15 @@ function myMap() {
             google.maps.event.addListener(marker, 'mouseout', function () {
                 this.info.close();
             });
-            google.maps.event.addListener(marker, 'click', function() {
+            google.maps.event.addListener(marker, 'click', function () {
                 //Change nameStation global var with the name of the new clicked marker's station
                 nameStation = this.title;
                 nameStation = nameStation.replace("'", "%27");
                 console.log("Station is:", nameStation)
                 googleChartsToday();
             });
-            marker.addListener('click', function() {
+            //when user clicks the marker the google charts information will come up from the bottom of the window.
+            marker.addListener('click', function () {
                 document.getElementById("googleChartBottom").style.height = "400px";
             });
 
@@ -132,7 +135,6 @@ function myMap() {
     }
 
 // ********************** LEGEND ***************
-
 
     var icons = {
         '0': {
@@ -174,10 +176,8 @@ function myMap() {
     map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
 
     //weather icon on the map!!
-
     var weatherInfo = document.getElementById('weatherInfo');
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(weatherInfo);
-
 
 
     //********* LEGEND END *******
@@ -206,6 +206,8 @@ function myMap() {
 //    });
 }
 
+//********************** END OF GOOGLE MAPS FUNCTION*************************
+
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.setPosition(pos);
     infoWindow.setContent(browserHasGeolocation ?
@@ -214,10 +216,8 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 
-
 //This function receives a station from the dropdown menu and zooms in on it
 function zoomfocus(station) {
-    //console.log('Hello');
     //Checks what the current icon is for the station
     for (var i = 0; i < markers.length; i++) {
         if (markers[i].icon == "/static/images/custom-marker-current.png") {
@@ -226,7 +226,6 @@ function zoomfocus(station) {
     }
     //takes in the station name as a variable, changes the map focus to the position and change the icon to the current icon
     for (var i = 0; i < markers.length; i++) {
-        // console.log(markers[i].address)
         markers[i].setMap(map);
 
         if (markers[i].address == station) {
@@ -238,93 +237,76 @@ function zoomfocus(station) {
     }
 }
 
+//this function calculates and displays the closest station to the users current location
 function EuclidianLocation() {
     var closestmarkerPosition;
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-            map.setZoom(13);
-            // console.log(markers[0].getPosition().lat());
-            // console.log(markers[0].getPosition().lng());
-            var min = 10000000000000000;
-            var closestStation = "";
-            var PI = Math.PI;
-            // Calculation to find the distance between each station and the users location
-            for (var i = 0; i < markers.length; i++) {
-                markers[i].setMap(null);
-                var R = 6371e3; //  radius of the earth in metres
-                var φ1 = pos.lat * (PI / 180);
-                // console.log(bikeObj[i].position_lat);
-                var φ2 = markers[i].getPosition().lat() * (PI / 180);
-                var Δφ = (markers[i].getPosition().lat() - pos.lat) * (PI / 180);
-                var Δλ = (markers[i].getPosition().lng() - pos.lng) * (PI / 180);
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                map.setZoom(13);
+                var min = 10000000000000000;
+                var closestStation = "";
+                var PI = Math.PI;
+                // Calculation to find the distance between each station and the users location
+                for (var i = 0; i < markers.length; i++) {
+                    markers[i].setMap(null);
+                    var R = 6371e3; //  radius of the earth in metres
+                    var φ1 = pos.lat * (PI / 180);
+                    var φ2 = markers[i].getPosition().lat() * (PI / 180);
+                    var Δφ = (markers[i].getPosition().lat() - pos.lat) * (PI / 180);
+                    var Δλ = (markers[i].getPosition().lng() - pos.lng) * (PI / 180);
 
-                var a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-                    Math.cos(φ1) * Math.cos(φ2) *
-                    Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                var d = R * c;
+                    var a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+                        Math.cos(φ1) * Math.cos(φ2) *
+                        Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+                    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                    var d = R * c;
 
-                if (d < min) {
-                    min = d;
-                    // closestStation = markers[i].getName();
-                    closestlat = markers[i].getPosition().lat();
-                    closestlng = markers[i].getPosition().lng();
-                    closestmarker = markers[i];
-                    closestmarkerPosition = markers[i].position;
-                    // console.log(markers[i]);
-                    // console.log(closestS tation);
+                    if (d < min) {
+                        min = d;
+                        closestmarker = markers[i];
+                        closestmarkerPosition = markers[i].position;
+                    }
                 }
-
-            }
-
-            // var info = '<p><b>Address: </b>' + closestmarker.address + '<br>' + '<b>Available Bikes:</b> ' + closestmarker.availBikes + '<br>' + '<b>Free Stands:</b> ' + closestmarker.availBikeStands + '</p>'
-
-
                 closestMarker = new google.maps.Marker({
-                position: closestmarkerPosition,
-                map: map,
-                icon: "/static/images/closestLocation.png",
-                animation: google.maps.Animation.DROP
-            });
+                    position: closestmarkerPosition,
+                    map: map,
+                    icon: "/static/images/closestLocation.png",
+                    animation: google.maps.Animation.DROP
+                });
+                //info window content for this marker
+                var content = '<p><b>Address: </b>' + closestmarker.address + '<br>' + '<b>Available Bikes:</b> ' + closestmarker.availBikes + '<br>' + '<b>Free Stands:</b> ' + closestmarker.availBikeStands + '</p>'
+                    ;
 
-            var content = '<p><b>Address: </b>' + closestmarker.address + '<br>' + '<b>Available Bikes:</b> ' + closestmarker.availBikes + '<br>' + '<b>Free Stands:</b> ' + closestmarker.availBikeStands + '</p>'
-;
+                var infowindow = new google.maps.InfoWindow();
 
-            var infowindow = new google.maps.InfoWindow();
+                google.maps.event.addListener(closestMarker, 'mouseover', (function (closestMarker, content, infowindow) {
+                    return function () {
+                        infowindow.setContent(content);
+                        infowindow.open(map, closestMarker);
+                    };
+                })(closestMarker, content, infowindow));
+                google.maps.event.addListener(closestMarker, 'mouseout', (function (closestMarker, content, infowindow) {
+                    return function () {
+                        infowindow.close();
+                    };
+                })(closestMarker, content, infowindow));
 
-            google.maps.event.addListener(closestMarker, 'mouseover', (function (closestMarker, content, infowindow) {
-                return function () {
-                    infowindow.setContent(content);
-                    infowindow.open(map, closestMarker);
-                };
-            })(closestMarker, content, infowindow));
-            google.maps.event.addListener(closestMarker, 'mouseout', (function (closestMarker, content, infowindow) {
-                return function () {
-                    infowindow.close();
-                };
-            })(closestMarker, content, infowindow));
-
-        map.setCenter(closestmarkerPosition);
-
+                map.setCenter(closestmarkerPosition);
+            }, function () {
+                handleLocationError(true, infoWindow, map.getCenter());
+            }
+        );
+    } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
     }
-,
-    function () {
-        handleLocationError(true, infoWindow, map.getCenter());
-    }
-
-);
-} else
-{
-    // Browser doesn't support Geolocation
-    handleLocationError(false, infoWindow, map.getCenter());
-}
 }
 
-
+//this function displays the users current location
 function showCurrentLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -367,8 +349,7 @@ function searchFunction() {
 }
 
 
-
-//*********************** WEATHER SIDE ************************************//
+//*********************** WEATHER SIDEBAR************************************//
 
 
 function openNav() {
@@ -376,21 +357,18 @@ function openNav() {
     document.getElementById("main").style.marginLeft = "250px";
 }
 
-//*********************** GOOGLECHARTS BOTTOM ************************************//
+//*********************** GOOGLECHARTS BOTTOM BAR ************************************//
 
-// function openNav2() {
-//     document.getElementById("googleChartBottom").style.height = "400px";
-// }
 function closeNav2() {
     document.getElementById("googleChartBottom").style.height = "0";
 }
 /******************************GOOGLECHARTS*******************************/
 
 //Shows today's data once user clicks on View Today button
-function googleChartsToday(){
+function googleChartsToday() {
     console.log('inside google charts - today', nameStation);
     var url = "/chartTodayView/" + nameStation;
-    $.getJSON(url, function(todayData) {
+    $.getJSON(url, function (todayData) {
         console.log('IMMA HERE in the event handler - today');
         google.charts.setOnLoadCallback(drawChart_bike(todayData));
         google.charts.setOnLoadCallback(drawChart_stand(todayData));
@@ -398,11 +376,11 @@ function googleChartsToday(){
 }
 
 //Shows daily data once user clicks on View Daily button
-function googleChartsDaily(dayNumber){
+function googleChartsDaily(dayNumber) {
     console.log('inside google charts - daily', nameStation, dayNumber)
     var url = "/chartDailyView/" + nameStation + "/" + dayNumber;
     console.log(url)
-    $.getJSON(url, function(dailyData) {
+    $.getJSON(url, function (dailyData) {
         console.log('IMMA HERE in the event handler - daily');
         google.charts.setOnLoadCallback(drawChart_bike(dailyData));
         google.charts.setOnLoadCallback(drawChart_stand(dailyData));
@@ -410,11 +388,11 @@ function googleChartsDaily(dayNumber){
 }
 
 //Shows weekly data once user clicks on View Weekly button
-function googleChartsWeekly(){
+function googleChartsWeekly() {
     console.log('inside google charts - weekly', nameStation)
     var url = "/chartWeekView/" + nameStation;
     console.log(url)
-    $.getJSON(url, function(weeklyData) {
+    $.getJSON(url, function (weeklyData) {
         console.log('IMMA HERE in the event handler - weekly');
         google.charts.setOnLoadCallback(drawChartWeek_bike(weeklyData));
         google.charts.setOnLoadCallback(drawChartWeek_stand(weeklyData));
@@ -422,7 +400,7 @@ function googleChartsWeekly(){
 }
 
 //Creates a ONE-WEEKDAY chart for avalaible_bikes
-function drawChart_bike(dyndata){
+function drawChart_bike(dyndata) {
     console.log('Inside drawchart_bike, draws the map');
 
     var table_Data = new google.visualization.DataTable();
@@ -431,14 +409,14 @@ function drawChart_bike(dyndata){
     table_Data.addColumn('number', 'Bikes Available');
 
 
-    console.log("Checking index - of interval", dyndata[0].intervals*1000);
-    for ( var i=0; i < dyndata.length; i++){
-         table_Data.addRow([new Date(dyndata[i].intervals*1000), dyndata[i].available_bikes]);
+    console.log("Checking index - of interval", dyndata[0].intervals * 1000);
+    for (var i = 0; i < dyndata.length; i++) {
+        table_Data.addRow([new Date(dyndata[i].intervals * 1000), dyndata[i].available_bikes]);
     }
 
 
     var options = {
-        title:'Daily Averages - Available Bikes',
+        title: 'Daily Averages - Available Bikes',
         vAxis: {title: 'Availability'},
         hAxis: {title: 'Time of Day'},
         seriesType: 'bars',
@@ -451,7 +429,7 @@ function drawChart_bike(dyndata){
 }
 
 //Creates a ONE-DAY chart for avalaible_bike_stands
-function drawChart_stand(dyndata){
+function drawChart_stand(dyndata) {
     console.log('Inside drawchart_bike, draws the map');
 
     var table_Data = new google.visualization.DataTable();
@@ -459,14 +437,14 @@ function drawChart_stand(dyndata){
     table_Data.addColumn('datetime', 'Time');
     table_Data.addColumn('number', 'Bikes Stands Available');
 
-    console.log("Checking index - of interval", dyndata[0].intervals*1000);
-    for ( var i=0; i < dyndata.length; i++){
-         table_Data.addRow([new Date(dyndata[i].intervals*1000), dyndata[i].available_bike_stands]);
+    console.log("Checking index - of interval", dyndata[0].intervals * 1000);
+    for (var i = 0; i < dyndata.length; i++) {
+        table_Data.addRow([new Date(dyndata[i].intervals * 1000), dyndata[i].available_bike_stands]);
     }
 
 
     var options = {
-        title:'Daily Averages - Available Bike Stands',
+        title: 'Daily Averages - Available Bike Stands',
         vAxis: {title: 'Availability'},
         hAxis: {title: 'Time of Day'},
         seriesType: 'bars'
@@ -478,7 +456,7 @@ function drawChart_stand(dyndata){
 }
 
 //Creates a WEEK chart for avalaible_bikes
-function drawChartWeek_bike(dyndata){
+function drawChartWeek_bike(dyndata) {
     console.log('Inside drawChartWeek_bike, draws the map');
 
     var table_Data = new google.visualization.DataTable();
@@ -489,14 +467,14 @@ function drawChartWeek_bike(dyndata){
     table_Data.addColumn('number', '12:00-18:00');
     table_Data.addColumn('number', '18:00-00:00');
 
-    console.log("Checking index - of interval", dyndata[0][0].intervals*1000)
-    for ( var i=0; i < dyndata.length; i++){
+    console.log("Checking index - of interval", dyndata[0][0].intervals * 1000)
+    for (var i = 0; i < dyndata.length; i++) {
         table_Data.addRow([dyndata[i][0].week_day, dyndata[i][0].available_bikes, dyndata[i][1].available_bikes, dyndata[i][2].available_bikes, dyndata[i][3].available_bikes]);
     }
 
 
     var options = {
-        title:'Weekly Averages - Bikes Available',
+        title: 'Weekly Averages - Bikes Available',
         vAxis: {title: 'Availability'},
         hAxis: {title: 'Time of Day'},
         seriesType: 'bars',
@@ -508,7 +486,7 @@ function drawChartWeek_bike(dyndata){
 }
 
 //Creates a WEEK chart for avalaible_bikes
-function drawChartWeek_stand(dyndata){
+function drawChartWeek_stand(dyndata) {
     console.log('Inside drawchart_bike, draws the map');
 
     var table_Data = new google.visualization.DataTable();
@@ -519,14 +497,14 @@ function drawChartWeek_stand(dyndata){
     table_Data.addColumn('number', '12:00-18:00');
     table_Data.addColumn('number', '18:00-00:00');
 
-    console.log("Checking index - of interval", dyndata[0][0].intervals*1000);
-    for ( var i=0; i < dyndata.length; i++){
-         table_Data.addRow([dyndata[i][0].week_day, dyndata[i][0].available_bike_stands, dyndata[i][1].available_bike_stands, dyndata[i][2].available_bike_stands, dyndata[i][3].available_bike_stands]);
+    console.log("Checking index - of interval", dyndata[0][0].intervals * 1000);
+    for (var i = 0; i < dyndata.length; i++) {
+        table_Data.addRow([dyndata[i][0].week_day, dyndata[i][0].available_bike_stands, dyndata[i][1].available_bike_stands, dyndata[i][2].available_bike_stands, dyndata[i][3].available_bike_stands]);
     }
 
 
     var options = {
-        title:'Weekly Averages - Bike Stands Available',
+        title: 'Weekly Averages - Bike Stands Available',
         vAxis: {title: 'Availability'},
         hAxis: {title: 'Time of Day'},
         seriesType: 'bars',
@@ -539,28 +517,23 @@ function drawChartWeek_stand(dyndata){
 
 function closeNav() {
     document.getElementById("weather-div").style.width = "0";
-    document.getElementById("main").style.marginLeft= "0";
+    document.getElementById("main").style.marginLeft = "0";
 }
 
 //*************************** HIDE/SHOW BUTTON ************************
 
 function showListings() {
-    // console.log(markers[3].title);
     var bounds = new google.maps.LatLngBounds();
     // Extend the boundaries of the map for each marker and display the marker
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(map);
         bounds.extend(markers[i].position);
-        // console.log(markers[i].position);
-
-
     }
     map.fitBounds(bounds);
 }
 
 // This function will loop through the listings and hide them all.
 function hideListings() {
-//    console.log('Goodbye')
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
     }
