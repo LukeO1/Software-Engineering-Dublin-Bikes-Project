@@ -7,6 +7,8 @@ var closestMarker;
 //Set global var nameStation to keep track of the marker's name station
 var nameStation;
 
+
+//???????????????? DO WE USE THIS CODE ?????????????????
 function setDynamicData(data) {
     dynamic_data.push(data);
 }
@@ -112,7 +114,7 @@ function myMap() {
                 //Change nameStation global var with the name of the new clicked marker's station
                 nameStation = this.title;
                 nameStation = nameStation.replace("'", "%27");
-                console.log("Station is:", nameStation)
+                console.log("Station is:", nameStation);
                 googleChartsToday();
             });
             //when user clicks the marker the google charts information will come up from the bottom of the window.
