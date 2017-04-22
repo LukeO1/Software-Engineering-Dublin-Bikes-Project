@@ -427,13 +427,14 @@ function drawChart_bike(dyndata){
 
     var table_Data = new google.visualization.DataTable();
 
-    table_Data.addColumn('datetime', 'Time');
+    table_Data.addColumn('string', 'Time');
     table_Data.addColumn('number', 'Bikes Available');
 
 
     console.log("Checking index - of interval", dyndata[0].intervals*1000);
     for ( var i=0; i < dyndata.length; i++){
-         table_Data.addRow([new Date(dyndata[i].intervals*1000), dyndata[i].available_bikes]);
+         date = new Date(dyndata[i].intervals*1000);
+         table_Data.addRow([date.getHours() + ":00", dyndata[i].available_bikes]);
     }
 
 
@@ -456,12 +457,13 @@ function drawChart_stand(dyndata){
 
     var table_Data = new google.visualization.DataTable();
 
-    table_Data.addColumn('datetime', 'Time');
+    table_Data.addColumn('string', 'Time');
     table_Data.addColumn('number', 'Bikes Stands Available');
 
     console.log("Checking index - of interval", dyndata[0].intervals*1000);
     for ( var i=0; i < dyndata.length; i++){
-         table_Data.addRow([new Date(dyndata[i].intervals*1000), dyndata[i].available_bike_stands]);
+         date = new Date(dyndata[i].intervals*1000);
+         table_Data.addRow([date.getHours() + ":00", dyndata[i].available_bike_stands]);
     }
 
 
