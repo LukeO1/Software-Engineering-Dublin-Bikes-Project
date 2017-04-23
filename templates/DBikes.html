@@ -53,38 +53,38 @@
 </div>
 
 <div id="main">
-    <span id= weatherInfo style="font-size:15px;cursor:pointer" onclick="openNav()"><img src=/static/images/weather.png></span>
+    <span id= weatherInfo style="margin: 0; cursor:pointer" onclick="openNav()"><img src=/static/images/weather.png></span>
     <div id="map-div"></div>
     <div id="legend"><h3>Availability</h3></div>
 </div>
 </div>
 
-<div id="googleChartBottom" class="bottomNav">
+<div id="googleChartBottom" class="bottomNav" style="position: fixed;">
     <div id="chart-wrapper">
         <div id="chart-nav-div">
 
 
             <ul id="chart-dropdown-content">
-                <li id="station_info" style="float: left; text-align: center; background-colour: #111; font-size: 2em; cursor: default ">Station Info</li>
+                <li id="station_info" style="float: left; text-align: center; background-colour: #111; font-size: 1em; cursor: default ">Station Info</li>
                  <li style="float: right; background-color: #111" ><a href="javascript:void(0)" class="closebtn" onclick="closeNav2()">&times;</a></li>
                 <li>
                     View By Day
                     <ul>
-                        <li onclick="googleChartsDaily(2)">Monday</li>
-                        <li onclick="googleChartsDaily(3)">Tuesday</li>
-                        <li onclick="googleChartsDaily(4)">Wednesday</li>
-                        <li onclick="googleChartsDaily(5)">Thursday</li>
-                        <li onclick="googleChartsDaily(6)">Friday</li>
-                        <li onclick="googleChartsDaily(7)">Saturday</li>
-                        <li onclick="googleChartsDaily(1)">Sunday</li>
+                        <li class="chartbtn" onclick="googleChartsDaily(2)">Monday</li>
+                        <li class="chartbtn" onclick="googleChartsDaily(3)">Tuesday</li>
+                        <li class="chartbtn" onclick="googleChartsDaily(4)">Wednesday</li>
+                        <li class="chartbtn" onclick="googleChartsDaily(5)">Thursday</li>
+                        <li class="chartbtn" onclick="googleChartsDaily(6)">Friday</li>
+                        <li class="chartbtn" onclick="googleChartsDaily(7)">Saturday</li>
+                        <li class="chartbtn" onclick="googleChartsDaily(1)">Sunday</li>
                     </ul>
                 </li>
-                <li onclick="googleChartsToday()">View Today</li>
-                <li onclick="googleChartsWeekly()">View Weekly</li>
+                <li class="chartbtn" onclick="googleChartsToday()">View Today</li>
+                <li class="chartbtn" onclick="googleChartsWeekly()">View Weekly</li>
             </ul>
         </div>
-        <div id="station-info-div" style="text-align: left;"> Please wait. <br> Information is loading ... </div>
-        <div id="chart-div1"></div>
+        <div id="station-info-div" style="text-align: left;"> </div>
+        <div id="chart-div1" style="color: white;"><br><br><br>Please wait. <br> Information is loading ... </div>
         <div id="chart-div2"></div>
     </div>
 </div>

@@ -1,3 +1,10 @@
+$(document).ajaxStart(function () {
+    $(document.body).css({ 'cursor': 'wait' })
+});
+$(document).ajaxComplete(function () {
+    $(document.body).css({ 'cursor': 'default' })
+});
+
 var map;
 // Create a new blank array for all the listing markers.
 var markers = [];
@@ -106,7 +113,7 @@ function myMap() {
             });
             google.maps.event.addListener(marker, 'click', function () {
                 //Change nameStation global var with the name of the new clicked marker's station
-                document.getElementById("googleChartBottom").style.height = "300px";
+                document.getElementById("googleChartBottom").style.height = "320px";
                 nameStation = this.title;
                 nameStation = nameStation.replace("'", "%27");
                 // console.log("Station is:", nameStation);
@@ -170,7 +177,7 @@ function myMap() {
         legend.appendChild(div);
     }
 
-    map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
+    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(legend);
 
     //we/*weather icon on the map!!*/ var weatherInfo = document.getElementById('weatherInfo');
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(weatherInfo);
@@ -192,10 +199,14 @@ function myMap() {
 //********************** END OF GOOGLE MAPS FUNCTION*************************
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
-        'Error: The Geolocation service failed.' :
-        'Error: Your browser doesn\'t support geolocation.');
+    try {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+    }catch(err) {
+    alert("Not working because it's not running on HTTPS, to use geolocation please run the app on local host. Go into the Flask App called DB_connection_app.py and change from host=0.0.0.0 to your local host")
+}
 }
 
 
@@ -372,6 +383,8 @@ function googleChartsToday() {
     });
 }
 
+$("#chart-div2").css('cursor','wait');
+$("#chart-div1").css('cursor','wait');
 //Shows daily data once user clicks on View Daily button
 function googleChartsDaily(dayNumber) {
     // console.log('inside google charts - daily', nameStation, dayNumber)
@@ -394,6 +407,7 @@ function googleChartsWeekly() {
         google.charts.setOnLoadCallback(drawChartWeek_bike(weeklyData));
         google.charts.setOnLoadCallback(drawChartWeek_stand(weeklyData));
     });
+
 }
 
 //Creates a ONE-WEEKDAY chart for avalaible_bikes
@@ -416,7 +430,8 @@ function drawChart_bike(dyndata) {
         title: 'Daily Averages - Available Bikes',
         vAxis: {title: 'Availability'},
         hAxis: {title: 'Time of Day'},
-        seriesType: 'bars'
+        seriesType: 'bars',
+        legend: {position: 'none'}
     };
 
     var chart = new google.visualization.ComboChart(document.getElementById('chart-div1'));
@@ -444,7 +459,8 @@ function drawChart_stand(dyndata) {
         title: 'Daily Averages - Available Bike Stands',
         vAxis: {title: 'Availability'},
         hAxis: {title: 'Time of Day'},
-        seriesType: 'bars'
+        seriesType: 'bars',
+        legend: {position: 'none'}
     };
 
     var chart = new google.visualization.ComboChart(document.getElementById('chart-div2'));
@@ -474,7 +490,8 @@ function drawChartWeek_bike(dyndata) {
         title: 'Weekly Averages - Bikes Available',
         vAxis: {title: 'Availability'},
         hAxis: {title: 'Time of Day'},
-        seriesType: 'bars'
+        seriesType: 'bars',
+        legend: {position: 'none'}
     };
 
     var chart = new google.visualization.ComboChart(document.getElementById('chart-div1'));
@@ -504,7 +521,8 @@ function drawChartWeek_stand(dyndata) {
         title: 'Weekly Averages - Bike Stands Available',
         vAxis: {title: 'Availability'},
         hAxis: {title: 'Time of Day'},
-        seriesType: 'bars'
+        seriesType: 'bars',
+        legend: {position: 'none'}
     };
 
     var chart = new google.visualization.ComboChart(document.getElementById('chart-div2'));
