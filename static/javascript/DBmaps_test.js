@@ -1,8 +1,8 @@
 $(document).ajaxStart(function () {
-    $(document.body).css({ 'cursor': 'wait' })
+    $(document.body).css({'cursor': 'wait'})
 });
 $(document).ajaxComplete(function () {
-    $(document.body).css({ 'cursor': 'default' })
+    $(document.body).css({'cursor': 'default'})
 });
 
 var map;
@@ -46,8 +46,8 @@ function myMap() {
 
 
     function renderHTML(bikeObj, dynObj) {
-    //arsing the static and dynamic data and setting them to markers
-     for (var i = 0; i < bikeObj.length; i++) {
+        //arsing the static and dynamic data and setting them to markers
+        for (var i = 0; i < bikeObj.length; i++) {
             for (var j = 0; j < dynObj.length; j++) {
                 if (bikeObj[i].name == dynObj[j].name) {
                     var availBikes = dynObj[j].available_bikes;
@@ -204,9 +204,9 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setContent(browserHasGeolocation ?
             'Error: The Geolocation service failed.' :
             'Error: Your browser doesn\'t support geolocation.');
-    }catch(err) {
-    console.log("Not working because it's not running on HTTPS, to use geolocation please run the app on local host. Go into the Flask App called DB_connection_app.py and change from host=0.0.0.0 to your local host")
-}
+    } catch (err) {
+        console.log("Not working because it's not running on HTTPS, to use geolocation please run the app on local host. Go into the Flask App called DB_connection_app.py and change from host=0.0.0.0 to your local host")
+    }
 }
 
 
@@ -235,81 +235,88 @@ function zoomfocus(station) {
 function EuclidianLocation() {
     var closestmarkerPosition;
     var infowindow;
-    try{
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                    var pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
-                    map.setZoom(13);
-                    var min = 10000000000000000;
-                    var closestStation = "";
-                    var PI = Math.PI;
-                    // Calculation to find the distance between each station and the users location
-                    for (var i = 0; i < markers.length; i++) {
-                        markers[i].setMap(null);
-                        var R = 6371e3; //  radius of the earth in metres
-                        var φ1 = pos.lat * (PI / 180);
-                        var φ2 = markers[i].getPosition().lat() * (PI / 180);
-                        var Δφ = (markers[i].getPosition().lat() - pos.lat) * (PI / 180);
-                        var Δλ = (markers[i].getPosition().lng() - pos.lng) * (PI / 180);
 
-                        var a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-                            Math.cos(φ1) * Math.cos(φ2) *
-                            Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-                        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                        var d = R * c;
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            map.setZoom(13);
+            var min = 10000000000000000;
+            var closestStation = "";
+            var PI = Math.PI;
+            // Calculation to find the distance between each station and the users location
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(null);
+                var R = 6371e3; //  radius of the earth in metres
+                var φ1 = pos.lat * (PI / 180);
+                var φ2 = markers[i].getPosition().lat() * (PI / 180);
+                var Δφ = (markers[i].getPosition().lat() - pos.lat) * (PI / 180);
+                var Δλ = (markers[i].getPosition().lng() - pos.lng) * (PI / 180);
 
-                        if (d < min) {
-                            min = d;
-                            closestmarker = markers[i];
-                            closestmarkerPosition = markers[i].position;
-                        }
-                    }
-                    closestMarker = new google.maps.Marker({
-                        position: closestmarkerPosition,
-                        map: map,
-                        icon: "/static/images/closestLocation.png",
-                        animation: google.maps.Animation.DROP
-                    });
-                    //info window content for this marker
-                    var content = '<p><b>Address: </b>' + closestmarker.address + '<br>' + '<b>Available Bikes:</b> ' + closestmarker.availBikes + '<br>' + '<b>Free Stands:</b> ' + closestmarker.availBikeStands + '</p>';
-                    google.maps.event.addListener(closestMarker, 'click', function () {
-                        //Change nameStation global var with the name of the new clicked marker's station
-                        nameStation = closestmarker.address;
-                        nameStation = nameStation.replace("'", "%27");
-                        // console.log("Station is:", nameStation);
-                        document.getElementById("googleChartBottom").style.height = "300px";
-                        googleChartsToday();
-                    });
-                    infowindow = new google.maps.InfoWindow();
+                var a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+                    Math.cos(φ1) * Math.cos(φ2) *
+                    Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                var d = R * c;
 
-                    google.maps.event.addListener(closestMarker, 'mouseover', (function (closestMarker, content, infowindow) {
-                        return function () {
-                            infowindow.setContent(content);
-                            infowindow.open(map, closestMarker);
-                        };
-                    })(closestMarker, content, infowindow));
-                    google.maps.event.addListener(closestMarker, 'mouseout', (function (closestMarker, content, infowindow) {
-                        return function () {
-                            infowindow.close();
-                        };
-                    })(closestMarker, content, infowindow));
-
-                    map.setCenter(closestmarkerPosition);
-                }, function () {
-                    handleLocationError(true, infoWindow, map.getCenter());
+                if (d < min) {
+                    min = d;
+                    closestmarker = markers[i];
+                    closestmarkerPosition = markers[i].position;
                 }
-            );
-        } else {
-            // Browser doesn't support Geolocation
-            handleLocationError(false, infoWindow, map.getCenter());
+            }
+            closestMarker = new google.maps.Marker({
+                position: closestmarkerPosition,
+                map: map,
+                icon: "/static/images/closestLocation.png",
+                animation: google.maps.Animation.DROP
+            });
+            //info window content for this marker
+            var content = '<p><b>Address: </b>' + closestmarker.address + '<br>' + '<b>Available Bikes:</b> ' + closestmarker.availBikes + '<br>' + '<b>Free Stands:</b> ' + closestmarker.availBikeStands + '</p>';
+            google.maps.event.addListener(closestMarker, 'click', function () {
+                //Change nameStation global var with the name of the new clicked marker's station
+                nameStation = closestmarker.address;
+                nameStation = nameStation.replace("'", "%27");
+                // console.log("Station is:", nameStation);
+                document.getElementById("googleChartBottom").style.height = "300px";
+                googleChartsToday();
+            });
+            infowindow = new google.maps.InfoWindow();
+
+            google.maps.event.addListener(closestMarker, 'mouseover', (function (closestMarker, content, infowindow) {
+                return function () {
+                    infowindow.setContent(content);
+                    infowindow.open(map, closestMarker);
+                };
+            })(closestMarker, content, infowindow));
+            google.maps.event.addListener(closestMarker, 'mouseout', (function (closestMarker, content, infowindow) {
+                return function () {
+                    infowindow.close();
+                };
+            })(closestMarker, content, infowindow));
+
+            map.setCenter(closestmarkerPosition);
+        }, function () {
+             try{
+            handleLocationError(true, infoWindow, map.getCenter());}
+            catch(err){
+            console.log("Not working because it's not running on HTTPS, to use geolocation please run the app on local host. Go into the Flask App called DB_connection_app.py and change from host=0.0.0.0 to your local host")
+            }
         }
+        );
     }
-    catch(err) {
-    console.log("Not working because it's not running on HTTPS, to use geolocation please run the app on local host. Go into the Flask App called DB_connection_app.py and change from host=0.0.0.0 to your local host")
-}
+
+    else {
+        try{
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());}
+        catch(err){
+            console.log("Not working because it's not running on HTTPS, to use geolocation please run the app on local host. Go into the Flask App called DB_connection_app.py and change from host=0.0.0.0 to your local host")
+            }
+    }
+
 }
 
 //this function displays the users current location
@@ -374,10 +381,10 @@ function closeNav2() {
 function googleChartsToday() {
     var info_url = "/chartTodayView/detailedInformation/" + nameStation;
     $.getJSON(info_url, function (fullDetails) {
-        html = "<p>Number: "+ fullDetails[0].number + "</p><p>Address: "+ fullDetails[0].address +"</p><p>Status: "+ fullDetails[1].status
-        +"</p><p>Total Bike Stands: "+ fullDetails[0].bike_stands + "</p><p>Available Bikes: "+ fullDetails[1].available_bikes
-        + "</p><p>Available Bike Stands: "+ fullDetails[1].available_bike_stands
-        + "</p><p>Banking: "+ fullDetails[0].banking + "</p><p>Bonus: "+ fullDetails[0].bonus + "</p>";
+        html = "<p>Number: " + fullDetails[0].number + "</p><p>Address: " + fullDetails[0].address + "</p><p>Status: " + fullDetails[1].status
+            + "</p><p>Total Bike Stands: " + fullDetails[0].bike_stands + "</p><p>Available Bikes: " + fullDetails[1].available_bikes
+            + "</p><p>Available Bike Stands: " + fullDetails[1].available_bike_stands
+            + "</p><p>Banking: " + fullDetails[0].banking + "</p><p>Bonus: " + fullDetails[0].bonus + "</p>";
         document.getElementById("station-info-div").innerHTML = html;
     });
     // console.log('inside google charts - today', nameStation);
@@ -389,8 +396,8 @@ function googleChartsToday() {
     });
 }
 
-$("#chart-div2").css('cursor','wait');
-$("#chart-div1").css('cursor','wait');
+$("#chart-div2").css('cursor', 'wait');
+$("#chart-div1").css('cursor', 'wait');
 //Shows daily data once user clicks on View Daily button
 function googleChartsDaily(dayNumber) {
     // console.log('inside google charts - daily', nameStation, dayNumber)
@@ -426,9 +433,9 @@ function drawChart_bike(dyndata) {
     table_Data.addColumn('number', 'Bikes Available');
 
     // console.log("Checking index - of interval", dyndata[0].intervals*1000);
-    for ( var i=0; i < dyndata.length; i++){
-         date = new Date(dyndata[i].intervals*1000);
-         table_Data.addRow([date.getHours() + ":00", dyndata[i].available_bikes]);
+    for (var i = 0; i < dyndata.length; i++) {
+        date = new Date(dyndata[i].intervals * 1000);
+        table_Data.addRow([date.getHours() + ":00", dyndata[i].available_bikes]);
     }
 
 
@@ -455,9 +462,9 @@ function drawChart_stand(dyndata) {
     table_Data.addColumn('number', 'Bikes Stands Available');
 
     // console.log("Checking index - of interval", dyndata[0].intervals*1000);
-    for ( var i=0; i < dyndata.length; i++){
-         date = new Date(dyndata[i].intervals*1000);
-         table_Data.addRow([date.getHours() + ":00", dyndata[i].available_bike_stands]);
+    for (var i = 0; i < dyndata.length; i++) {
+        date = new Date(dyndata[i].intervals * 1000);
+        table_Data.addRow([date.getHours() + ":00", dyndata[i].available_bike_stands]);
     }
 
 
