@@ -120,7 +120,7 @@ def getFullStationInfo(name):
     engine = get_db()
     sql_static = 'select number, address, banking, bonus, bike_stands from static_information where name = "' + name + '";'
     res_static = engine.execute(sql_static).fetchall()
-    sql_dynamic = 'select status, available_bike_stands, available_bikes, unix_timestamp(last_update) as last_update from station_info where name = "' + name + '" order by last_update limit 1;'
+    sql_dynamic = 'select status, available_bike_stands, available_bikes, unix_timestamp(last_update) as last_update from station_info where name = "' + name + '" order by last_update desc limit 1;'
     res_dynamic = engine.execute(sql_dynamic).fetchall()
     #print(res_static[0][1])
     #print(res_dynamic)
