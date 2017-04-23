@@ -12,7 +12,7 @@ try:
 except ImportError:
     pass
 
-def main():
+def base(engine):
     #This code is used to set up a database. Careful: __tablename__ is not a variable name, so
     #do not change it.
     Base = declarative_base()
@@ -29,17 +29,11 @@ def main():
         bonus = Column(Boolean)
         bike_stands = Column(Integer)
 
-    #This code creates/opens the connection to the database
-    engine = create_engine('mysql+pymysql://dublinbikes:dublinbikes@dublinbikes.c2xnnykekrgc.us-west-2.rds.amazonaws.com/dublinbikes')
-
     #This code sends the command to create the table. If table is already created, it does not overwrite.
     Base.metadata.create_all(engine)
+    return User
 
-    #This code sets up a session. The session is like a notepad, where we take notes of all the changes
-    #we want to do the database.
-    Session = sessionmaker(bind=engine)
-    session = Session()
-
+def connectAPI():
     #This code open the connection to the Dublin Bikes API.
     base_url = 'https://api.jcdecaux.com/vls/v1/stations?contract=Dublin&apiKey=8a48bea4967f8f374d1b211fc80da143d607e28a'
 
@@ -47,12 +41,29 @@ def main():
     #This code gets the data from Dublin Bikes.
     response = requests.get(base_url)
     #print(response) #This is just to show that the response connected without error (should show <Response [200]. It can be commented out.
+    return response
+
+def callAPI():
+    response = connectAPI()
     results = response.json()
+    return results
+
+def main():
+    #This code creates/opens the connection to the database
+    engine = create_engine('mysql+pymysql://dublinbikes:dublinbikes@dublinbikes.c2xnnykekrgc.us-west-2.rds.amazonaws.com/dublinbikes')
+    user = base(engine)
+    #This code sets up a session. The session is like a notepad, where we take notes of all the changes
+    #we want to do the database.
+
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    results = callAPI()
     #This code iterates over the lines in the array(or list? or tupple?, not sure...)
     #sent over by Dublin Bikes.
     for i in results:
         #This code creates a row
-        ed_user = User(number=i['number'], contract_name=i['contract_name'], name=i['name']
+        ed_user = user(number=i['number'], contract_name=i['contract_name'], name=i['name']
                        , address=i['address'], position_lat=i['position']['lat'], position_lng=i['position']['lng'],
                        banking=i['banking'], bonus=i['bonus'], bike_stands=i['bike_stands'])
         #Save row in notepad. Attention: the row is only stored in the notepade at this point.

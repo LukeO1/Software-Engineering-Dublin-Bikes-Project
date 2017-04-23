@@ -2,7 +2,6 @@ from flask import Flask, g, render_template, jsonify
 from sqlalchemy import create_engine
 import pandas as pd
 import pyowm
-import os.path
 
 app = Flask(__name__)  #creating the App
 
