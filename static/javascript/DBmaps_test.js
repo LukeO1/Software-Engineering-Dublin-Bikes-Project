@@ -205,7 +205,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
             'Error: The Geolocation service failed.' :
             'Error: Your browser doesn\'t support geolocation.');
     }catch(err) {
-    alert("Not working because it's not running on HTTPS, to use geolocation please run the app on local host. Go into the Flask App called DB_connection_app.py and change from host=0.0.0.0 to your local host")
+    console.log("Not working because it's not running on HTTPS, to use geolocation please run the app on local host. Go into the Flask App called DB_connection_app.py and change from host=0.0.0.0 to your local host")
 }
 }
 
@@ -234,6 +234,7 @@ function zoomfocus(station) {
 //this function calculates and displays the closest station to the users current location
 function EuclidianLocation() {
     var closestmarkerPosition;
+    var infowindow;
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
                 var pos = {
@@ -281,7 +282,7 @@ function EuclidianLocation() {
                     document.getElementById("googleChartBottom").style.height = "300px";
                     googleChartsToday();
                 });
-                var infowindow = new google.maps.InfoWindow();
+                infowindow = new google.maps.InfoWindow();
 
                 google.maps.event.addListener(closestMarker, 'mouseover', (function (closestMarker, content, infowindow) {
                     return function () {
