@@ -58,7 +58,7 @@ def main():
     session = Session()
 
     #This code open the connection to the Dublin Bikes API.
-    counter = 499749
+    counter = 858114 + 1
     #This code sets up our 'infinite' data collection loop.
     while True:
         try:
