@@ -274,9 +274,15 @@ function EuclidianLocation() {
                     animation: google.maps.Animation.DROP
                 });
                 //info window content for this marker
-                var content = '<p><b>Address: </b>' + closestmarker.address + '<br>' + '<b>Available Bikes:</b> ' + closestmarker.availBikes + '<br>' + '<b>Free Stands:</b> ' + closestmarker.availBikeStands + '</p>'
-                    ;
-
+                var content = '<p><b>Address: </b>' + closestmarker.address + '<br>' + '<b>Available Bikes:</b> ' + closestmarker.availBikes + '<br>' + '<b>Free Stands:</b> ' + closestmarker.availBikeStands + '</p>';
+                google.maps.event.addListener(closestMarker, 'click', function () {
+                    //Change nameStation global var with the name of the new clicked marker's station
+                    nameStation = closestmarker.address;
+                    nameStation = nameStation.replace("'", "%27");
+                    console.log("Station is:", nameStation);
+                    document.getElementById("googleChartBottom").style.height = "400px";
+                    googleChartsToday();
+                });
                 var infowindow = new google.maps.InfoWindow();
 
                 google.maps.event.addListener(closestMarker, 'mouseover', (function (closestMarker, content, infowindow) {
@@ -362,6 +368,14 @@ function closeNav2() {
 
 //Shows today's data once user clicks on View Today button
 function googleChartsToday() {
+    var info_url = "/chartTodayView/detailedInformation/" + nameStation;
+    $.getJSON(info_url, function (fullDetails) {
+        html = "<p>Number: "+ fullDetails[0].number + "</p><p>Address: "+ fullDetails[0].address +"</p><p>Status: "+ fullDetails[1].status
+        +"</p><p>Total Bike Stands: "+ fullDetails[0].bike_stands + "</p><p>Available Bikes: "+ fullDetails[1].available_bikes
+        + "</p><p>Available Bike Stands: "+ fullDetails[1].available_bike_stands
+        + "</p><p>Banking: "+ fullDetails[0].banking + "</p><p>Bonus: "+ fullDetails[0].bonus + "</p>";
+        document.getElementById("station-info-div").innerHTML = html;
+    });
     console.log('inside google charts - today', nameStation);
     var url = "/chartTodayView/" + nameStation;
     $.getJSON(url, function (todayData) {
