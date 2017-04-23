@@ -2,7 +2,7 @@ var map;
 // Create a new blank array for all the listing markers.
 var markers = [];
 var dynamic_data = [];
-//Set global var closestMarker so we can take the euclidian distance marker put it in the hideStations function
+//Set global var closestMarker so we can take the Euclidian distance marker put it in the hideStations function
 var closestMarker;
 //Set global var nameStation to keep track of the marker's name station
 var nameStation;
@@ -39,8 +39,8 @@ function myMap() {
 
 
     function renderHTML(bikeObj, dynObj) {
-    //parsing the static and dynamic data and setting them to markers
-        for (var i = 0; i < bikeObj.length; i++) {
+    //arsing the static and dynamic data and setting them to markers
+     for (var i = 0; i < bikeObj.length; i++) {
             for (var j = 0; j < dynObj.length; j++) {
                 if (bikeObj[i].name == dynObj[j].name) {
                     var availBikes = dynObj[j].available_bikes;
@@ -106,15 +106,16 @@ function myMap() {
             });
             google.maps.event.addListener(marker, 'click', function () {
                 //Change nameStation global var with the name of the new clicked marker's station
+                document.getElementById("googleChartBottom").style.height = "300px";
                 nameStation = this.title;
                 nameStation = nameStation.replace("'", "%27");
-                console.log("Station is:", nameStation);
+                // console.log("Station is:", nameStation);
                 googleChartsToday();
             });
             //when user clicks the marker the google charts information will come up from the bottom of the window.
-            marker.addListener('click', function () {
-                document.getElementById("googleChartBottom").style.height = "400px";
-            });
+            // marker.addListener('click', function () {
+            //
+            // });
 
             // Push the marker to our array of markers.
             markers.push(marker);
@@ -171,8 +172,7 @@ function myMap() {
 
     map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
 
-    //weather icon on the map!!
-    var weatherInfo = document.getElementById('weatherInfo');
+    //we/*weather icon on the map!!*/ var weatherInfo = document.getElementById('weatherInfo');
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(weatherInfo);
 
 
@@ -187,19 +187,6 @@ function myMap() {
     //Code to run the charts
     google.charts.load('current', {packages: ['corechart']});
 
-
-//    Possible extra, get the weather icon from open weather api
-//    $.getJSON("/weather", function (status) {
-//        console.log(status)
-//        $.getJSON("/weather/icons", function (status2){
-//            console.log(status2)
-//            for (var key in myArr){
-//                console.log(key);
-//            }
-//        })
-//    }).fail(function (msg) {
-//        console.log('failed', msg);
-//    });
 }
 
 //********************** END OF GOOGLE MAPS FUNCTION*************************
@@ -279,8 +266,8 @@ function EuclidianLocation() {
                     //Change nameStation global var with the name of the new clicked marker's station
                     nameStation = closestmarker.address;
                     nameStation = nameStation.replace("'", "%27");
-                    console.log("Station is:", nameStation);
-                    document.getElementById("googleChartBottom").style.height = "400px";
+                    // console.log("Station is:", nameStation);
+                    document.getElementById("googleChartBottom").style.height = "300px";
                     googleChartsToday();
                 });
                 var infowindow = new google.maps.InfoWindow();
@@ -376,10 +363,10 @@ function googleChartsToday() {
         + "</p><p>Banking: "+ fullDetails[0].banking + "</p><p>Bonus: "+ fullDetails[0].bonus + "</p>";
         document.getElementById("station-info-div").innerHTML = html;
     });
-    console.log('inside google charts - today', nameStation);
+    // console.log('inside google charts - today', nameStation);
     var url = "/chartTodayView/" + nameStation;
     $.getJSON(url, function (todayData) {
-        console.log('IMMA HERE in the event handler - today');
+        // console.log('IMMA HERE in the event handler - today');
         google.charts.setOnLoadCallback(drawChart_bike(todayData));
         google.charts.setOnLoadCallback(drawChart_stand(todayData));
     });
@@ -387,11 +374,11 @@ function googleChartsToday() {
 
 //Shows daily data once user clicks on View Daily button
 function googleChartsDaily(dayNumber) {
-    console.log('inside google charts - daily', nameStation, dayNumber)
+    // console.log('inside google charts - daily', nameStation, dayNumber)
     var url = "/chartDailyView/" + nameStation + "/" + dayNumber;
-    console.log(url)
+    // console.log(url);
     $.getJSON(url, function (dailyData) {
-        console.log('IMMA HERE in the event handler - daily');
+        // console.log('IMMA HERE in the event handler - daily');
         google.charts.setOnLoadCallback(drawChart_bike(dailyData));
         google.charts.setOnLoadCallback(drawChart_stand(dailyData));
     });
@@ -399,11 +386,11 @@ function googleChartsDaily(dayNumber) {
 
 //Shows weekly data once user clicks on View Weekly button
 function googleChartsWeekly() {
-    console.log('inside google charts - weekly', nameStation)
+    // console.log('inside google charts - weekly', nameStation)
     var url = "/chartWeekView/" + nameStation;
-    console.log(url)
+    // console.log(url);
     $.getJSON(url, function (weeklyData) {
-        console.log('IMMA HERE in the event handler - weekly');
+        // console.log('IMMA HERE in the event handler - weekly');
         google.charts.setOnLoadCallback(drawChartWeek_bike(weeklyData));
         google.charts.setOnLoadCallback(drawChartWeek_stand(weeklyData));
     });
@@ -411,14 +398,14 @@ function googleChartsWeekly() {
 
 //Creates a ONE-WEEKDAY chart for avalaible_bikes
 function drawChart_bike(dyndata) {
-    console.log('Inside drawchart_bike, draws the map');
+    // console.log('Inside drawchart_bike, draws the map');
 
     var table_Data = new google.visualization.DataTable();
 
     table_Data.addColumn('string', 'Time');
     table_Data.addColumn('number', 'Bikes Available');
 
-    console.log("Checking index - of interval", dyndata[0].intervals*1000);
+    // console.log("Checking index - of interval", dyndata[0].intervals*1000);
     for ( var i=0; i < dyndata.length; i++){
          date = new Date(dyndata[i].intervals*1000);
          table_Data.addRow([date.getHours() + ":00", dyndata[i].available_bikes]);
@@ -429,8 +416,7 @@ function drawChart_bike(dyndata) {
         title: 'Daily Averages - Available Bikes',
         vAxis: {title: 'Availability'},
         hAxis: {title: 'Time of Day'},
-        seriesType: 'bars',
-//        series: {5: {type: 'line'}}
+        seriesType: 'bars'
     };
 
     var chart = new google.visualization.ComboChart(document.getElementById('chart-div1'));
@@ -440,14 +426,14 @@ function drawChart_bike(dyndata) {
 
 //Creates a ONE-DAY chart for avalaible_bike_stands
 function drawChart_stand(dyndata) {
-    console.log('Inside drawchart_bike, draws the map');
+    // console.log('Inside drawchart_bike, draws the map');
 
     var table_Data = new google.visualization.DataTable();
 
     table_Data.addColumn('string', 'Time');
     table_Data.addColumn('number', 'Bikes Stands Available');
 
-    console.log("Checking index - of interval", dyndata[0].intervals*1000);
+    // console.log("Checking index - of interval", dyndata[0].intervals*1000);
     for ( var i=0; i < dyndata.length; i++){
          date = new Date(dyndata[i].intervals*1000);
          table_Data.addRow([date.getHours() + ":00", dyndata[i].available_bike_stands]);
@@ -468,7 +454,7 @@ function drawChart_stand(dyndata) {
 
 //Creates a WEEK chart for avalaible_bikes
 function drawChartWeek_bike(dyndata) {
-    console.log('Inside drawChartWeek_bike, draws the map');
+    // console.log('Inside drawChartWeek_bike, draws the map');
 
     var table_Data = new google.visualization.DataTable();
 
@@ -478,7 +464,7 @@ function drawChartWeek_bike(dyndata) {
     table_Data.addColumn('number', '12:00-18:00');
     table_Data.addColumn('number', '18:00-00:00');
 
-    console.log("Checking index - of interval", dyndata[0][0].intervals * 1000)
+    // console.log("Checking index - of interval", dyndata[0][0].intervals * 1000)
     for (var i = 0; i < dyndata.length; i++) {
         table_Data.addRow([dyndata[i][0].week_day, dyndata[i][0].available_bikes, dyndata[i][1].available_bikes, dyndata[i][2].available_bikes, dyndata[i][3].available_bikes]);
     }
@@ -488,7 +474,7 @@ function drawChartWeek_bike(dyndata) {
         title: 'Weekly Averages - Bikes Available',
         vAxis: {title: 'Availability'},
         hAxis: {title: 'Time of Day'},
-        seriesType: 'bars',
+        seriesType: 'bars'
     };
 
     var chart = new google.visualization.ComboChart(document.getElementById('chart-div1'));
@@ -498,7 +484,7 @@ function drawChartWeek_bike(dyndata) {
 
 //Creates a WEEK chart for avalaible_bikes
 function drawChartWeek_stand(dyndata) {
-    console.log('Inside drawchart_bike, draws the map');
+    // console.log('Inside drawchart_bike, draws the map');
 
     var table_Data = new google.visualization.DataTable();
 
@@ -508,7 +494,7 @@ function drawChartWeek_stand(dyndata) {
     table_Data.addColumn('number', '12:00-18:00');
     table_Data.addColumn('number', '18:00-00:00');
 
-    console.log("Checking index - of interval", dyndata[0][0].intervals * 1000);
+    // console.log("Checking index - of interval", dyndata[0][0].intervals * 1000);
     for (var i = 0; i < dyndata.length; i++) {
         table_Data.addRow([dyndata[i][0].week_day, dyndata[i][0].available_bike_stands, dyndata[i][1].available_bike_stands, dyndata[i][2].available_bike_stands, dyndata[i][3].available_bike_stands]);
     }
@@ -518,7 +504,7 @@ function drawChartWeek_stand(dyndata) {
         title: 'Weekly Averages - Bike Stands Available',
         vAxis: {title: 'Availability'},
         hAxis: {title: 'Time of Day'},
-        seriesType: 'bars',
+        seriesType: 'bars'
     };
 
     var chart = new google.visualization.ComboChart(document.getElementById('chart-div2'));

@@ -7,7 +7,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.css">
     <script type="text/javascript" src="{{ url_for('static',filename='javascript/DBmaps_test.js') }}"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript" src="{{ url_for('static',filename='javascript/charts.js') }}"></script>
     <link href="https://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet">
 </head>
 <body>
@@ -66,7 +65,7 @@
 
 
             <ul id="chart-dropdown-content">
-                <li style="float: left; text-align: center; background-colour: #111; font-size: 2em ">Station Info</li>
+                <li id="station_info" style="float: left; text-align: center; background-colour: #111; font-size: 2em; cursor: default ">Station Info</li>
                  <li style="float: right; background-color: #111" ><a href="javascript:void(0)" class="closebtn" onclick="closeNav2()">&times;</a></li>
                 <li>
                     View By Day
@@ -84,7 +83,7 @@
                 <li onclick="googleChartsWeekly()">View Weekly</li>
             </ul>
         </div>
-        <div id="station-info-div" style="text-align: left;">Click a station for more info</div>
+        <div id="station-info-div" style="text-align: left;"> Please wait. <br> Information is loading ... </div>
         <div id="chart-div1"></div>
         <div id="chart-div2"></div>
     </div>
