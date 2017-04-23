@@ -92,14 +92,14 @@ def getWeekInfo(name):
            data[i]['available_bikes'] = int(data[i]['available_bikes'])
            data[i]['available_bike_stands'] = int(data[i]['available_bike_stands'])
         weekData.append(data)
-        print(weekData)
+        #print(weekData)
     return jsonify(weekData)
 
 @app.route("/chartTodayView/<string:name>")
 def getTodayInfo(name):
     """ Getting todays available bikes and bike stand data from the database"""
     name = name.replace('%27', "'")
-    print(name)
+    #print(name)
     engine = get_db()
     sql_week_day = 'select last_update, DAYOFWEEK(last_update) from station_info order by last_update desc limit 1;'
     res_week_day = engine.execute(sql_week_day).fetchall()
@@ -122,14 +122,14 @@ def getFullStationInfo(name):
     res_static = engine.execute(sql_static).fetchall()
     sql_dynamic = 'select status, available_bike_stands, available_bikes, unix_timestamp(last_update) as last_update from station_info where name = "' + name + '" order by last_update limit 1;'
     res_dynamic = engine.execute(sql_dynamic).fetchall()
-    print(res_static[0][1])
-    print(res_dynamic)
+    #print(res_static[0][1])
+    #print(res_dynamic)
     data = []
     for row in res_static:
         data.append(dict(row))
     for row2 in res_dynamic:
         data.append(dict(row2))
-    print(data)
+    #print(data)
     return jsonify(data)
 
 if __name__ == "__main__":
