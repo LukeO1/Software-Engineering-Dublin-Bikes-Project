@@ -398,9 +398,7 @@ function googleChartsToday() {
     var info_url = "/chartTodayView/detailedInformation/" + nameStation;
     $.getJSON(info_url, function (fullDetails) {
         html = "<p>Number: " + fullDetails[0].number + "</p><p>Address: " + fullDetails[0].address + "</p><p>Status: " + fullDetails[1].status
-            + "</p><p>Total Bike Stands: " + fullDetails[0].bike_stands + "</p><p>Available Bikes: " + fullDetails[1].available_bikes
-            + "</p><p>Available Bike Stands: " + fullDetails[1].available_bike_stands
-            + "</p><p>Banking: " + fullDetails[0].banking + "</p><p>Bonus: " + fullDetails[0].bonus + "</p>";
+            + "</p><p>Total Bike Stands: " + fullDetails[0].bike_stands + "</p><p>Banking: " + fullDetails[0].banking + "</p><p>Bonus: " + fullDetails[0].bonus + "</p>";
         document.getElementById("station-info-div").innerHTML = html;
     });
     // console.log('inside google charts - today', nameStation);
