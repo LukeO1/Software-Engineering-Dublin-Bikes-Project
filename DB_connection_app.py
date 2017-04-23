@@ -2,7 +2,6 @@ from flask import Flask, g, render_template, jsonify
 from sqlalchemy import create_engine
 import pandas as pd
 import pyowm
-import os.path
 
 app = Flask(__name__)  #creating the App
 
@@ -134,6 +133,24 @@ def getTodayInfo(name):
     for i in range(0, len(data)):
         data[i]['available_bikes'] = int(data[i]['available_bikes'])
         data[i]['available_bike_stands'] = int(data[i]['available_bike_stands'])
+    return jsonify(data)
+
+@app.route("/chartTodayView/detailedInformation/<string:name>")
+def getFullStationInfo(name):
+    name = name.replace('%27', "'")
+    engine = get_db()
+    sql_static = 'select number, address, banking, bonus, bike_stands from static_information where name = "' + name + '";'
+    res_static = engine.execute(sql_static).fetchall()
+    sql_dynamic = 'select status, available_bike_stands, available_bikes, unix_timestamp(last_update) as last_update from station_info where name = "' + name + '" order by last_update limit 1;'
+    res_dynamic = engine.execute(sql_dynamic).fetchall()
+    print(res_static[0][1])
+    print(res_dynamic)
+    data = []
+    for row in res_static:
+        data.append(dict(row))
+    for row2 in res_dynamic:
+        data.append(dict(row2))
+    print(data)
     return jsonify(data)
 
 @app.route("/weather")
