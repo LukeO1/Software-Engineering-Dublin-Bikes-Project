@@ -542,9 +542,9 @@ function showListings() {
     // Extend the boundaries of the map for each marker and display the marker
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(map);
-        bounds.extend(markers[i].position);
+        // bounds.extend(markers[i].position);
     }
-    map.fitBounds(bounds);
+    // map.fitBounds(bounds);
 }
 
 // This function will loop through the listings and hide them all.
