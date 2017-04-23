@@ -234,87 +234,87 @@ function zoomfocus(station) {
 //this function calculates and displays the closest station to the users current location
 function EuclidianLocation() {
     var closestmarkerPosition;
-    var infowindow;
-
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-            map.setZoom(13);
-            var min = 10000000000000000;
-            var closestStation = "";
-            var PI = Math.PI;
-            // Calculation to find the distance between each station and the users location
-            for (var i = 0; i < markers.length; i++) {
-                markers[i].setMap(null);
-                var R = 6371e3; //  radius of the earth in metres
-                var φ1 = pos.lat * (PI / 180);
-                var φ2 = markers[i].getPosition().lat() * (PI / 180);
-                var Δφ = (markers[i].getPosition().lat() - pos.lat) * (PI / 180);
-                var Δλ = (markers[i].getPosition().lng() - pos.lng) * (PI / 180);
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                map.setZoom(13);
+                var min = 10000000000000000;
+                var closestStation = "";
+                var PI = Math.PI;
+                // Calculation to find the distance between each station and the users location
+                for (var i = 0; i < markers.length; i++) {
+                    markers[i].setMap(null);
+                    var R = 6371e3; //  radius of the earth in metres
+                    var φ1 = pos.lat * (PI / 180);
+                    var φ2 = markers[i].getPosition().lat() * (PI / 180);
+                    var Δφ = (markers[i].getPosition().lat() - pos.lat) * (PI / 180);
+                    var Δλ = (markers[i].getPosition().lng() - pos.lng) * (PI / 180);
 
-                var a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-                    Math.cos(φ1) * Math.cos(φ2) *
-                    Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                var d = R * c;
+                    var a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+                        Math.cos(φ1) * Math.cos(φ2) *
+                        Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+                    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                    var d = R * c;
 
-                if (d < min) {
-                    min = d;
-                    closestmarker = markers[i];
-                    closestmarkerPosition = markers[i].position;
+                    if (d < min) {
+                        min = d;
+                        closestmarker = markers[i];
+                        closestmarkerPosition = markers[i].position;
+                    }
+                }
+                closestMarker = new google.maps.Marker({
+                    position: closestmarkerPosition,
+                    map: map,
+                    icon: "/static/images/closestLocation.png",
+                    animation: google.maps.Animation.DROP
+                });
+                //info window content for this marker
+                var content = '<p><b>Address: </b>' + closestmarker.address + '<br>' + '<b>Available Bikes:</b> ' + closestmarker.availBikes + '<br>' + '<b>Free Stands:</b> ' + closestmarker.availBikeStands + '</p>';
+                google.maps.event.addListener(closestMarker, 'click', function () {
+                    //Change nameStation global var with the name of the new clicked marker's station
+                    nameStation = closestmarker.address;
+                    nameStation = nameStation.replace("'", "%27");
+                    // console.log("Station is:", nameStation);
+                    document.getElementById("googleChartBottom").style.height = "300px";
+                    googleChartsToday();
+                });
+                var infowindow = new google.maps.InfoWindow();
+
+                google.maps.event.addListener(closestMarker, 'mouseover', (function (closestMarker, content, infowindow) {
+                    return function () {
+                        infowindow.setContent(content);
+                        infowindow.open(map, closestMarker);
+                    };
+                })(closestMarker, content, infowindow));
+                google.maps.event.addListener(closestMarker, 'mouseout', (function (closestMarker, content, infowindow) {
+                    return function () {
+                        infowindow.close();
+                    };
+                })(closestMarker, content, infowindow));
+
+                map.setCenter(closestmarkerPosition);
+            }, function () {
+                try {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                }
+                catch (err) {
+                    console.log("Not working because it's not running on HTTPS, to use geolocation please run the app on local host. Go into the Flask App called DB_connection_app.py and change from host=0.0.0.0 to your local host")
                 }
             }
-            closestMarker = new google.maps.Marker({
-                position: closestmarkerPosition,
-                map: map,
-                icon: "/static/images/closestLocation.png",
-                animation: google.maps.Animation.DROP
-            });
-            //info window content for this marker
-            var content = '<p><b>Address: </b>' + closestmarker.address + '<br>' + '<b>Available Bikes:</b> ' + closestmarker.availBikes + '<br>' + '<b>Free Stands:</b> ' + closestmarker.availBikeStands + '</p>';
-            google.maps.event.addListener(closestMarker, 'click', function () {
-                //Change nameStation global var with the name of the new clicked marker's station
-                nameStation = closestmarker.address;
-                nameStation = nameStation.replace("'", "%27");
-                // console.log("Station is:", nameStation);
-                document.getElementById("googleChartBottom").style.height = "300px";
-                googleChartsToday();
-            });
-            infowindow = new google.maps.InfoWindow();
-
-            google.maps.event.addListener(closestMarker, 'mouseover', (function (closestMarker, content, infowindow) {
-                return function () {
-                    infowindow.setContent(content);
-                    infowindow.open(map, closestMarker);
-                };
-            })(closestMarker, content, infowindow));
-            google.maps.event.addListener(closestMarker, 'mouseout', (function (closestMarker, content, infowindow) {
-                return function () {
-                    infowindow.close();
-                };
-            })(closestMarker, content, infowindow));
-
-            map.setCenter(closestmarkerPosition);
-        }, function () {
-             try{
-            handleLocationError(true, infoWindow, map.getCenter());}
-            catch(err){
-            console.log("Not working because it's not running on HTTPS, to use geolocation please run the app on local host. Go into the Flask App called DB_connection_app.py and change from host=0.0.0.0 to your local host")
-            }
-        }
         );
     }
 
     else {
-        try{
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());}
-        catch(err){
-            console.log("Not working because it's not running on HTTPS, to use geolocation please run the app on local host. Go into the Flask App called DB_connection_app.py and change from host=0.0.0.0 to your local host")
-            }
+        try {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+        catch (err) {
+            console.log("Not working because the browser doesn't support Geolocation")
+        }
     }
 
 }
@@ -323,25 +323,39 @@ function EuclidianLocation() {
 function showCurrentLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-            map.setZoom(14);
-            var currentMarker = new google.maps.Marker({
-                position: new google.maps.LatLng(pos),
-                icon: "/static/images/current.png",
-                animation: google.maps.Animation.DROP
-            });
-            map.setCenter(pos);
-            currentMarker.setMap(map);
-        }, function () {
-            handleLocationError(true, infoWindow, map.getCenter());
-        });
-    } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                map.setZoom(14);
+                var currentMarker = new google.maps.Marker({
+                    position: new google.maps.LatLng(pos),
+                    icon: "/static/images/current.png",
+                    animation: google.maps.Animation.DROP
+                });
+                map.setCenter(pos);
+                currentMarker.setMap(map);
+            }, function () {
+                try {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                }
+                catch (err) {
+                    console.log("Not working because it's not running on HTTPS, to use geolocation please run the app on local host. Go into the Flask App called DB_connection_app.py and change from host=0.0.0.0 to your local host")
+                }
+            }
+        );
     }
+
+    else {
+        try {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+        catch (err) {
+            console.log("Not working because the browser doesn't support Geolocation")
+        }
+    }
+
 }
 
 //This function Filters the dropdown menu for the search bar
