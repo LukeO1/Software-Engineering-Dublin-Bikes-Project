@@ -66,6 +66,8 @@ def get_dynamic():
 def getDayInfo(name, day_number):
     """ Getting daily available bikes and bike stand data from the database"""
     engine = get_db()
+    name = name.replace('%27', "'")
+    name = name.replace('1', "/")
     sql = 'select unix_timestamp(sec_to_time(time_to_sec(last_update)- time_to_sec(last_update)%%(60*60))) as intervals, round(avg(available_bike_stands), 0) as available_bike_stands, round(avg(available_bikes), 0) as available_bikes from station_info where DAYOFWEEK(last_update) = ' + str(day_number) + ' and name = "' + name + '" group by intervals;'
     res = engine.execute(sql).fetchall()
     data = []
@@ -80,6 +82,7 @@ def getDayInfo(name, day_number):
 def getWeekInfo(name):
     """ Getting weekly available bikes and bike stand data from the database"""
     name = name.replace('%27', "'")
+    name = name.replace('1', "/")
     engine = get_db()
     weekData = [];
     for i in range(1, 8):
@@ -99,6 +102,7 @@ def getWeekInfo(name):
 def getTodayInfo(name):
     """ Getting todays available bikes and bike stand data from the database"""
     name = name.replace('%27', "'")
+    name = name.replace('1', "/")
     #print(name)
     engine = get_db()
     sql_week_day = 'select last_update, DAYOFWEEK(last_update) from station_info order by last_update desc limit 1;'
@@ -117,6 +121,7 @@ def getTodayInfo(name):
 def getFullStationInfo(name):
     """ Getting a more detailed data on todays available bikes and bike stand information from the database"""
     name = name.replace('%27', "'")
+    name = name.replace('1', "/")
     engine = get_db()
     sql_static = 'select number, address, banking, bonus, bike_stands from static_information where name = "' + name + '";'
     res_static = engine.execute(sql_static).fetchall()
