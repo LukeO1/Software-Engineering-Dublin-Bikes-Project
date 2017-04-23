@@ -579,10 +579,10 @@ function hideListings() {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
     }
-    // try {
+    try {
         closestMarker.setMap(null);
-    // }
-    // catch (err) {
-    //     console.log("Not working because it's not running on HTTPS, to use geolocation please run the app on local host. Go into the Flask App called DB_connection_app.py and change from host=0.0.0.0 to your local host")
-    // }
+    }
+    catch (err) {
+        console.log("Not working because it's not running on HTTPS, to use geolocation please run the app on local host. Go into the Flask App called DB_connection_app.py and change from host=0.0.0.0 to your local host")
+    }
 }
