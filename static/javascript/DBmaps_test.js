@@ -116,6 +116,7 @@ function myMap() {
                 document.getElementById("googleChartBottom").style.height = "320px";
                 nameStation = this.title;
                 nameStation = nameStation.replace("'", "%27");
+                nameStation = nameStation.replace("/", "1");
                 // console.log("Station is:", nameStation);
                 googleChartsToday();
             });
@@ -277,6 +278,7 @@ function EuclidianLocation() {
                     //Change nameStation global var with the name of the new clicked marker's station
                     nameStation = closestmarker.address;
                     nameStation = nameStation.replace("'", "%27");
+                    nameStation = nameStation.replace("/", "1");
                     // console.log("Station is:", nameStation);
                     document.getElementById("googleChartBottom").style.height = "300px";
                     googleChartsToday();
